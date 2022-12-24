@@ -1,0 +1,14 @@
+import {View} from "react-native";
+import {FC, ReactNode} from "react";
+
+export interface CustomLayoutMainProps {
+    children: ReactNode
+}
+
+const CustomLayoutMain:FC<CustomLayoutMainProps> = ({children}) => {
+    return (
+        <View className='-mt-8 rounded-t-[30px] flex-1 bg-custom-light-gray'>{children}</View>
+    )
+}
+
+export default CustomLayoutMain;
