@@ -1,6 +1,6 @@
 import {FC} from "react";
-import {Image, Text, View} from "react-native";
-import StarIcon from "../assets/star.png";
+import {Text, View} from "react-native";
+import { StarIcon } from "react-native-heroicons/solid";
 
 interface RatingProps{
     rating: number;
@@ -9,7 +9,7 @@ interface RatingProps{
 const Rating:FC<RatingProps> = ({ rating, numberOfReviews }) => {
     return (
         <View className='flex-row'>
-            <Image source={StarIcon} className='mt-0.5 mr-1'/>
+            <StarIcon fill="yellow" size={15}/>
             <Text className='text-custom-white text-xs'>{rating} ({numberOfReviews})</Text>
         </View>
     )
