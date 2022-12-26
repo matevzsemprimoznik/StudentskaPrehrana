@@ -1,6 +1,5 @@
-import {View, Text, Button, Alert, ScrollView} from "react-native";
+import {View, Text, Button, ScrollView} from "react-native";
 import {FC} from "react";
-import {SafeAreaView} from "react-native-safe-area-context";
 import CustomLayout from "../../components/CustomLayout";
 import SearchBar from "../../components/SearchBar";
 import {translate} from "../../utils/translations/translate";
@@ -53,6 +52,7 @@ const Home: FC<HomeProps> = ({navigation}) => {
                 <View className='m-10 mb-36'>
                     <Text className='text-xl mb-4'>{translate('home-header')}</Text>
                     <SearchBar/>
+                    <Button title={"Redirect"} onPress={() => navigation.navigate('FoodDescriptionPage')}/>
                 </View>
             </CustomLayout.Header>
             <CustomLayout.Main>
@@ -61,7 +61,7 @@ const Home: FC<HomeProps> = ({navigation}) => {
                     <Text className='text-lg font-medium mb-5 mt-6 ml-2.5'>{translate('home-main-title')}</Text>
                     <ScrollView className='flex-1'>
                         <View className='flex-row justify-between flex-wrap pb-3'>
-                            {restaurantList.map((restaurant, index) => <Card key={index} restaurant={restaurant}/>)}
+                            {restaurantList.map((restaurant, index) => <Card key={index} restaurant={restaurant} ratingColor={'text-custom-white'}/>)}
                         </View>
                     </ScrollView>
                 </View>

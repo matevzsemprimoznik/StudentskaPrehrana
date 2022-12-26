@@ -1,16 +1,17 @@
 import {FC} from "react";
 import {Text, View} from "react-native";
-import { StarIcon } from "react-native-heroicons/solid";
+import { StarIcon } from "react-native-heroicons/outline";
 
 interface RatingProps{
     rating: number;
     numberOfReviews: number;
+    color?: string;
 }
-const Rating:FC<RatingProps> = ({ rating, numberOfReviews }) => {
+const Rating:FC<RatingProps> = ({ rating, numberOfReviews ,color}) => {
     return (
         <View className='flex-row'>
-            <StarIcon fill="yellow" size={15}/>
-            <Text className='text-custom-white text-xs'>{rating} ({numberOfReviews})</Text>
+            <StarIcon color="yellow" size={15}/>
+            <Text className={`text-xs ${color}`}>{rating} ({numberOfReviews})</Text>
         </View>
     )
 }
