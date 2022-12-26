@@ -26,9 +26,6 @@ const FoodDescriptionPage:FC<FoodDescriptionProps> = () => {
                 <View className='mx-3 mt-1.5'>
                     <ArrowLongLeftIcon color='white'/>
                 </View>
-                <View className='flex items-center mt-8 pt-8 relative'>
-
-                </View>
             </CustomLayout.Header>
             <CustomLayout.Main>
                 <View className='flex-1 -mt-24'>
