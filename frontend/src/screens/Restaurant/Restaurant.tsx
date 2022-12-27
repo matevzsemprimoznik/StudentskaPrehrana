@@ -62,7 +62,7 @@ const Restaurant: FC<RestaurantProps> = ({navigation}) => {
     ]
     return (
         <CustomLayout>
-            <CustomLayout.Header>
+            <CustomLayout.Header backgroundImage={require('../../assets/ancora-large.png')}>
                 <View className='ml-10 mt-28'>
                     <Text className='text-5xl text-custom-white'>{restaurant.name}</Text>
                 </View>
@@ -92,7 +92,7 @@ const Restaurant: FC<RestaurantProps> = ({navigation}) => {
                         <Text>{translate('restaurant-main-comments')}</Text>
                     </View>
                     <ScrollView className='flex-1'>
-                        <View className='flex-row justify-between flex-wrap pb-3'>
+                        <View className='flex-row justify-between flex-wrap pb-3 px-1'>
                             {dishesList.map((dish, index) => <Card key={index} dish={dish} navigation={navigation}/>)}
                         </View>
                     </ScrollView>

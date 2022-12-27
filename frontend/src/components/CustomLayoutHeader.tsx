@@ -1,17 +1,23 @@
-import {Image, View} from "react-native";
-import {FC, ReactElement, ReactNode} from "react";
-import BackgroundImage from '../assets/main.png'
+import {Image, StatusBar, View} from "react-native";
+import {FC, ReactNode} from "react";
+import DefaultBackgroundImage from '../assets/main.png'
 
 export interface CustomLayoutHeaderProps {
     children: ReactNode
     classname?: string
+    backgroundImage?: any
+    statusBarColor?: string
 }
 
-const CustomLayoutHeader:FC<CustomLayoutHeaderProps> = ({children, classname = ''}) => {
-    return <View className={`h-60 w-full bg-custom-yellow ${classname}`}>
-        <Image className='flex-1 mt-5 mx-2 ml-3 absolute -z-1' source={BackgroundImage}/>
+const CustomLayoutHeader:FC<CustomLayoutHeaderProps> = ({children, statusBarColor, backgroundImage, classname = ''}) => {
+    return <>
+        <StatusBar backgroundColor={statusBarColor ? statusBarColor : '#FEC532'}/>
+        <View className={`h-60 w-full ${classname}`}>
+        <View className={`absolute w-full flex-row justify-center ${backgroundImage ? '' : 'bg-custom-yellow'}`}>
+            <Image className='h-60 w-full' source={backgroundImage ? backgroundImage : DefaultBackgroundImage}/>
+        </View>
         {children}
-    </View>
+    </View></>
 }
 
 export default CustomLayoutHeader;
