@@ -8,6 +8,7 @@ import Price from "../../components/Price";
 import ListItem from "../../components/ListItem";
 import ImageList from "./ImageList";
 import { ArrowLongLeftIcon } from "react-native-heroicons/solid";
+import Comment from "../../components/Comment";
 
 interface FoodDescriptionProps {
 
@@ -18,6 +19,20 @@ const menu = {
     image: require('../../assets/pica.png'),
     allergens: ['gluten', 'milk'],
     images: [require('../../assets/pica1.png'), require('../../assets/pica2.png'), require('../../assets/pica3.png')],
+    comments: [
+        {
+            date: '1.12.2022',
+            comment:'Pizza was great, but the delivery was late.'
+        },
+        {
+            date: '1.1.2022',
+            comment: 'Pizza was delicious and would order again.'
+        },
+        {
+            date: '13.12.2021',
+            comment: 'Fine, but not the best pizza I have ever had.'
+        }
+    ]
 }
 const FoodDescriptionPage:FC<FoodDescriptionProps> = () => {
     return (
@@ -55,7 +70,11 @@ const FoodDescriptionPage:FC<FoodDescriptionProps> = () => {
                             <ImageList images={menu.images}/>
                             <Text className='text-base font-medium mb-5 ml-2.5 mt-3'>{translate('comments-header')}</Text>
                             <View className='mx-4 mb-5'>
-                                <Text className='opacity-50'>Here goes the comments component</Text>
+                                {menu.comments.length ? menu.comments.map((comment:any, index) => {
+                                    return (
+                                        <Comment key={index} date={comment.date} comment={comment.comment}/>
+                                    )
+                                    }) : <Text className='opacity-50'>{translate('no-comments')}</Text>}
                             </View>
                         </ScrollView>
                     </View>

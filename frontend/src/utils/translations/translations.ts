@@ -10,5 +10,6 @@ export const translations = {
         'restaurant-main-comments': 'Komentarji',
         'no-allergens': 'Alergeni niso podani',
         'comments-header': 'Komentarji',
+        'no-comments': 'Ni komentarjev',
     }
 }
