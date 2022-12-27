@@ -1,8 +1,11 @@
-import {View, Text, ScrollView, Image} from "react-native";
+import {View, Text, ScrollView} from "react-native";
 import {FC} from "react";
 import CustomLayout from "../../components/CustomLayout";
 import {translate} from "../../utils/translations/translate";
 import Card from "./Card";
+import {PhoneIcon, MapPinIcon, ClockIcon} from "react-native-heroicons/solid";
+import {StarIcon} from "react-native-heroicons/solid";
+
 
 interface RestaurantProps {
     navigation: any;
@@ -66,6 +69,12 @@ const Restaurant: FC<RestaurantProps> = ({navigation}) => {
             <CustomLayout.Header backgroundImage={require('../../assets/ancora-large.png')}>
                 <View className='ml-10 mt-28'>
                     <Text className='text-5xl text-custom-white'>{restaurant.name}</Text>
+                    <View className='flex-row'>
+                        <StarIcon color="#FEC532" size={18}/>
+                        <StarIcon color="#FEC532" size={18}/>
+                        <StarIcon color="#FEC532" size={18}/>
+                        <StarIcon color="#FEC532" size={18}/>
+                    </View>
                 </View>
             </CustomLayout.Header>
             <CustomLayout.Main>
@@ -73,22 +82,22 @@ const Restaurant: FC<RestaurantProps> = ({navigation}) => {
                     <View className='absolute -top-14 right-8 rounded-full bg-custom-yellow h-20 w-20 flex items-center justify-center'>
                         <Text className='text-lg text-custom-white font-medium shadow'>{`${restaurant.price.toFixed(2)}€`}</Text>
                     </View>
-                    <View className='mb-1 mt-10 ml-2.5 flex-row justify-between items-center '>
-                        <View className='flex-row'>
-                            <Image source={require('../../assets/timeIcon.png')} />
-                            <Text className='text-xs font-medium'>{restaurant.openingHours}</Text>
+                    <View className='mb-1 mt-10 mx-2.5 flex-row justify-between items-center '>
+                        <View className='flex items-center'>
+                            <ClockIcon color="#90A8D1" size={20}/>
+                            <Text className='text-xs font-medium mt-2'>{restaurant.openingHours}</Text>
                         </View>
-                        <View className='flex-row'>
-                            <Image source={require('../../assets/locationIcon.png')}/>
-                            <Text className='text-xs font-medium'>{restaurant.location}</Text>
+                        <View className='flex items-center'>
+                            <MapPinIcon color="#D69D9F" size={20}/>
+                            <Text className='text-xs font-medium mt-2'>{restaurant.location}</Text>
                         </View>
-                        <View className='flex-row'>
-                            <Image source={require('../../assets/starOutlineIcon.png')}/>
-                            <Text className='text-xs font-medium'>{`${restaurant.rating} (${restaurant.numberOfReviews})` }</Text>
+                        <View className='flex items-center'>
+                            <PhoneIcon color="#AC89D9" size={20}/>
+                            <Text className='text-xs font-medium mt-2'>{`${restaurant.rating} (${restaurant.numberOfReviews})` }</Text>
                         </View>
 
                     </View>
-                    <View className='mb-5 mt-6 ml-2.5 flex-row justify-between items-center'>
+                    <View className='mb-5 mt-6 mx-2.5 flex-row justify-between items-center'>
                         <Text className='text-lg font-medium '>{translate('restaurant-main-title')}</Text>
                         <Text>{translate('restaurant-main-comments')}</Text>
                     </View>
