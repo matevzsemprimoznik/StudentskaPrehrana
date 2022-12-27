@@ -10,7 +10,7 @@ interface RatingProps{
 const Rating:FC<RatingProps> = ({ rating, numberOfReviews ,color}) => {
     return (
         <View className='flex-row'>
-            <StarIcon color="yellow" size={15}/>
+            <StarIcon color="orange" size={18}/>
             <Text className={`text-xs ${color}`}>{rating} ({numberOfReviews})</Text>
         </View>
     )

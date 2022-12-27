@@ -9,7 +9,7 @@ interface PriceProps{
 const Price:FC<PriceProps> = ({ price,classname }) => {
     return (
         <View className={`flex-row ${classname}`}>
-            <BanknotesIcon color="green" size={15}/>
+            <BanknotesIcon color="green" size={18}/>
             <Text className={`text-xs`}>{price}€</Text>
         </View>
     );
