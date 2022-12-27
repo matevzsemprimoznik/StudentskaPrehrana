@@ -11,5 +11,12 @@ export const translations = {
         'no-allergens': 'Alergeni niso podani',
         'comments-header': 'Komentarji',
         'no-comments': 'Ni komentarjev',
+        'password': 'geslo',
+        'show-password': 'Prikaži',
+        'hide-password': 'Skrij',
+        'sign-in': 'Prijava',
+        'plese-sign-in': 'Prijavite se za nadaljevanje',
+        'no-account-yet': 'Niste prijavljeni?',
+        'no-account': 'Registriraj se',
     }
 }
