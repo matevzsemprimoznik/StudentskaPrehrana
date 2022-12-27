@@ -50,7 +50,7 @@ const Home: FC<HomeProps> = ({navigation}) => {
         <CustomLayout>
             <CustomLayout.Header>
                 <View className='m-10 mb-36'>
-                    <Text className='text-xl mb-4'>{translate('home-header')}</Text>
+                    <Text className='text-lg font-medium mb-4'>{translate('home-header')}</Text>
                     <SearchBar/>
                 </View>
             </CustomLayout.Header>

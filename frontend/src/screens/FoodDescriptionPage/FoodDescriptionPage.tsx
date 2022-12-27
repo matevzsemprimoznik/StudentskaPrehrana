@@ -16,7 +16,7 @@ interface FoodDescriptionProps {
 const menu = {
     name: 'Kmečka pica',
     image: require('../../assets/pica.png'),
-    allergens: ['gluten', 'lactose', 'glucose'],
+    allergens: ['gluten', 'milk'],
     images: [require('../../assets/pica1.png'), require('../../assets/pica2.png'), require('../../assets/pica3.png')],
 }
 const FoodDescriptionPage:FC<FoodDescriptionProps> = () => {
@@ -33,9 +33,9 @@ const FoodDescriptionPage:FC<FoodDescriptionProps> = () => {
                     <View className='mx-2 flex-1 mt-6'>
                         <Text className='text-lg font-medium text-center mb-5 mx-2.5'>{menu.name}</Text>
                         <View className='items-center'>
-                            <View className='flex-row gap-1'>
+                            <View className='flex-row'>
                                 <Rating rating={4.8} numberOfReviews={230} color={'text-custom-black'}/>
-                                <Price classname={'ml-7'} price={3.60}/>
+                                <Price classname={'ml-14'} price={3.60}/>
                             </View>
                         </View>
                         <ScrollView className='mt-6'>
@@ -44,13 +44,19 @@ const FoodDescriptionPage:FC<FoodDescriptionProps> = () => {
                                 <Text className='opacity-50'>{"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation  "}</Text>
                             </View>
                             <Text className='text-base font-medium mb-5 mt-6 ml-2.5'>{translate('food-allergens-header')}</Text>
-                            <View className='mx-2 mx-4'>
-                                {menu.allergens.map((allergen, index) =>
-                                    <ListItem key={index} text={allergen}/>
-                                )}
+                            <View className='mx-4'>
+                                {menu.allergens.length ? menu.allergens.map((allergen, index) => {
+                                    return (
+                                        <ListItem key={index} text={allergen}/>
+                                    )
+                                }) : <Text className='opacity-50'>{translate('no-allergens')}</Text>}
                             </View>
-                            <Text className='text-lg font-medium mb-5 mt-6 ml-2.5'>{translate('food-picture-header')}</Text>
+                            <Text className='text-base font-medium mb-5 mt-6 ml-2.5'>{translate('food-picture-header')}</Text>
                             <ImageList images={menu.images}/>
+                            <Text className='text-base font-medium mb-5 ml-2.5 mt-3'>{translate('comments-header')}</Text>
+                            <View className='mx-4 mb-5'>
+                                <Text className='opacity-50'>Here goes the comments component</Text>
+                            </View>
                         </ScrollView>
                     </View>
                 </View>
