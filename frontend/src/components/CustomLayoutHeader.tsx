@@ -10,14 +10,12 @@ export interface CustomLayoutHeaderProps {
 }
 
 const CustomLayoutHeader:FC<CustomLayoutHeaderProps> = ({children, statusBarColor, backgroundImage, classname = ''}) => {
-    return <>
-        <StatusBar backgroundColor={statusBarColor ? statusBarColor : '#FEC532'}/>
-        <View className={`h-60 w-full ${classname}`}>
+    return <View className={`h-60 w-full ${classname}`}>
         <View className={`absolute w-full flex-row justify-center ${backgroundImage ? '' : 'bg-custom-yellow'}`}>
             <Image className='h-60 w-full' source={backgroundImage ? backgroundImage : DefaultBackgroundImage}/>
         </View>
         {children}
-    </View></>
+    </View>
 }
 
 export default CustomLayoutHeader;

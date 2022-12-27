@@ -16,8 +16,8 @@ type TableSubComponents = {
 }
 
 const CustomLayout:FC<MainLayoutProps> & TableSubComponents = ({ children }) => {
-        return <View className='h-full'>
-            <SafeAreaView >
+        return <View className='flex-1 bg-custom-yellow'>
+            <SafeAreaView>
                 <View className='flex-col h-full'>
                     {children}
                 </View>
