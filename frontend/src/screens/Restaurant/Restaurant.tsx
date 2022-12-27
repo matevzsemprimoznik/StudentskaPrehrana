@@ -60,6 +60,7 @@ const Restaurant: FC<RestaurantProps> = ({navigation}) => {
             image: require('../../assets/pizza.png')
         }
     ]
+
     return (
         <CustomLayout>
             <CustomLayout.Header backgroundImage={require('../../assets/ancora-large.png')}>
@@ -70,7 +71,7 @@ const Restaurant: FC<RestaurantProps> = ({navigation}) => {
             <CustomLayout.Main>
                 <View className='mx-2 flex-1'>
                     <View className='absolute -top-14 right-8 rounded-full bg-custom-yellow h-20 w-20 flex items-center justify-center'>
-                        <Text className='text-lg text-custom-white font-medium'>{`${restaurant.price}€`}</Text>
+                        <Text className='text-lg text-custom-white font-medium shadow'>{`${restaurant.price}€`}</Text>
                     </View>
                     <View className='mb-1 mt-10 ml-2.5 flex-row justify-between items-center '>
                         <View className='flex-row'>

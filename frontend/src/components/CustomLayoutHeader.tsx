@@ -6,10 +6,9 @@ export interface CustomLayoutHeaderProps {
     children: ReactNode
     classname?: string
     backgroundImage?: any
-    statusBarColor?: string
 }
 
-const CustomLayoutHeader:FC<CustomLayoutHeaderProps> = ({children, statusBarColor, backgroundImage, classname = ''}) => {
+const CustomLayoutHeader:FC<CustomLayoutHeaderProps> = ({children, backgroundImage, classname = ''}) => {
     return <View className={`h-60 w-full ${classname}`}>
         <View className={`absolute w-full flex-row justify-center ${backgroundImage ? '' : 'bg-custom-yellow'}`}>
             <Image className='h-60 w-full' source={backgroundImage ? backgroundImage : DefaultBackgroundImage}/>
