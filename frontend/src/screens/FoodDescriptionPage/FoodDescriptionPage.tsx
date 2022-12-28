@@ -7,8 +7,8 @@ import Rating from "../../components/Rating";
 import Price from "../../components/Price";
 import ListItem from "../../components/ListItem";
 import ImageList from "./ImageList";
-import { ArrowLongLeftIcon } from "react-native-heroicons/solid";
 import Comment from "../../components/Comment";
+import Heart from "../../components/Heart";
 
 interface FoodDescriptionProps {
 
@@ -38,8 +38,8 @@ const FoodDescriptionPage:FC<FoodDescriptionProps> = () => {
     return (
         <CustomLayout>
             <CustomLayout.Header>
-                <View className='mx-3 mt-1.5'>
-                    <ArrowLongLeftIcon color='white'/>
+                <View className='flex flex-row-reverse m-5'>
+                    <Heart color={'pink'} fill={'#fca5a5'} size={18} classname={'w-11 h-11 shadow'}/>
                 </View>
             </CustomLayout.Header>
             <CustomLayout.Main>
