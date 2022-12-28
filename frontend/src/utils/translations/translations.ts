@@ -11,5 +11,7 @@ export const translations = {
         'no-allergens': 'Alergeni niso podani',
         'comments-header': 'Komentarji',
         'no-comments': 'Ni komentarjev',
+        'comment-placeholder': 'Vnesi komentar...',
+        'rating': 'Ocena:'
     }
 }

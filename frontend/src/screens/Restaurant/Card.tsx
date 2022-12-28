@@ -21,7 +21,7 @@ const Card:FC<CardProps> = ({dish, navigation}) => {
         <View className='rounded-xl w-full mb-4 bg-custom-white flex flex-row' onTouchEnd={() => navigation.navigate('FoodDescriptionPage')}>
             <Image source={dish.image} className='rounded-l-xl h-full basis-1/3 '/>
             <View className='basis-2/3'>
-                <Text className='text-lg font-medium mb-2 mt-6 ml-2.5'>{dish.name}</Text>
+                <Text className='text-lg font-medium mb-2 mt-3 ml-2.5'>{dish.name}</Text>
                 <Text className='mb-10 text-custom-gray mt-2 mx-2.5'>{dish.description}</Text>
                 <View className='absolute top-3 right-3'>
                     <HeartIcon color="#E7E7E7" size={30}/>
