@@ -9,6 +9,7 @@ import ListItem from "../../components/ListItem";
 import ImageList from "./ImageList";
 import Comment from "../../components/Comment";
 import Heart from "../../components/Heart";
+import ImageUpload from "../../components/ImageUpload";
 
 interface FoodDescriptionProps {
 
@@ -68,6 +69,9 @@ const FoodDescriptionPage:FC<FoodDescriptionProps> = () => {
                             </View>
                             <Text className='text-base font-medium mb-5 mt-6 ml-2.5'>{translate('food-picture-header')}</Text>
                             <ImageList images={menu.images}/>
+                            <View className='-mt-6 flex-row flex-row-reverse right-3'>
+                                <ImageUpload/>
+                            </View>
                             <Text className='text-base font-medium mb-5 ml-2.5 mt-3'>{translate('comments-header')}</Text>
                             <View className='mx-4 mb-5'>
                                 {menu.comments.length ? menu.comments.map((comment:any, index) => {
