@@ -8,7 +8,7 @@ interface HeartProps {
     fill: string;
     size: number;
 }
-const Heart:FC<HeartProps> = ({ classname, color, fill, size }) => {
+const Heart:FC<HeartProps> = ({ classname, fill, size }) => {
     const [active, setActive] = useState<boolean>(false);
 
     const handlePress = ():void => {
@@ -18,7 +18,7 @@ const Heart:FC<HeartProps> = ({ classname, color, fill, size }) => {
     return (
         <Pressable onPress={handlePress}>
             <View className={`bg-custom-white rounded-full flex justify-center items-center ${classname}`}>
-                <HeartIcon color={color} fill={active ? fill : 'white'} size={size}/>
+                <HeartIcon color='#D69D9F' fill={active ? fill : 'white'} size={size}/>
             </View>
         </Pressable>
     );

@@ -1,6 +1,6 @@
 import {FC} from "react";
 import {Text, View} from "react-native";
-import { StarIcon } from "react-native-heroicons/outline";
+import { StarIcon } from "react-native-heroicons/solid";
 
 interface RatingProps{
     rating: number;

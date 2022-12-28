@@ -23,5 +23,8 @@ export const translations = {
         'enter-credentials': 'Vnesite vaše podatke',
         'continue-without-account': 'Nadaljujte brez računa?',
         'continue': 'Nadaljuj',
+        'comment-placeholder': 'Vnesi komentar...',
+        'rating': 'Ocena:',
+        'saved-restaurants': 'Shranjene jedi'
     }
 }
