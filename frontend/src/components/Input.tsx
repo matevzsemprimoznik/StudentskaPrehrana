@@ -2,6 +2,7 @@ import {FC, useState} from 'react';
 import {Pressable, Text, TextInput, View} from "react-native";
 import { EnvelopeIcon } from "react-native-heroicons/outline";
 import { LockClosedIcon } from "react-native-heroicons/outline";
+import { UserIcon } from "react-native-heroicons/outline";
 import {translate} from "../utils/translations/translate";
 
 interface InputProps {
@@ -18,6 +19,7 @@ const Input:FC<InputProps> = ({placeholder, icon, classname, secure}) => {
     return (
         <View className='mb-5'>
             <View className='absolute top-2.5 ml-2 z-10'>
+                {icon === 'user' && <UserIcon color={'grey'} size={20}/>}
                 {icon === 'envelope' && <EnvelopeIcon color={'grey'} size={20}/>}
                 {icon === 'lock' && <LockClosedIcon color={'grey'} size={20}/>}
             </View>
