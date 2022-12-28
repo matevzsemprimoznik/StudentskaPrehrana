@@ -144,7 +144,7 @@ const Restaurant: FC<RestaurantProps> = ({navigation}) => {
             </CustomLayout.Main>
         </CustomLayout>
             {isOpen && (
-                <Modal naziv={translate('restaurant-main-comments')}>
+                <Modal onPress={() => setIsOpen(!isOpen)} naziv={translate('restaurant-main-comments')}>
                     <ScrollView className=' mb-5 h-64'>
                         {comments.length ? comments.map((comment:any, index) => {
                             return (
