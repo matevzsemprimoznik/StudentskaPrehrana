@@ -12,11 +12,16 @@ export const translations = {
         'comments-header': 'Komentarji',
         'no-comments': 'Ni komentarjev',
         'password': 'geslo',
-        'show-password': 'Prikaži',
+        'repeat-password': 'ponovi geslo',
+        'show-password': 'Pokaži',
         'hide-password': 'Skrij',
         'sign-in': 'Prijava',
         'plese-sign-in': 'Prijavite se za nadaljevanje',
         'no-account-yet': 'Niste prijavljeni?',
         'no-account': 'Registriraj se',
+        'register': 'Registracija',
+        'enter-credentials': 'Vnesite vaše podatke',
+        'continue-without-account': 'Nadaljujte brez računa?',
+        'continue': 'Nadaljuj',
     }
 }

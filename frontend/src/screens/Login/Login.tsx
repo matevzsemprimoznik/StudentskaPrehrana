@@ -23,7 +23,7 @@ const Login:FC = () => {
                 </View>
                 <View className='absolute bottom-10 flex-row space-x-1'>
                     <Text>{translate('no-account-yet')}</Text>
-                    <Link to={{ screen: 'Home' }}>
+                    <Link to={{ screen: 'Register' }}>
                         <Text className='text-custom-yellow bold'>{translate('no-account')}</Text>
                     </Link>
                 </View>

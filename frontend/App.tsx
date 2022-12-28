@@ -6,6 +6,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Restaurant from "./src/screens/Restaurant/Restaurant";
 import FoodDescriptionPage from "./src/screens/FoodDescriptionPage/FoodDescriptionPage";
 import Login from "./src/screens/Login/Login";
+import Register from "./src/screens/Register/Register";
 
 
 const Stack = createNativeStackNavigator();
@@ -19,6 +20,7 @@ export default function App() {
                 <Stack.Screen name="Restaurant" component={Restaurant}/>
                 <Stack.Screen name="FoodDescriptionPage" component={FoodDescriptionPage} />
                 <Stack.Screen name="Login" component={Login} />
+                <Stack.Screen name="Register" component={Register} />
             </Stack.Navigator>
         </NavigationContainer>
         </SafeAreaProvider>
