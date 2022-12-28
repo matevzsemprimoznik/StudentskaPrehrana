@@ -103,11 +103,12 @@ const Restaurant: FC<RestaurantProps> = ({navigation}) => {
                 <CustomLayout.Header backgroundImage={require('../../assets/ancora-large.png')}>
                     <View className='ml-10 mt-28'>
                         <Text className='text-5xl text-custom-white'>{restaurant.name}</Text>
-                        <View className='flex-row'>
+                        <View className='flex-row items-center'>
                             <StarIcon color="#FEC532" size={18}/>
                             <StarIcon color="#FEC532" size={18}/>
                             <StarIcon color="#FEC532" size={18}/>
                             <StarIcon color="#FEC532" size={18}/>
+                            <Text className='text-custom-white text-xs ml-1'>({restaurant.numberOfReviews})</Text>
                         </View>
                     </View>
                 </CustomLayout.Header>

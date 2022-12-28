@@ -24,6 +24,7 @@ export const translations = {
         'continue-without-account': 'Nadaljujte brez računa?',
         'continue': 'Nadaljuj',
         'comment-placeholder': 'Vnesi komentar...',
-        'rating': 'Ocena:'
+        'rating': 'Ocena:',
+        'saved-restaurants': 'Shranjene jedi'
     }
 }
