@@ -1,5 +1,6 @@
 import {FC} from "react";
 import {Image, ImageSourcePropType, Text, View} from "react-native";
+import {Routes} from "../../../routes";
 
 interface Dish{
     name: string;
@@ -15,7 +16,7 @@ interface CardProps{
 
 const Card:FC<CardProps> = ({dish, navigation}) => {
     return (
-        <View className='rounded-xl w-full h-36 mb-4 bg-custom-white flex flex-row' onTouchEnd={() => navigation.navigate('FoodDescriptionPage')}>
+        <View className='rounded-xl w-full h-36 mb-4 bg-custom-white flex flex-row' onTouchEnd={() => navigation.navigate(Routes.FOOD_DESCRIPTION_PAGE)}>
             <Image source={dish.image} className='rounded-xl h-full basis-1/3 '/>
             <View className='basis-2/3'>
                 <Text className='text-lg font-medium mb-2 mt-6 ml-2.5'>{dish.name}</Text>

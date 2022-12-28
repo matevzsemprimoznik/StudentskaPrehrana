@@ -5,10 +5,10 @@ import {createNavigationContainerRef, NavigationContainer} from "@react-navigati
 import * as React from "react";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import {Routes} from "../../../routes";
+import {navigationRef} from "./NavigationBar";
 
 
 const Stack = createNativeStackNavigator();
-export const navigationRef = createNavigationContainerRef()
 
 
 const Router = () => {

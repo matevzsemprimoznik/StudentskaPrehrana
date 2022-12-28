@@ -1,9 +1,10 @@
 import {View} from "react-native";
 import {HeartIcon, HomeIcon, UserIcon} from "react-native-heroicons/solid";
 import {memo, useMemo, useState} from "react";
-import {navigationRef} from "./Router";
 import {Routes} from "../../../routes";
+import {createNavigationContainerRef} from "@react-navigation/native";
 
+export const navigationRef = createNavigationContainerRef()
 
 const NavigationBar = () => {
     const [selectedRoute, setSelectedRoute] = useState<Routes>(Routes.HOME)
