@@ -1,7 +1,7 @@
 import {FC} from "react";
 import {Image, ImageSourcePropType, Text, View} from "react-native";
 import Rating from "../../components/Rating";
-import {HeartIcon} from "react-native-heroicons/outline";
+import Heart from "../../components/Heart";
 
 
 interface Dish{

@@ -1,13 +1,12 @@
 import {
     GestureResponderEvent,
-    GestureResponderHandlers,
     Pressable,
     Text,
-    TouchableOpacity,
-    TouchableWithoutFeedback,
     View
 } from "react-native";
 import {FC} from "react";
+import {XMarkIcon} from "react-native-heroicons/solid";
+
 
 interface ModalProps{
     naziv: string;
@@ -24,7 +23,10 @@ const Modal:FC<ModalProps> = ({ naziv, children, onPress}) => {
     return (
         <Pressable onPress={onPressHandler} className='w-full h-full flex-row justify-center absolute' style={{alignItems: 'center', backgroundColor: 'rgba(51,51,51,0.4)'}}>
                 <View className='rounded-xl bg-custom-dark-gray absolute w-11/12' onStartShouldSetResponder={() => true}>
-                    <Text className='text-lg font-medium text-custom-white p-5'>{naziv}</Text>
+                    <View className='flex-row items-center justify-between p-5'>
+                        <Text className='text-lg font-medium text-custom-white'>{naziv}</Text>
+                        <XMarkIcon onPress={onPressHandler} color="#FFFFFF" size={30}/>
+                    </View>
                     <View className='w-full rounded-xl bg-custom-white' onStartShouldSetResponder={() => true}>
                         {children}
                     </View>
