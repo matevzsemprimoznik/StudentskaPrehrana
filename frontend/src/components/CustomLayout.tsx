@@ -16,19 +16,12 @@ type TableSubComponents = {
     Main: typeof CustomLayoutMain;
 }
 
-const CustomLayout:FC<MainLayoutProps> & TableSubComponents = ({ children }) => {
-    const frame = useSafeAreaFrame()
-    const insets = useSafeAreaInsets();
-    const initialFrame = useRef(frame)
+const CustomLayout: FC<MainLayoutProps> & TableSubComponents = ({children}) => {
 
-    return <View className='flex-1'>
-            <View className='h-20 absolute top-0 left-0 right-0 -z-20 bg-custom-yellow'/>
-            <View style={{height: initialFrame.current.height - insets.top - insets.bottom - 60, marginTop: insets.top}}>
-                <View className='flex-col flex-1'>
-                    {children}
-                </View>
-            </View>
-        </View>
+    return <View className='flex-col flex-1'>
+        {children}
+    </View>
+
 }
 
 CustomLayout.Main = CustomLayoutMain;

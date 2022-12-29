@@ -9,11 +9,9 @@ import Comment from "../../components/Comment";
 import Modal from "../../components/Modal";
 
 
-interface RestaurantProps {
-    navigation: any;
-}
+interface RestaurantProps {}
 
-const Restaurant: FC<RestaurantProps> = ({navigation}) => {
+const Restaurant: FC<RestaurantProps> = () => {
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -141,8 +139,7 @@ const Restaurant: FC<RestaurantProps> = ({navigation}) => {
                         </View>
                         <ScrollView className='flex-1'>
                             <View className='flex-row justify-between flex-wrap pb-3 px-1'>
-                                {dishesList.map((dish, index) => <Card key={index} dish={dish}
-                                                                       navigation={navigation}/>)}
+                                {dishesList.map((dish, index) => <Card key={index} dish={dish}/>)}
                             </View>
                         </ScrollView>
 

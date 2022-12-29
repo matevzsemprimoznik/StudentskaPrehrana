@@ -8,12 +8,9 @@ import {useNavigationStore} from "../../store/navigation";
 export const navigationRef = createNavigationContainerRef()
 
 const NavigationBar = () => {
-    const {currentRoute, setCurrentRoute} = useNavigationStore()
-
-    console.log(currentRoute)
+    const currentRoute = useNavigationStore(state => state.currentRoute)
 
     const redirectTo = (route: Routes) => {
-        setCurrentRoute(route)
         navigationRef.navigate(route as never)
     }
 

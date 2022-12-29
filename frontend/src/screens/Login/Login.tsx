@@ -9,7 +9,7 @@ import {translate} from "../../utils/translations/translate";
 const Login:FC = () => {
     return (
         <View className='h-full'>
-            <SafeAreaView className='flex-1 justify-center items-center mx-2'>
+            <View className='h-full flex-1 justify-center items-center mx-2'>
                 <View className='mb-3 right-20'>
                     <Text className='text-3xl font-bold mb-1'>{translate('sign-in')}</Text>
                     <Text>{translate('plese-sign-in')}</Text>
@@ -27,7 +27,7 @@ const Login:FC = () => {
                         <Text className='text-custom-yellow bold'>{translate('no-account')}</Text>
                     </Link>
                 </View>
-            </SafeAreaView>
+            </View>
         </View>
     );
 };

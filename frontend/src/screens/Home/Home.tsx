@@ -7,9 +7,8 @@ import CategoryList from "./CategoryList";
 import Card from "./Card";
 
 interface HomeProps {
-    navigation: any;
 }
-const Home: FC<HomeProps> = ({navigation}) => {
+const Home: FC<HomeProps> = () => {
     const restaurantList = [
         {
             name: 'Ancora',
@@ -60,7 +59,7 @@ const Home: FC<HomeProps> = ({navigation}) => {
                     <Text className='text-lg font-medium mb-5 mt-6 ml-2.5'>{translate('home-main-title')}</Text>
                     <ScrollView className='flex-1'>
                         <View className='flex-row justify-between flex-wrap pb-3'>
-                            {restaurantList.map((restaurant, index) => <Card key={index} restaurant={restaurant} ratingColor={'text-custom-white'} navigation={navigation}/>)}
+                            {restaurantList.map((restaurant, index) => <Card key={index} restaurant={restaurant} ratingColor={'text-custom-white'}/>)}
                         </View>
                     </ScrollView>
                 </View>

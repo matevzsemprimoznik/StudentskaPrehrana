@@ -1,5 +1,5 @@
 import create from 'zustand'
-import {Routes} from "../../routes";
+import {initialRoute, Routes} from "../../routes";
 
 interface NavigationState {
     currentRoute: Routes
@@ -7,6 +7,6 @@ interface NavigationState {
 }
 
 export const useNavigationStore = create<NavigationState>((set) => ({
-    currentRoute: Routes.HOME,
+    currentRoute: initialRoute,
     setCurrentRoute: (route: Routes) => set({currentRoute: route}),
 }))
