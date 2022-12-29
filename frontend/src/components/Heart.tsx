@@ -16,7 +16,7 @@ const Heart:FC<HeartProps> = ({ classname, fill, size }) => {
     }
 
     return (
-        <Pressable onPress={handlePress}>
+        <Pressable onPress={handlePress} >
             <View className={`bg-custom-white rounded-full flex justify-center items-center ${classname}`}>
                 <HeartIcon color='#D69D9F' fill={active ? fill : 'white'} size={size}/>
             </View>
