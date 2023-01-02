@@ -1,4 +1,4 @@
-import {View, Text, ScrollView, TextInput} from "react-native";
+import {View, Text, ScrollView, TextInput, Pressable} from "react-native";
 import {FC, useState} from "react";
 import CustomLayout from "../../components/CustomLayout";
 import {translate} from "../../utils/translations/translate";
@@ -7,6 +7,8 @@ import {PhoneIcon, MapPinIcon, ClockIcon} from "react-native-heroicons/solid";
 import {StarIcon, PaperAirplaneIcon} from "react-native-heroicons/solid";
 import Comment from "../../components/Comment";
 import Modal from "../../components/Modal";
+import {navigationRef} from "../../components/Navigation/NavigationBar";
+import {Routes} from "../../../routes";
 
 
 interface RestaurantProps {}
@@ -122,10 +124,10 @@ const Restaurant: FC<RestaurantProps> = () => {
                                 <ClockIcon color="#90A8D1" size={20}/>
                                 <Text className='text-xs font-medium mt-2'>{restaurant.openingHours}</Text>
                             </View>
-                            <View className='flex items-center'>
+                            <Pressable className='flex items-center' onPress={() => navigationRef.navigate(Routes.MAP as never, {longitude: 15.647360, latitude: 46.559200, name: restaurant.name} as never)}>
                                 <MapPinIcon color="#D69D9F" size={20}/>
                                 <Text className='text-xs font-medium mt-2'>{restaurant.location}</Text>
-                            </View>
+                            </Pressable>
                             <View className='flex items-center'>
                                 <PhoneIcon color="#AC89D9" size={20}/>
                                 <Text

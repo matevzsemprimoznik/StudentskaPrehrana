@@ -14,6 +14,7 @@ import Route from "./Route";
 import {useSafeAreaFrame, useSafeAreaInsets} from "react-native-safe-area-context";
 import {useMemo, useRef} from "react";
 import {View} from "react-native";
+import Map from "../../screens/Map/Map";
 
 
 const Stack = createNativeStackNavigator();
@@ -44,6 +45,7 @@ const Router = () => {
                     <Stack.Screen name={Routes.FOOD_DESCRIPTION_PAGE} component={FoodDescriptionPage}/>
                     <Stack.Screen name={Routes.LOGIN} component={Login}/>
                     <Stack.Screen name={Routes.REGISTER} component={Register}/>
+                    <Stack.Screen name={Routes.MAP} component={Map}/>
                 </Stack.Navigator>
             </NavigationContainer>
         </View>
