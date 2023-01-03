@@ -33,40 +33,40 @@ const Restaurant: FC<RestaurantProps> = () => {
             description: 'Kmečka pica s salamo in papriko iz krušne peči.',
             rating: 4.8,
             numberOfReviews: 230,
-            image: require('../../assets/pizza.png')
+            image: require('../../assets/pica5.png')
         }, {
             name: 'Kmečka pica',
             description: 'Kmečka pica s salamo in papriko iz krušne peči.',
             rating: 4.8,
             numberOfReviews: 230,
-            image: require('../../assets/pizza.png')
+            image: require('../../assets/pica5.png')
         }, {
             name: 'Kmečka pica',
             description: 'Kmečka pica s salamo in papriko iz krušne peči.',
             rating: 4.8,
             numberOfReviews: 230,
-            image: require('../../assets/pizza.png')
+            image: require('../../assets/pica5.png')
         }
         , {
             name: 'Kmečka pica',
             description: 'Kmečka pica s salamo in papriko iz krušne peči.',
             rating: 4.8,
             numberOfReviews: 230,
-            image: require('../../assets/pizza.png')
+            image: require('../../assets/pica5.png')
         }
         , {
             name: 'Kmečka pica',
             description: 'Kmečka pica s salamo in papriko iz krušne peči.',
             rating: 4.8,
             numberOfReviews: 230,
-            image: require('../../assets/pizza.png')
+            image: require('../../assets/pica5.png')
         }
         , {
             name: 'Kmečka pica',
             description: 'Kmečka pica s salamo in papriko iz krušne peči.',
             rating: 4.8,
             numberOfReviews: 230,
-            image: require('../../assets/pizza.png')
+            image: require('../../assets/pica5.png')
         }
     ]
 
