@@ -9,13 +9,11 @@ import {useQuery} from "react-query";
 import fetch from "../../utils/fetch";
 import {HomeRestaurant} from "../../store/models/Restaurant";
 import HttpError from "../../store/models/HttpError";
-import {AxiosError} from "axios";
-
 
 interface HomeProps {
 }
 const Home: FC<HomeProps> = () => {
-    const {data} = useQuery<HomeRestaurant[], AxiosError<HttpError>>('restaurants', () => fetch('/restaurant/all'))
+    const {data} = useQuery<HomeRestaurant[], HttpError>('restaurants', () => fetch('/restaurant/all'))
 
     return (
         <CustomLayout>
