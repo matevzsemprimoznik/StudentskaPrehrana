@@ -25,6 +25,9 @@ export const translations = {
         'continue': 'Nadaljuj',
         'comment-placeholder': 'Vnesi komentar...',
         'rating': 'Ocena:',
-        'saved-restaurants': 'Shranjene jedi'
+        'saved-restaurants': 'Shranjene jedi',
+        'rate-restaurant': 'Oceni restavracijo',
+        'rate-dish': 'Oceni Jed',
+        'upload-dish': 'Naloži sliko jedi',
     }
 }
