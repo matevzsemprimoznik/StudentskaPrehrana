@@ -27,5 +27,8 @@ export const translations = {
         'rating': 'Ocena:',
         'saved-restaurants': 'Shranjene jedi',
         'user-location': 'Vaša lokacija',
+        'rate-restaurant': 'Oceni restavracijo',
+        'rate-dish': 'Oceni Jed',
+        'upload-dish': 'Naloži sliko jedi',
     }
 }
