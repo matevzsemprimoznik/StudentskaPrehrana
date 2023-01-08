@@ -9,13 +9,14 @@ import {Formik} from "formik";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {navigationRef} from "../../components/Navigation/NavigationBar";
 import {Routes} from "../../../routes";
+import {Errors} from "../../constants/errorConstants";
 
 interface Values {
     email: string;
     password: string;
 }
 
-interface Errors {
+interface Error {
     email?: string;
     password?: string;
 }
@@ -42,16 +43,16 @@ const Login:FC = () => {
     }
 
     const validate = (values: Values) => {
-        let errors: Errors = {};
+        let errors: Error = {};
         if (!values.email) {
-            errors.email = 'Email is Required';
+            errors.email = Errors.EMAIL_REQUIRED;
         } else if(!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-            errors.email = 'Invalid email address';
+            errors.email = Errors.INVALID_EMAIL;
         }
         if (!values.password) {
-            errors.password = 'Password is Required';
+            errors.password = Errors.PASSWORD_REQUIRED;
         } else if(values.password.length < 6) {
-            errors.password = 'Password is too short';
+            errors.password = Errors.SHORT_PASSWORD;
         }
         return errors;
     }

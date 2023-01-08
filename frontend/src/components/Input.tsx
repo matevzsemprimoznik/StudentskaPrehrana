@@ -17,8 +17,6 @@ interface InputProps {
 const Input:FC<InputProps> = ({placeholder, icon, classname, secure, value, setValue}) => {
     const [secureTextEntry, setSecureTextEntry] = useState(secure);
 
-    console.log(value);
-
     return (
         <View className='mb-5'>
             <View className='absolute top-2.5 ml-2 z-10'>
