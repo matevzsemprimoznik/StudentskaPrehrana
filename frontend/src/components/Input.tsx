@@ -1,4 +1,4 @@
-import {FC, useState} from 'react';
+import {ChangeEvent, FC, useState} from 'react';
 import {Pressable, Text, TextInput, View} from "react-native";
 import { EnvelopeIcon } from "react-native-heroicons/outline";
 import { LockClosedIcon } from "react-native-heroicons/outline";
@@ -11,10 +11,13 @@ interface InputProps {
     type?: string;
     secure?: boolean;
     classname?: string;
+    value?: string | undefined;
+    setValue?: (e: string | ChangeEvent<any>) => void;
 }
-const Input:FC<InputProps> = ({placeholder, icon, classname, secure}) => {
-    const [value, setValue] = useState<string>('');
+const Input:FC<InputProps> = ({placeholder, icon, classname, secure, value, setValue}) => {
     const [secureTextEntry, setSecureTextEntry] = useState(secure);
+
+    console.log(value);
 
     return (
         <View className='mb-5'>

@@ -21,6 +21,7 @@ const Home: FC<HomeProps> = () => {
                 <View className='m-10 mb-36'>
                     <Text className='text-lg font-medium mb-4'>{translate('home-header')}</Text>
                     <SearchBar/>
+                    <Link to={{screen: 'register'}}>Register</Link>
                 </View>
             </CustomLayout.Header>
             <CustomLayout.Main>
