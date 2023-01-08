@@ -5,6 +5,7 @@ import SearchBar from "../../components/SearchBar";
 import {translate} from "../../utils/translations/translate";
 import CategoryList from "./CategoryList";
 import Card from "./Card";
+import {Link} from "@react-navigation/native";
 
 interface HomeProps {
 }
@@ -51,6 +52,7 @@ const Home: FC<HomeProps> = () => {
                 <View className='m-10 mb-36'>
                     <Text className='text-lg font-medium mb-4'>{translate('home-header')}</Text>
                     <SearchBar/>
+                    <Link to={{screen: 'register'}}>Register</Link>
                 </View>
             </CustomLayout.Header>
             <CustomLayout.Main>
