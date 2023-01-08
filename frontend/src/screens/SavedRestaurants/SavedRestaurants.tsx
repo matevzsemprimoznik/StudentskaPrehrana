@@ -19,21 +19,21 @@ const SavedRestaurant: FC<SavedRestaurantProps> = ({navigation}) => {
             numberOfReviews: 230,
             restaurant: 'Ancora',
             comment: 'Super je bilo. Zelo sočno in okusno.',
-            image: require('../../assets/pizza.png')
+            image: require('../../assets/pica5.png')
         }, {
             name: 'Kmečka pica',
             rating: 4.8,
             numberOfReviews: 230,
             restaurant: 'Ancora',
             comment: 'Super je bilo. Zelo sočno in okusno.',
-            image: require('../../assets/pizza.png')
+            image: require('../../assets/pica5.png')
         }, {
             name: 'Kmečka pica',
             rating: 4.8,
             numberOfReviews: 230,
             restaurant: 'Ancora',
             comment: 'Super je bilo. Zelo sočno in okusno.',
-            image: require('../../assets/pizza.png')
+            image: require('../../assets/pica5.png')
         }
     ]
 

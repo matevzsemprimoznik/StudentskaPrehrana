@@ -1,19 +1,38 @@
-import {View, Text, ScrollView, TextInput} from "react-native";
+import {View, Text, ScrollView, TextInput, TouchableOpacity} from "react-native";
 import {FC, useState} from "react";
 import CustomLayout from "../../components/CustomLayout";
 import {translate} from "../../utils/translations/translate";
 import Card from "./Card";
 import {PhoneIcon, MapPinIcon, ClockIcon} from "react-native-heroicons/solid";
-import {StarIcon, PaperAirplaneIcon} from "react-native-heroicons/solid";
+import {StarIcon} from "react-native-heroicons/solid";
 import Comment from "../../components/Comment";
 import Modal from "../../components/Modal";
+import SendButton from "../../components/SendButton";
 
 
 interface RestaurantProps {}
 
 const Restaurant: FC<RestaurantProps> = () => {
 
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpenCommentsModal, setIsOpenCommentsModal] = useState(false);
+    const [isOpenRatingModal, setIsOpenRatingModal] = useState(false);
+
+    const [rating, setRating] = useState(3);
+    const [comment, setComment] = useState("");
+
+
+    const sendRating = () => {
+        setIsOpenRatingModal(false);
+        //send "rating"
+    }
+
+    const sendComment = () => {
+        setIsOpenCommentsModal(false);
+        //send "comment"
+        setComment("")
+
+    }
+
 
 
     const restaurant = {
@@ -22,7 +41,8 @@ const Restaurant: FC<RestaurantProps> = () => {
         openingHours: "10:00 - 21:00",
         rating: 4.8,
         numberOfReviews: 230,
-        price: 3.60
+        price: 3.60,
+        phone: "040 452 241"
     }
 
     const dishesList = [
@@ -31,40 +51,40 @@ const Restaurant: FC<RestaurantProps> = () => {
             description: 'Kmečka pica s salamo in papriko iz krušne peči.',
             rating: 4.8,
             numberOfReviews: 230,
-            image: require('../../assets/pizza.png')
+            image: require('../../assets/pica.png')
         }, {
             name: 'Kmečka pica',
             description: 'Kmečka pica s salamo in papriko iz krušne peči.',
             rating: 4.8,
             numberOfReviews: 230,
-            image: require('../../assets/pizza.png')
+            image: require('../../assets/pica.png')
         }, {
             name: 'Kmečka pica',
             description: 'Kmečka pica s salamo in papriko iz krušne peči.',
             rating: 4.8,
             numberOfReviews: 230,
-            image: require('../../assets/pizza.png')
+            image: require('../../assets/pica.png')
         }
         , {
             name: 'Kmečka pica',
             description: 'Kmečka pica s salamo in papriko iz krušne peči.',
             rating: 4.8,
             numberOfReviews: 230,
-            image: require('../../assets/pizza.png')
+            image: require('../../assets/pica.png')
         }
         , {
             name: 'Kmečka pica',
             description: 'Kmečka pica s salamo in papriko iz krušne peči.',
             rating: 4.8,
             numberOfReviews: 230,
-            image: require('../../assets/pizza.png')
+            image: require('../../assets/pica.png')
         }
         , {
             name: 'Kmečka pica',
             description: 'Kmečka pica s salamo in papriko iz krušne peči.',
             rating: 4.8,
             numberOfReviews: 230,
-            image: require('../../assets/pizza.png')
+            image: require('../../assets/pica.png')
         }
     ]
 
@@ -101,7 +121,7 @@ const Restaurant: FC<RestaurantProps> = () => {
                 <CustomLayout.Header backgroundImage={require('../../assets/ancora-large.png')}>
                     <View className='ml-10 mt-28'>
                         <Text className='text-5xl text-custom-white'>{restaurant.name}</Text>
-                        <View className='flex-row items-center'>
+                        <View className='flex-row items-center' onTouchEnd={() => setIsOpenRatingModal(!isOpenRatingModal)}>
                             <StarIcon color="#FEC532" size={18}/>
                             <StarIcon color="#FEC532" size={18}/>
                             <StarIcon color="#FEC532" size={18}/>
@@ -129,13 +149,13 @@ const Restaurant: FC<RestaurantProps> = () => {
                             <View className='flex items-center'>
                                 <PhoneIcon color="#AC89D9" size={20}/>
                                 <Text
-                                    className='text-xs font-medium mt-2'>{`${restaurant.rating} (${restaurant.numberOfReviews})`}</Text>
+                                    className='text-xs font-medium mt-2'>{restaurant.phone}</Text>
                             </View>
 
                         </View>
                         <View className='mb-5 mt-6 mx-2.5 flex-row justify-between items-center'>
                             <Text className='text-lg font-medium '>{translate('restaurant-main-title')}</Text>
-                            <Text onPress={() => setIsOpen(!isOpen)}>{translate('restaurant-main-comments')}</Text>
+                            <Text onPress={() => setIsOpenCommentsModal(!isOpenCommentsModal)}>{translate('restaurant-main-comments')}</Text>
                         </View>
                         <ScrollView className='flex-1'>
                             <View className='flex-row justify-between flex-wrap pb-3 px-1'>
@@ -146,8 +166,8 @@ const Restaurant: FC<RestaurantProps> = () => {
                     </View>
                 </CustomLayout.Main>
             </CustomLayout>
-            {isOpen && (
-                <Modal onPress={() => setIsOpen(!isOpen)} naziv={translate('restaurant-main-comments')}>
+            {isOpenCommentsModal && (
+                <Modal onPress={() => setIsOpenCommentsModal(!isOpenCommentsModal)} naziv={translate('restaurant-main-comments')}>
                     <ScrollView className=' mb-5 h-64'><View onStartShouldSetResponder={() => true}>
                         {comments.length ? comments.map((comment, index) => <Comment key={index}
                                                                                           date={comment.date}
@@ -156,24 +176,35 @@ const Restaurant: FC<RestaurantProps> = () => {
                     </View>
                     </ScrollView>
                     <View className='w-full rounded-b-xl bg-custom-light-gray p-5'>
-                        <View className='flex-row items-center'>
-                            <Text className='opacity-50 py-2 mr-3'>{translate('rating')}</Text>
-                            <StarIcon color="#FEC532" size={24}/>
-                            <StarIcon color="#FEC532" size={24}/>
-                            <StarIcon color="#FEC532" size={24}/>
-                            <StarIcon color="#FEC532" size={24}/>
-                            <StarIcon color="#FEC532" size={24}/>
-                        </View>
                         <View className='flex-row items-center mt-3'>
                             <TextInput className='bg-custom-white rounded-full w-3/4 p-[5px] pl-5 h-12'
-                                       placeholder={translate('comment-placeholder')}/>
-                            <View
-                                className='bg-custom-blue rounded-full h-12 w-16 ml-3 flex items-center justify-center'>
-                                <PaperAirplaneIcon color="white" size={18}/>
-                            </View>
+                                       placeholder={translate('comment-placeholder')}
+                                       onChangeText={text => setComment(text)}/>
+                            <SendButton onPress={sendComment} />
                         </View>
                     </View>
                 </Modal>
+            )}
+            {isOpenRatingModal && (
+            <Modal onPress={() => setIsOpenRatingModal(!isOpenRatingModal)} naziv={translate('rate-restaurant')}>
+                <View className='w-full rounded-b-xl bg-custom-light-gray p-5'>
+                    <View className='flex-row items-center space-between'>
+                        <Text className='opacity-50 py-2 mr-3 text-lg'>{translate('rating')} {rating}</Text>
+                        {[...Array(5)].map((_, i) => {
+                            const ratingValue = i + 1;
+                            return (
+                                <TouchableOpacity key={ratingValue} onPress={() => setRating(ratingValue)}>
+                                    <StarIcon
+                                        color={ratingValue <= rating ? '#FEC532' : '#ccc'}
+                                        size={35}
+                                    />
+                                </TouchableOpacity>
+                            );
+                        })}
+                        <SendButton onPress={sendRating} />
+                    </View>
+                </View>
+            </Modal>
             )}
         </>
     );

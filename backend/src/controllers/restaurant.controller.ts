@@ -8,7 +8,7 @@ export const getAll = async (req: Request, res: Response, next: NextFunction) =>
         res.json(restaurants);
     } catch (err) {
         console.log(err);
-        next(err);
+        next(new ErrorHandler(err));
     }
 }
 

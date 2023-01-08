@@ -1,51 +1,20 @@
-import {View, Text, ScrollView} from "react-native";
+import {View, Text, ScrollView, ImageSourcePropType} from "react-native";
 import {FC} from "react";
 import CustomLayout from "../../components/CustomLayout";
 import SearchBar from "../../components/SearchBar";
 import {translate} from "../../utils/translations/translate";
 import CategoryList from "./CategoryList";
 import Card from "./Card";
-import {Link} from "@react-navigation/native";
+import {useQuery} from "react-query";
+import fetch from "../../utils/fetch";
+import {HomeRestaurant} from "../../store/models/Restaurant";
+import HttpError from "../../store/models/HttpError";
 
 interface HomeProps {
 }
 const Home: FC<HomeProps> = () => {
-    const restaurantList = [
-        {
-            name: 'Ancora',
-            rating: 4.5,
-            numberOfReviews: 100,
-            image: require('../../assets/ancora.png')
-        },{
-            name: 'Ancora',
-            rating: 4.5,
-            numberOfReviews: 100,
-            image: require('../../assets/ancora.png')
-        },{
-            name: 'Ancora',
-            rating: 4.5,
-            numberOfReviews: 100,
-            image: require('../../assets/ancora.png')
-        }
-        ,{
-            name: 'Ancora',
-            rating: 4.5,
-            numberOfReviews: 100,
-            image: require('../../assets/ancora.png')
-        }
-        ,{
-            name: 'Ancora',
-            rating: 4.5,
-            numberOfReviews: 100,
-            image: require('../../assets/ancora.png')
-        }
-        ,{
-            name: 'Ancora',
-            rating: 4.5,
-            numberOfReviews: 100,
-            image: require('../../assets/ancora.png')
-        }
-    ]
+    const {data} = useQuery<HomeRestaurant[], HttpError>('restaurants', () => fetch('/restaurant/all'))
+
     return (
         <CustomLayout>
             <CustomLayout.Header>
@@ -61,7 +30,7 @@ const Home: FC<HomeProps> = () => {
                     <Text className='text-lg font-medium mb-5 mt-6 ml-2.5'>{translate('home-main-title')}</Text>
                     <ScrollView className='flex-1'>
                         <View className='flex-row justify-between flex-wrap pb-3'>
-                            {restaurantList.map((restaurant, index) => <Card key={index} restaurant={restaurant} ratingColor={'text-custom-white'}/>)}
+                            {data?.slice(0, 10).map((restaurant, index) => <Card key={index} restaurant={restaurant} ratingColor={'text-custom-white'}/>)}
                         </View>
                     </ScrollView>
                 </View>
