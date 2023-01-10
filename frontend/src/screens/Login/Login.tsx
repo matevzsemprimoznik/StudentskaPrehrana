@@ -28,6 +28,7 @@ const Login:FC = () => {
             .then((userCredential) => {
                 // Signed in
                 const user = userCredential.user;
+                console.log(user.uid);
                 AsyncStorage.setItem('user', JSON.stringify(user));
                 navigationRef.navigate(Routes.HOME as never);
             })

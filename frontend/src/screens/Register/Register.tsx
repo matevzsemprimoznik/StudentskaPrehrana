@@ -10,6 +10,9 @@ import {Formik} from 'formik';
 import {Routes} from "../../../routes";
 import {navigationRef} from "../../components/Navigation/NavigationBar";
 import {Errors} from "../../constants/errorConstants";
+import {useMutation} from "react-query";
+import {User} from "../../store/models/User";
+import axios from "axios";
 
 interface Values {
     name: string;
@@ -27,12 +30,21 @@ interface Error {
 }
 
 const Register:FC = () => {
-    const register = async (email: string, password: string) => {
-        createUserWithEmailAndPassword(auth, email, password)
+    const addUser = useMutation({mutationFn: (user: User) => {return axios.post('/user/', user)}})
+    const register = async (data:any) => {
+        createUserWithEmailAndPassword(auth, data.email, data.password)
             .then(userCredential => {
                 // Signed in
-                const user = userCredential.user;
+                const firebaseUser = userCredential.user;
                 //an endpoint is called to save user to mongodb
+                addUser.mutate({
+                        name: data.name,
+                        surname: data.surname,
+                        email: data.email,
+                        uid: firebaseUser.uid
+                    },
+                    {onSuccess: () => {console.log('User added to mongo.')}
+                    })
                 //redirect user to login
                 navigationRef.navigate(Routes.LOGIN as never);
             })
@@ -72,7 +84,7 @@ const Register:FC = () => {
                 <Formik
                     validate={validate}
                     initialValues={ {name: '', surname: '', email: '', password: '', confirm_password: ''} }
-                    onSubmit={values => register(values.email, values.password)}
+                    onSubmit={values => register(values)}
                     validateOnChange={false}
                     validateOnBlur={false}
                 >
