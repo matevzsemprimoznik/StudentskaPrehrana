@@ -9,6 +9,7 @@ import {auth} from "../../config/firebase";
 import {Formik} from 'formik';
 import {Routes} from "../../../routes";
 import {navigationRef} from "../../components/Navigation/NavigationBar";
+import {Errors} from "../../constants/errorConstants";
 
 interface Values {
     name: string;
@@ -17,7 +18,7 @@ interface Values {
     password: string;
     confirm_password: string;
 }
-interface Errors {
+interface Error {
     name?: string;
     surname?: string;
     email?: string;
@@ -41,26 +42,26 @@ const Register:FC = () => {
     }
 
     const validate = (values: Values) => {
-        let errors: Errors = {};
+        let errors: Error = {};
         if (!values.email) {
-            errors.email = 'Email is Required';
+            errors.email = Errors.EMAIL_REQUIRED;
         } else if(!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-            errors.email = 'Invalid email address';
+            errors.email = Errors.INVALID_EMAIL;
         }
         if (!values.name) {
-            errors.name = 'First Name is Required';
+            errors.name = Errors.FIRST_NAME_REQUIRED;
         } else if(values.name.length < 3) {
-            errors.name = 'First Name is too short';
+            errors.name = Errors.FIRST_NAME_SHORT;
         }
         if (!values.surname) {
-            errors.surname = 'Last Name is Required';
+            errors.surname = Errors.LAST_NAME_REQUIRED;
         } else if(values.surname.length < 3) {
-            errors.surname = 'Last Name is too short';
+            errors.surname = Errors.LAST_NAME_SHORT;
         }
         if (values.password !== values.confirm_password) {
-            errors.confirm_password = 'Passwords do not match';
+            errors.confirm_password = Errors.PASSWORDS_DONT_MATCH;
         } else if (values.password.length < 6) {
-            errors.password = 'Password is too short';
+            errors.password = Errors.SHORT_PASSWORD;
         }
         return errors;
     }
