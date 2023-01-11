@@ -1,7 +1,7 @@
 import Home from "../../screens/Home/Home";
 import Restaurant from "../../screens/Restaurant/Restaurant";
 import FoodDescriptionPage from "../../screens/FoodDescriptionPage/FoodDescriptionPage";
-import {createNavigationContainerRef, NavigationContainer, NavigationState} from "@react-navigation/native";
+import {NavigationContainer, NavigationState} from "@react-navigation/native";
 import * as React from "react";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import {initialRoute, Routes, routesWithoutNavigation} from "../../../routes";
@@ -10,11 +10,11 @@ import {useNavigationStore} from "../../store/navigation";
 import {getEnumKeyByValue} from "../../utils/getEnumKeyByValue";
 import Login from "../../screens/Login/Login";
 import Register from "../../screens/Register/Register";
-import Route from "./Route";
 import {useSafeAreaFrame, useSafeAreaInsets} from "react-native-safe-area-context";
 import {useMemo, useRef} from "react";
 import {View} from "react-native";
 import Map from "../../screens/Map/Map";
+import Profile from "../../screens/Profille/Profile";
 
 
 const Stack = createNativeStackNavigator();
@@ -46,6 +46,7 @@ const Router = () => {
                     <Stack.Screen name={Routes.LOGIN} component={Login}/>
                     <Stack.Screen name={Routes.REGISTER} component={Register}/>
                     <Stack.Screen name={Routes.MAP} component={Map}/>
+                    <Stack.Screen name={Routes.PROFILE} component={Profile}/>
                 </Stack.Navigator>
             </NavigationContainer>
         </View>
