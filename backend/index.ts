@@ -6,12 +6,14 @@ import restaurantRoute from "./src/routes/restaurant.route";
 import errorMiddleware from "./src/middlewares/error.middleware";
 import userRoute from "./src/routes/user.route";
 import bodyParser from "body-parser";
+import cors from 'cors';
 
 dotenv.config();
 connectToDatabase()
 
 const app: Express = express();
 const port = process.env.PORT;
+app.use(cors());
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
