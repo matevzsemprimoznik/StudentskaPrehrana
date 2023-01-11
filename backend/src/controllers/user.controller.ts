@@ -13,6 +13,28 @@ export const addUser = async (req: Request, res: Response, next: NextFunction) =
     }
 }
 
+export const getByUid = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const user = await userService.getByUid(req.params.uid);
+        return res.json(user);
+    } catch (err) {
+        console.log(err)
+        return next(new ErrorHandler(err));
+    }
+}
+
+export const getById = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const user = await userService.getById(req.params.id);
+        return res.json(user);
+    } catch (err) {
+        console.log(err)
+        return next(new ErrorHandler(err));
+    }
+}
+
 export default {
-    addUser
+    addUser,
+    getByUid,
+    getById
 }
