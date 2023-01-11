@@ -10,6 +10,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {navigationRef} from "../../components/Navigation/NavigationBar";
 import {Routes} from "../../../routes";
 import {Errors, FirebaseErrors} from "../../constants/errorConstants";
+import {useQuery} from "react-query";
+import {HomeRestaurant} from "../../store/models/Restaurant";
+import HttpError from "../../store/models/HttpError";
+import fetch from "../../utils/fetch";
+import {User} from "../../store/models/User";
 
 interface Values {
     email: string;
@@ -21,6 +26,8 @@ interface Error {
     password?: string;
 }
 const Login:FC = () => {
+    const [uid, setUid] = useState<string>('');
+    // const { data, status } = useQuery<User, HttpError>(['user', uid], () => fetch(`/user/${uid}`))
     const [error, setError] = useState('');
 
     const login = async (email: string, password: string) => {
@@ -28,6 +35,7 @@ const Login:FC = () => {
             .then((userCredential) => {
                 // Signed in
                 const user = userCredential.user;
+                setUid(user.uid)
                 console.log(user.uid);
                 AsyncStorage.setItem('user', JSON.stringify(user));
                 navigationRef.navigate(Routes.HOME as never);
