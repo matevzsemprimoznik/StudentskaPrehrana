@@ -12,7 +12,7 @@ module.exports = {
                 'custom-gray': '#8B8B8B',
                 'custom-dark-gray': '#2F2A3D',
                 'custom-blue': '#45AAE3',
-                'text-custom-red': '#ee1212',
+                'text-custom-red': '#f10f0f',
             },
         }
     },

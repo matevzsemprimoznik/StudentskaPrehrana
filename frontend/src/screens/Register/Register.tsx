@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, {FC, useState} from 'react';
 import {Pressable, Text, View} from "react-native";
 import {SafeAreaView} from "react-native-safe-area-context";
 import {translate} from "../../utils/translations/translate";
@@ -9,7 +9,10 @@ import {auth} from "../../config/firebase";
 import {Formik} from 'formik';
 import {Routes} from "../../../routes";
 import {navigationRef} from "../../components/Navigation/NavigationBar";
-import {Errors} from "../../constants/errorConstants";
+import {Errors, FirebaseErrors} from "../../constants/errorConstants";
+import {useMutation} from "react-query";
+import {User} from "../../store/models/User";
+import post from "../../utils/post";
 
 interface Values {
     name: string;
@@ -27,17 +30,36 @@ interface Error {
 }
 
 const Register:FC = () => {
-    const register = async (email: string, password: string) => {
-        createUserWithEmailAndPassword(auth, email, password)
+    const addUser = useMutation({mutationFn: (user: User) => {return post('/user/', user)}});
+    const [error, setError] = useState('');
+    const register = async (data: Values) => {
+        createUserWithEmailAndPassword(auth, data.email, data.password)
             .then(userCredential => {
-                // Signed in
-                const user = userCredential.user;
-                //an endpoint is called to save user to mongodb
-                //redirect user to login
-                navigationRef.navigate(Routes.LOGIN as never);
+                const firebaseUser = userCredential.user;
+                addUser.mutate({
+                        name: data.name,
+                        surname: data.surname,
+                        email: data.email,
+                        uid: firebaseUser.uid
+                    },
+                    {
+                        onSuccess: () => {navigationRef.navigate(Routes.LOGIN as never)},
+                        onError: () => {setError('Something went wrong, please try again later.')}
+                    });
             })
             .catch(err=> {
-                console.log(err.code, err.message);
+                if (err.code === FirebaseErrors.SHORT_PASSWORD) {
+                    setError(Errors.SHORT_PASSWORD);
+                    return;
+                }
+                if (err.code === FirebaseErrors.EMAIL_TAKE) {
+                    setError(Errors.EMAIL_TAKE);
+                    return;
+                }
+                if (err.code === FirebaseErrors.INVALID_MAIL) {
+                    setError(Errors.INVALID_EMAIL);
+                    return;
+                }
             });
     }
 
@@ -72,7 +94,7 @@ const Register:FC = () => {
                 <Formik
                     validate={validate}
                     initialValues={ {name: '', surname: '', email: '', password: '', confirm_password: ''} }
-                    onSubmit={values => register(values.email, values.password)}
+                    onSubmit={values => register(values)}
                     validateOnChange={false}
                     validateOnBlur={false}
                 >
@@ -81,6 +103,7 @@ const Register:FC = () => {
                             <View className='mb-3 right-20'>
                                 <Text className='text-3xl font-bold mb-1'>{translate('register')}</Text>
                                 <Text>{translate('enter-credentials')}</Text>
+                                {error && <Text className='text-red-500 text-xs'>{error}</Text>}
                             </View>
                             <View className='w-4/5'>
                                 <Input placeholder={'Ime'} icon={'user'} classname={'px-10'} value={values.name} setValue={handleChange('name')}/>
@@ -88,11 +111,11 @@ const Register:FC = () => {
                                 <Input placeholder={'email'} icon={'envelope'} classname={'px-10'} value={values.email} setValue={handleChange('email')}/>
                                 <Input placeholder={translate('password')} icon={'lock'} classname={'px-10'} secure={true} value={values.password} setValue={handleChange('password')}/>
                                 <Input placeholder={translate('repeat-password')} icon={'lock'} classname={'px-10'} secure={true} value={values.confirm_password} setValue={handleChange('confirm_password')}/>
-                                {errors.name && <Text className='text-custom-red text-xs'>{errors.name}</Text>}
-                                {errors.surname && <Text className='text-custom-red text-xs'>{errors.surname}</Text>}
-                                {errors.email && <Text className='text-custom-red text-xs'>{errors.email}</Text>}
-                                {errors.password && <Text className='text-custom-red text-xs'>{errors.password}</Text>}
-                                {errors.confirm_password && <Text className='text-custom-red text-xs'>{errors.confirm_password}</Text>}
+                                {errors.name && <Text className='text-red-500 text-xs'>{errors.name}</Text>}
+                                {errors.surname && <Text className='text-red-500 text-xs'>{errors.surname}</Text>}
+                                {errors.email && <Text className='text-red-500 text-xs'>{errors.email}</Text>}
+                                {errors.password && <Text className='text-red-500 text-xs'>{errors.password}</Text>}
+                                {errors.confirm_password && <Text className='text-red-500 text-xs'>{errors.confirm_password}</Text>}
                             </View>
                             <View className='left-1/4 mt-1 shadow-md rounded-full bg-custom-yellow px-6 py-3'>
                                 <Button onPress={handleSubmit} classname={'bold text-custom-white'} text={translate('register')}/>
@@ -100,7 +123,6 @@ const Register:FC = () => {
                         </>
                         )}
                 </Formik>
-
                 <View className='absolute bottom-10 flex-row space-x-1'>
                     <Text>{translate('continue-without-account')}</Text>
                     <Pressable onPress={() => navigationRef.navigate(Routes.HOME as never)}>
