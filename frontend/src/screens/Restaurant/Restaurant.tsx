@@ -1,4 +1,4 @@
-import {View, Text, ScrollView, TextInput, TouchableOpacity} from "react-native";
+import {View, Text, ScrollView, TextInput, TouchableOpacity, Linking} from "react-native";
 import {FC, useState} from "react";
 import CustomLayout from "../../components/CustomLayout";
 import {translate} from "../../utils/translations/translate";
@@ -115,6 +115,11 @@ const Restaurant: FC<RestaurantProps> = () => {
         }
     ]
 
+    const openPhoneApp = async () => {
+        if(restaurant.phone)
+            await Linking.openURL(`tel:${restaurant.phone}`)
+    }
+
     return (
         <>
             <CustomLayout>
@@ -137,20 +142,20 @@ const Restaurant: FC<RestaurantProps> = () => {
                             <Text
                                 className='text-lg text-custom-white font-medium shadow'>{`${restaurant.price.toFixed(2)}€`}</Text>
                         </View>
-                        <View className='mb-1 mt-10 mx-2.5 flex-row justify-between items-center '>
+                        <View className='mb-1 mt-10 mx-2.5 flex-row justify-between'>
                             <View className='flex items-center'>
                                 <ClockIcon color="#90A8D1" size={20}/>
                                 <Text className='text-xs font-medium mt-2'>{restaurant.openingHours}</Text>
                             </View>
                             <View className='flex items-center'>
                                 <MapPinIcon color="#D69D9F" size={20}/>
-                                <Text className='text-xs font-medium mt-2'>{restaurant.location}</Text>
+                                <Text className='text-xs font-medium mt-2 text-center'>{restaurant.location.replace(',', '\n')}</Text>
                             </View>
-                            <View className='flex items-center'>
+                            <TouchableOpacity onPress={openPhoneApp} className='flex items-center'>
                                 <PhoneIcon color="#AC89D9" size={20}/>
                                 <Text
                                     className='text-xs font-medium mt-2'>{restaurant.phone}</Text>
-                            </View>
+                            </TouchableOpacity>
 
                         </View>
                         <View className='mb-5 mt-6 mx-2.5 flex-row justify-between items-center'>
