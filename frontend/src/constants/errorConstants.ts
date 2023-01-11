@@ -1,13 +1,15 @@
 export enum Errors {
-    PASSWORDS_DONT_MATCH = 'Passwords do not match!',
-    SHORT_PASSWORD = 'Password should be at least 6 characters long!',
+    PASSWORDS_DONT_MATCH = 'Passwords do not match',
+    SHORT_PASSWORD = 'Password is to short',
     EMAIL_REQUIRED = 'Email is Required',
-    INVALID_EMAIL = 'Invalid email!',
+    INVALID_EMAIL = 'Invalid email',
     FIRST_NAME_REQUIRED = 'First Name is Required',
     LAST_NAME_REQUIRED = 'Last Name is Required',
     FIRST_NAME_SHORT = 'First Name is too short',
     LAST_NAME_SHORT = 'Last Name is too short',
     PASSWORD_REQUIRED = 'Password is Required',
+    EMAIL_TAKE = 'Email is already taken',
+    WRONG_CREDENTIALS = 'Wrong credentials',
 }
 
 export enum FirebaseErrors {
