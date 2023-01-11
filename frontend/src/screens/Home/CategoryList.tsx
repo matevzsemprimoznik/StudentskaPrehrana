@@ -1,19 +1,21 @@
-import {ScrollView, View, Text} from "react-native";
-import {useState} from "react";
+import {ScrollView, View, Text, TouchableOpacity} from "react-native";
+import {FC, useState} from "react";
 
-const CategoryList = () => {
-    const categoryList = ['Priporočeno', 'Mehiška', 'Indijska', 'Korejska', 'Domača']
-    const [selectedCategory, setSelectedCategory] = useState(categoryList[0])
-
+interface CategoryListProps {
+    values: string[];
+    selectedIndex: number,
+    setSelectedIndex: (value: number) => void
+}
+const CategoryList:FC<CategoryListProps> = ({values, selectedIndex, setSelectedIndex}) => {
     return (
         <View>
             <ScrollView horizontal showsHorizontalScrollIndicator={false} className='px-2 mt-1.5'>
-                {categoryList.map((category, index) =>
-                    <View
-                        className={`${category === selectedCategory ? 'bg-custom-yellow' : 'bg-custom-white'} -z-50 rounded-full h-10 mr-3 mt-3 px-4 py-2 pt-2.5`}
+                {values.map((category, index) =>
+                    <TouchableOpacity activeOpacity={0.3} onPress={() => setSelectedIndex(index)}
+                        className={`${index === selectedIndex ? 'bg-custom-yellow' : 'bg-custom-white'} -z-50 rounded-full h-10 mr-3 mt-3 px-4 py-2 pt-2.5`}
                         key={index}>
                         <Text className='text-custom-black text-xs'>{category}</Text>
-                    </View>
+                    </TouchableOpacity>
                 )}
             </ScrollView>
         </View>

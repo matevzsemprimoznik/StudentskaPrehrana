@@ -30,5 +30,6 @@ export const translations = {
         'rate-restaurant': 'Oceni restavracijo',
         'rate-dish': 'Oceni Jed',
         'upload-dish': 'Naloži sliko jedi',
+        'categories-all': 'Vse'
     }
 }

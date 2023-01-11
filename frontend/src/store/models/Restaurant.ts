@@ -5,4 +5,5 @@ export interface HomeRestaurant{
     image?: ImageSourcePropType,
     rating?: number,
     numberOfReviews?: number,
+    extras: string[]
 }
