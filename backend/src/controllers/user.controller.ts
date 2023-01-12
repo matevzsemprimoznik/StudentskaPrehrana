@@ -33,8 +33,20 @@ export const getById = async (req: Request, res: Response, next: NextFunction) =
     }
 }
 
+export const updateById = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        await userService.updateById(req.params.id, req.body);
+        const updatedUser = await userService.getById(req.params.id);
+        return res.json(updatedUser);
+    } catch (err) {
+        console.log(err)
+        return next(new ErrorHandler(err));
+    }
+}
+
 export default {
     addUser,
     getByUid,
-    getById
+    getById,
+    updateById
 }

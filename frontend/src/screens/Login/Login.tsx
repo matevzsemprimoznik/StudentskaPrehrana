@@ -21,19 +21,16 @@ interface Error {
     email?: string;
     password?: string;
 }
-
-const getUserDetails = async (uid: string) => {
-    return await fetch(`/user/${uid}`);
-}
 const Login:FC = () => {
     const [error, setError] = useState('');
 
     const login = async (email: string, password: string) => {
         signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
+            .then(async (userCredential) => {
                 // Signed in
-                const user = getUserDetails(userCredential.user.uid)
-                // console.log(user);
+                // const user = await getUserDetails(userCredential.user.uid)
+                const user = await fetch(`/user/${userCredential.user.uid}`);
+                console.log(user);
                 if (user) {
                     AsyncStorage.setItem('user', JSON.stringify(user));
                     navigationRef.navigate(Routes.HOME as never);
