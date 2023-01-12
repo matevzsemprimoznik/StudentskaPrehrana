@@ -1,7 +1,7 @@
 import Home from "../../screens/Home/Home";
 import Restaurant from "../../screens/Restaurant/Restaurant";
 import FoodDescriptionPage from "../../screens/FoodDescriptionPage/FoodDescriptionPage";
-import {NavigationContainer, NavigationState} from "@react-navigation/native";
+import {NavigationContainer, NavigationState, useNavigationState} from "@react-navigation/native";
 import * as React from "react";
 import {createNativeStackNavigator, NativeStackScreenProps} from "@react-navigation/native-stack";
 import {initialRoute, Routes, routesWithoutNavigation} from "../../../routes";
@@ -20,8 +20,8 @@ import SavedRestaurants from "../../screens/SavedRestaurants/SavedRestaurants";
 
 export type RootStackParamList = {
     [Routes.HOME]: undefined;
-    [Routes.RESTAURANT]: { restaurantID: string };
     [Routes.FOOD_DESCRIPTION_PAGE]: undefined;
+    [Routes.RESTAURANT]: { restaurantID: string };
     [Routes.LOGIN]: undefined;
     [Routes.REGISTER]: undefined;
     [Routes.MAP]: undefined;
@@ -39,21 +39,39 @@ const Router = () => {
     const insets = useSafeAreaInsets();
     const initialFrame = useRef(frame)
 
+    const getCurrentRoute = (
+        state: NavigationState | Required<NavigationState['routes'][0]>['state'],
+    ): Routes | undefined => {
+        if (state.index === undefined || state.index < 0) {
+            return undefined;
+        }
+        const nestedState = state.routes[state.index].state;
+        if (nestedState !== undefined) {
+            return getCurrentRoute(nestedState);
+        }
+        return state.routes[state.index].name as Routes;
+    };
+
     const handleRouterStateChange = (state?: NavigationState) => {
         if (state) {
-            const route = getEnumKeyByValue<keyof typeof Routes>(Routes, state?.routeNames[state?.index])
-            setCurrentRoute(Routes[route])
+            const currentRoute = getCurrentRoute(state)
+            if (currentRoute)
+                setCurrentRoute(currentRoute)
         }
     }
 
+
     return <View className='flex-1'>
         <View className='absolute top-0 left-0 right-0 -z-50 bg-custom-yellow' style={{height: insets.top}}/>
-        <View className='bg-custom-yellow' style={{height: initialFrame.current.height - insets.top - insets.bottom - (showNavigationBar ? 60 : 0), marginTop: insets.top}}>
+        <View className='bg-custom-yellow' style={{
+            height: initialFrame.current.height - insets.top - insets.bottom - (showNavigationBar ? 60 : 0),
+            marginTop: insets.top
+        }}>
             <NavigationContainer ref={navigationRef} onStateChange={handleRouterStateChange}>
                 <Stack.Navigator initialRouteName={initialRoute} screenOptions={{headerShown: false}}>
                     <Stack.Screen name={Routes.HOME} component={Home}/>
-                    <Stack.Screen name={Routes.RESTAURANT} component={Restaurant}/>
                     <Stack.Screen name={Routes.FOOD_DESCRIPTION_PAGE} component={FoodDescriptionPage}/>
+                    <Stack.Screen name={Routes.RESTAURANT} component={Restaurant}/>
                     <Stack.Screen name={Routes.LOGIN} component={Login}/>
                     <Stack.Screen name={Routes.REGISTER} component={Register}/>
                     <Stack.Screen name={Routes.MAP} component={Map}/>

@@ -4,15 +4,20 @@ import {memo, useMemo, useState} from "react";
 import {Routes} from "../../../routes";
 import {createNavigationContainerRef} from "@react-navigation/native";
 import {useNavigationStore} from "../../store/navigation";
+import { useRoute } from '@react-navigation/native';
+
 
 export const navigationRef = createNavigationContainerRef()
 
 const NavigationBar = () => {
     const currentRoute = useNavigationStore(state => state.currentRoute)
 
+
     const redirectTo = (route: Routes) => {
         navigationRef.navigate(route as never)
     }
+
+    console.log(currentRoute)
 
     return <View className='w-full rounded-t-lg bg-custom-white' style={{height: 60, display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center'}}>
         <TouchableOpacity onPress={() => redirectTo(Routes.PROFILE)} className='flex-1 justify-center align-middle' style={{ height: '100%', alignItems: 'center'}}>
