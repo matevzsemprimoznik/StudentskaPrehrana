@@ -3,7 +3,7 @@ import Restaurant from "../../screens/Restaurant/Restaurant";
 import FoodDescriptionPage from "../../screens/FoodDescriptionPage/FoodDescriptionPage";
 import {NavigationContainer, NavigationState} from "@react-navigation/native";
 import * as React from "react";
-import {createNativeStackNavigator} from "@react-navigation/native-stack";
+import {createNativeStackNavigator, NativeStackScreenProps} from "@react-navigation/native-stack";
 import {initialRoute, Routes, routesWithoutNavigation} from "../../../routes";
 import NavigationBar, {navigationRef} from "./NavigationBar";
 import {useNavigationStore} from "../../store/navigation";
@@ -15,10 +15,21 @@ import {useMemo, useRef} from "react";
 import {View} from "react-native";
 import Map from "../../screens/Map/Map";
 import Profile from "../../screens/Profille/Profile";
+import {Restaurant as IRestaurant} from "../../store/models/Restaurant";
+import SavedRestaurants from "../../screens/SavedRestaurants/SavedRestaurants";
 
+export type RootStackParamList = {
+    [Routes.HOME]: undefined;
+    [Routes.RESTAURANT]: { restaurantID: string };
+    [Routes.FOOD_DESCRIPTION_PAGE]: undefined;
+    [Routes.LOGIN]: undefined;
+    [Routes.REGISTER]: undefined;
+    [Routes.MAP]: undefined;
+    [Routes.PROFILE]: undefined;
+    [Routes.SAVED_RESTAURANTS]: undefined;
+};
 
-const Stack = createNativeStackNavigator();
-
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const Router = () => {
     const {currentRoute, setCurrentRoute} = useNavigationStore()
@@ -47,6 +58,7 @@ const Router = () => {
                     <Stack.Screen name={Routes.REGISTER} component={Register}/>
                     <Stack.Screen name={Routes.MAP} component={Map}/>
                     <Stack.Screen name={Routes.PROFILE} component={Profile}/>
+                    <Stack.Screen name={Routes.SAVED_RESTAURANTS} component={SavedRestaurants}/>
                 </Stack.Navigator>
             </NavigationContainer>
         </View>
