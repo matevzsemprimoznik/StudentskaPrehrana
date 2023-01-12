@@ -10,9 +10,9 @@ interface ButtonProps {
 }
 const Button:FC<ButtonProps> = ({ children, text, onPress, classname }) => {
     return (
-        <View>
+        <View className='bg-custom-blue font-bold py-2 px-4 rounded'>
             <Pressable onPress={onPress}>
-                <Text className={classname}>{text}</Text>
+                <Text className='text-white'>{text}</Text>
             </Pressable>
             {children}
         </View>

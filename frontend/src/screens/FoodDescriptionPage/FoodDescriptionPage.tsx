@@ -1,5 +1,5 @@
 import {FC, useState} from 'react';
-import {ScrollView, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {ScrollView, Text, TextInput, TouchableOpacity, View, Image} from "react-native";
 import {translate} from "../../utils/translations/translate";
 import CustomLayout from "../../components/CustomLayout";
 import FoodImageCircle from "./FoodImageCircle";
@@ -13,6 +13,12 @@ import ImageUpload from "../../components/ImageUpload";
 import SendButton from "../../components/SendButton";
 import {StarIcon} from "react-native-heroicons/solid";
 import Modal from "../../components/Modal";
+import Button from "../../components/Button";
+import * as ImagePicker from 'expo-image-picker';
+import toBase64 from "../../utils/images";
+import {useMutation} from "react-query";
+import axios from "axios";
+
 
 interface FoodDescriptionProps {
 
@@ -40,10 +46,36 @@ const menu = {
 }
 const FoodDescriptionPage:FC<FoodDescriptionProps> = () => {
 
+    const mutation = useMutation(newImgDish => {
+           return axios.post('/restaurant/uploadDishImage', newImgDish)
+    })
+
     const [isOpenModal, setIsOpenModal] = useState(false);
 
     const [rating, setRating] = useState(3);
     const [comment, setComment] = useState("");
+    const [imageUri, setImageUri] = useState(null);
+
+    const takePicture = async () => {
+            const { assets } = await ImagePicker.launchCameraAsync({});
+            if (assets) {
+                const selectedAsset = assets[0];
+                // @ts-ignore
+                setImageUri(selectedAsset.uri);
+            }
+    };
+
+    const uploadPicture = async() => {
+        if (!imageUri) {
+            return;
+        }
+        const base64img = await toBase64(imageUri);
+
+        // @ts-ignore
+        mutation.mutate({id: "63b9a50e4b1ad1654e909342", dishName: "ZAVITKI S PAPRIKO, PRILOGA", image: base64img}, {onerror: (err) => {
+                console.log(err.response)
+            }})
+    };
 
     const sendComment = () => {
         //send "comment"
@@ -130,7 +162,12 @@ const FoodDescriptionPage:FC<FoodDescriptionProps> = () => {
             </CustomLayout>
         {isOpenModal && (
             <Modal onPress={() => setIsOpenModal(!isOpenModal)} naziv={translate('upload-dish')}>
-                <View className='w-full rounded-b-xl bg-custom-light-gray p-5'>
+                <View className='w-full rounded-b-xl bg-custom-light-gray p-5 '>
+                    <View className='flex-row items-center space-between ml-3'>
+                        <Button text="Slikaj jed" onPress={takePicture} />
+                        {imageUri && <Image source={{ uri: imageUri}} className='rounded-xl w-1/2 h-32 ml-20' />}
+                    </View>
+                    {imageUri && <SendButton onPress={uploadPicture} /> }
                 </View>
             </Modal>
             )}

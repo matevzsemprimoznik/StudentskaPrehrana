@@ -1,6 +1,6 @@
 import {model, Schema} from "mongoose";
 import OpeningHoursSchema, {IOpeningHours} from "./openingHours.model";
-import MenuItemSchema, {IMenuItem} from "./menuItem.model";
+import MenuItem, {IMenuItem} from "../models/menuItem.model";
 
 export interface IRestaurant {
     title: string;
@@ -22,7 +22,7 @@ const RestaurantSchema = new Schema<IRestaurant>({
     price: {type: String, required: true},
     surcharge: {type: String, required: true},
     openingHours: OpeningHoursSchema,
-    menu: [MenuItemSchema],
+    menu: [MenuItem.schema],
     image: {type: String, required: true},
 })
 

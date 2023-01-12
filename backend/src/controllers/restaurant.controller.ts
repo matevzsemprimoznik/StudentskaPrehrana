@@ -22,7 +22,23 @@ export const getById = async (req: Request, res: Response, next: NextFunction) =
     }
 }
 
+export const uploadDishImage = async (req: Request, res: Response, next: NextFunction) => {
+    console.log(req.body)
+    try {
+        const imgName = await restaurantService.saveDishImg(req.body.image)
+
+        await restaurantService.postDishImg(req.body.id, req.body.dishName, imgName)
+
+        return res.send(imgName);
+
+    } catch (err) {
+        console.log(err)
+        return next(new ErrorHandler(err));
+    }
+}
+
 export default {
     getAll,
-    getById
+    getById,
+    uploadDishImage
 }
