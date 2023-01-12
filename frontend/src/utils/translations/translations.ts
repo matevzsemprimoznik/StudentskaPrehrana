@@ -47,5 +47,6 @@ export const translations = {
         'location': 'Lokacija',
         'profile': 'Profil',
         'edit-profile': 'Uredi profil',
+        'food-description-upload-new-image': 'Nova slika',
     }
 }

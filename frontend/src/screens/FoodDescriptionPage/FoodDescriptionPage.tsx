@@ -1,4 +1,4 @@
-import {FC, useState} from 'react';
+import React, {FC, useState} from 'react';
 import {ScrollView, Text, TextInput, TouchableOpacity, View, Image} from "react-native";
 import {translate} from "../../utils/translations/translate";
 import CustomLayout from "../../components/CustomLayout";
@@ -11,13 +11,14 @@ import Comment from "../../components/Comment";
 import Heart from "../../components/Heart";
 import ImageUpload from "../../components/ImageUpload";
 import SendButton from "../../components/SendButton";
-import {StarIcon} from "react-native-heroicons/solid";
+import {PaperAirplaneIcon, StarIcon} from "react-native-heroicons/solid";
+import {ArrowUpOnSquareStackIcon} from "react-native-heroicons/outline";
 import Modal from "../../components/Modal";
 import Button from "../../components/Button";
 import * as ImagePicker from 'expo-image-picker';
 import toBase64 from "../../utils/images";
 import {useMutation} from "react-query";
-import axios from "axios";
+import post from '../../utils/post';
 
 
 interface FoodDescriptionProps {
@@ -47,7 +48,9 @@ const menu = {
 const FoodDescriptionPage:FC<FoodDescriptionProps> = () => {
 
     const mutation = useMutation(newImgDish => {
-           return axios.post('/restaurant/uploadDishImage', newImgDish)
+        const size = encodeURI(JSON.stringify(newImgDish)).split(/%..|./).length - 1;
+        console.log(size)
+           return post('/restaurant/uploadDishImage', newImgDish)
     })
 
     const [isOpenModal, setIsOpenModal] = useState(false);
@@ -162,12 +165,19 @@ const FoodDescriptionPage:FC<FoodDescriptionProps> = () => {
             </CustomLayout>
         {isOpenModal && (
             <Modal onPress={() => setIsOpenModal(!isOpenModal)} naziv={translate('upload-dish')}>
-                <View className='w-full rounded-b-xl bg-custom-light-gray p-5 '>
-                    <View className='flex-row items-center space-between ml-3'>
-                        <Button text="Slikaj jed" onPress={takePicture} />
-                        {imageUri && <Image source={{ uri: imageUri}} className='rounded-xl w-1/2 h-32 ml-20' />}
+                <View className='w-full h-56 min-h-full rounded-b-xl bg-custom-light-gray p-5 '>
+                    <View className='flex-row w-full flex-1 items-center justify-between'>
+                        {imageUri ? <Image source={{ uri: imageUri}} className='rounded-xl w-full h-44' /> : <TouchableOpacity onPress={takePicture} className='flex-row h-full flex-1 justify-center border-solid border-2 border-black rounded-lg' style={{alignItems: 'center'}}>
+                            <ArrowUpOnSquareStackIcon size={40} color={'#3b3b3b'}/>
+                        </TouchableOpacity>}
                     </View>
-                    {imageUri && <SendButton onPress={uploadPicture} /> }
+                    {imageUri && <View className='mt-3 mb-3  flex-row justify-between'>
+                        <TouchableOpacity className='border-black border-solid border-2 rounded-full h-12 px-3 flex items-center justify-center' onPress={takePicture}>
+                            <Text className='text-black font-medium text-sm'>{translate('food-description-upload-new-image')}</Text>
+                            </TouchableOpacity>
+                        <SendButton onPress={uploadPicture} />
+                    </View>}
+
                 </View>
             </Modal>
             )}

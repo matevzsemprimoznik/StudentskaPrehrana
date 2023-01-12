@@ -16,7 +16,7 @@ const port = process.env.PORT;
 app.use(cors());
 
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '5mb'}));
 
 app.use('/images', express.static(path.join(__dirname.substring(0, __dirname.lastIndexOf('\\')), 'images')));
 app.use('/restaurant', restaurantRoute)

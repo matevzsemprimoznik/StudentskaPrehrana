@@ -9,8 +9,9 @@ interface ButtonProps {
     disabled?: boolean;
 }
 const Button:FC<ButtonProps> = ({ children, text, onPress, classname }) => {
+    console.log(classname)
     return (
-        <View className='bg-custom-blue font-bold py-2 px-4 rounded'>
+        <View className={'bg-custom-blue font-bold py-2 px-4 rounded' + classname}>
             <Pressable onPress={onPress}>
                 <Text className='text-white'>{text}</Text>
             </Pressable>
