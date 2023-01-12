@@ -6,15 +6,11 @@ import {translate} from "../../utils/translations/translate";
 import {signInWithEmailAndPassword} from "firebase/auth";
 import {auth} from "../../config/firebase";
 import {Formik} from "formik";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import {navigationRef} from "../../components/Navigation/NavigationBar";
 import {Routes} from "../../../routes";
 import {Errors, FirebaseErrors} from "../../constants/errorConstants";
-import {useQuery} from "react-query";
-import {HomeRestaurant} from "../../store/models/Restaurant";
-import HttpError from "../../store/models/HttpError";
 import fetch from "../../utils/fetch";
-import {User} from "../../store/models/User";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface Values {
     email: string;
@@ -25,20 +21,25 @@ interface Error {
     email?: string;
     password?: string;
 }
+
+const getUserDetails = async (uid: string) => {
+    return await fetch(`/user/${uid}`);
+}
 const Login:FC = () => {
-    const [uid, setUid] = useState<string>('');
-    // const { data, status } = useQuery<User, HttpError>(['user', uid], () => fetch(`/user/${uid}`))
     const [error, setError] = useState('');
 
     const login = async (email: string, password: string) => {
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 // Signed in
-                const user = userCredential.user;
-                setUid(user.uid)
-                console.log(user.uid);
-                AsyncStorage.setItem('user', JSON.stringify(user));
-                navigationRef.navigate(Routes.HOME as never);
+                const user = getUserDetails(userCredential.user.uid)
+                // console.log(user);
+                if (user) {
+                    AsyncStorage.setItem('user', JSON.stringify(user));
+                    navigationRef.navigate(Routes.HOME as never);
+                } else {
+                    setError('Please try again later.');
+                }
             })
             .catch(err=> {
                 if (
