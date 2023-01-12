@@ -1,4 +1,4 @@
-import {View, Text, ScrollView, TextInput, TouchableOpacity, Linking} from "react-native";
+import {View, Text, ScrollView, TextInput, TouchableOpacity, Linking, Platform} from "react-native";
 import {FC, useMemo, useState} from "react";
 import CustomLayout from "../../components/CustomLayout";
 import {selectedTranslations, translate} from "../../utils/translations/translate";
@@ -53,8 +53,10 @@ const Restaurant: FC<RestaurantProps> = () => {
     if(isLoading || !restaurant) return <View><Text>Loading...</Text></View>
 
     const openPhoneApp = async () => {
-        if(restaurant.phone)
-            await Linking.openURL(`tel:${restaurant.phone}`)
+        if(restaurant.phone){
+            const prefix = Platform.OS === 'ios' ? 'telprompt:' : 'tel:';
+            await Linking.openURL(prefix + restaurant.phone);
+        }
     }
 
     return (
