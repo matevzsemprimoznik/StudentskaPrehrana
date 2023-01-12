@@ -4,7 +4,7 @@ enum Language {
     SL = 'sl',
 }
 
-let selectedTranslations = translations[Language.SL];
+export let selectedTranslations = translations[Language.SL];
 
 export const translate = (key: keyof typeof selectedTranslations): string => {
     return selectedTranslations[key as keyof typeof selectedTranslations];

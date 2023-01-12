@@ -6,10 +6,11 @@ import {translate} from "../../utils/translations/translate";
 import {signInWithEmailAndPassword} from "firebase/auth";
 import {auth} from "../../config/firebase";
 import {Formik} from "formik";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import {navigationRef} from "../../components/Navigation/NavigationBar";
 import {Routes} from "../../../routes";
-import {Errors} from "../../constants/errorConstants";
+import {Errors, FirebaseErrors} from "../../constants/errorConstants";
+import fetch from "../../utils/fetch";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface Values {
     email: string;
@@ -20,6 +21,10 @@ interface Error {
     email?: string;
     password?: string;
 }
+
+const getUserDetails = async (uid: string) => {
+    return await fetch(`/user/${uid}`);
+}
 const Login:FC = () => {
     const [error, setError] = useState('');
 
@@ -27,17 +32,23 @@ const Login:FC = () => {
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 // Signed in
-                const user = userCredential.user;
-                AsyncStorage.setItem('user', JSON.stringify(user));
-                navigationRef.navigate(Routes.HOME as never);
+                const user = getUserDetails(userCredential.user.uid)
+                // console.log(user);
+                if (user) {
+                    AsyncStorage.setItem('user', JSON.stringify(user));
+                    navigationRef.navigate(Routes.HOME as never);
+                } else {
+                    setError('Please try again later.');
+                }
             })
             .catch(err=> {
-                if (err.code === 'auth/user-not-found') {
-                    setError('User not found');
-                } else if (err.code === 'auth/wrong-password') {
-                    setError('Wrong password');
-                } else {
-                    setError('Something went wrong');
+                if (
+                    err.code === FirebaseErrors.WRONG_PASSWORD ||
+                    FirebaseErrors.USER_NOT_FOUND ||
+                    FirebaseErrors.WRONG_EMAIL
+                ) {
+                    setError(Errors.WRONG_CREDENTIALS);
+                    return;
                 }
             });
     }
@@ -59,7 +70,6 @@ const Login:FC = () => {
 
     return (
         <View className='h-full'>
-
             <View className='h-full flex-1 justify-center items-center mx-2'>
                 <Formik
                     validate={validate}
@@ -73,13 +83,13 @@ const Login:FC = () => {
                             <View className='mb-3 right-20'>
                                 <Text className='text-3xl font-bold mb-1'>{translate('sign-in')}</Text>
                                 <Text>{translate('plese-sign-in')}</Text>
-                                {error && <Text className='text-custom-red text-xs'>{error}</Text>}
+                                {error && <Text className='text-red-500 text-xs'>{error}</Text>}
                             </View>
                             <View className='w-4/5'>
                                 <Input placeholder={'email'} icon={'envelope'} classname={'px-10'} value={values.email} setValue={handleChange('email')}/>
                                 <Input placeholder={translate('password')} icon={'lock'} classname={'px-10'} secure={true} value={values.password} setValue={handleChange('password')}/>
-                                {errors.email && <Text className='text-custom-red text-xs'>{errors.email}</Text>}
-                                {errors.password && <Text className='text-custom-red text-xs'>{errors.password}</Text>}
+                                {errors.email && <Text className='text-red-500 text-xs'>{errors.email}</Text>}
+                                {errors.password && <Text className='text-red-500 text-xs'>{errors.password}</Text>}
                             </View>
                             <View className='left-1/4 mt-1 shadow-md rounded-full bg-custom-yellow px-9 py-3'>
                                 <Button onPress={handleSubmit} classname={'bold text-custom-white'} text={translate('sign-in')}/>
@@ -87,7 +97,6 @@ const Login:FC = () => {
                         </>
                         )}
                 </Formik>
-
                 <View className='absolute bottom-10 flex-row space-x-1'>
                     <Text>{translate('no-account-yet')}</Text>
                     <Pressable onPress={() => navigationRef.navigate(Routes.REGISTER as never)}>

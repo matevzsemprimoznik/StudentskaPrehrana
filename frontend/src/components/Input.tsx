@@ -2,6 +2,7 @@ import {ChangeEvent, FC, useState} from 'react';
 import {Pressable, Text, TextInput, View} from "react-native";
 import { EnvelopeIcon } from "react-native-heroicons/outline";
 import { LockClosedIcon } from "react-native-heroicons/outline";
+import { MapPinIcon } from "react-native-heroicons/outline";
 import { UserIcon } from "react-native-heroicons/outline";
 import {translate} from "../utils/translations/translate";
 
@@ -23,6 +24,7 @@ const Input:FC<InputProps> = ({placeholder, icon, classname, secure, value, setV
                 {icon === 'user' && <UserIcon color={'grey'} size={20}/>}
                 {icon === 'envelope' && <EnvelopeIcon color={'grey'} size={20}/>}
                 {icon === 'lock' && <LockClosedIcon color={'grey'} size={20}/>}
+                {icon === 'map' && <MapPinIcon color={'grey'} size={20}/>}
             </View>
             <TextInput
                 className={`bg-custom-white w-full py-3 rounded shadow-md px-2 ${classname}`}
