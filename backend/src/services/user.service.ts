@@ -12,8 +12,13 @@ const getById = async (id: string) => {
     return User.findById(id);
 }
 
+const updateById = async (id: string, user: IUser) => {
+    return User.updateOne({ _id: id }, user);
+}
+
 export default {
     addUser,
     getByUid,
-    getById
+    getById,
+    updateById
 }
