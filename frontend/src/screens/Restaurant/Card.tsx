@@ -11,11 +11,12 @@ import {REST_URI} from "@env";
 
 interface CardProps{
     dish: Meal;
+    price: string;
 }
 
-const Card:FC<CardProps> = ({dish}) => {
+const Card:FC<CardProps> = ({dish, price}) => {
     return (
-        <TouchableOpacity activeOpacity={1} className='rounded-xl w-full mb-4 bg-custom-white flex flex-row' onPress={() => navigationRef.navigate(Routes.FOOD_DESCRIPTION_PAGE as never)}>
+        <TouchableOpacity activeOpacity={1} className='rounded-xl w-full mb-4 bg-custom-white flex flex-row' onPress={() => navigationRef.navigate(Routes.FOOD_DESCRIPTION_PAGE as never, { dish: dish, price: price } as never)}>
             {dish.images && dish.images[0] != null ? <Image source={{uri: `${REST_URI}/images/dishes/${dish.images[0]}`}} className='rounded-l-xl h-full basis-1/3 '/> : <View className='w-28 justify-center' style={{alignItems: 'center'}}><PhotoIcon size={30} color={'#d5d5d5'}/></View>}
             <View className='basis-2/3'>
                 <Text className='text-md font-medium mb-2 mt-6 ml-2.5'>{dish.name}</Text>
