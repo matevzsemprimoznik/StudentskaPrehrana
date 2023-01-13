@@ -22,7 +22,18 @@ export const getById = async (req: Request, res: Response, next: NextFunction) =
     }
 }
 
+const updateById = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const restaurant = await restaurantService.updateById(req.params.id, req.body);
+        return res.json(restaurant);
+    } catch (err) {
+        console.log(err)
+        return next(new ErrorHandler(err));
+    }
+}
+
 export default {
     getAll,
-    getById
+    getById,
+    updateById
 }
