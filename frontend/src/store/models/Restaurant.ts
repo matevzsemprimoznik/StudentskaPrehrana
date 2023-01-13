@@ -41,6 +41,6 @@ export interface Restaurant extends HomeRestaurant {
     address: string
     phone?: string
     menu: Meal[]
-    price: number
-    comments: Comment[]
+    price: string;
+        comments: Comment[]
 }

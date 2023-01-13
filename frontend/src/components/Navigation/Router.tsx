@@ -15,12 +15,12 @@ import {useMemo, useRef} from "react";
 import {View} from "react-native";
 import Map from "../../screens/Map/Map";
 import Profile from "../../screens/Profille/Profile";
-import {Restaurant as IRestaurant} from "../../store/models/Restaurant";
+import {Meal, Restaurant as IRestaurant} from "../../store/models/Restaurant";
 import SavedRestaurants from "../../screens/SavedRestaurants/SavedRestaurants";
 
 export type RootStackParamList = {
     [Routes.HOME]: undefined;
-    [Routes.FOOD_DESCRIPTION_PAGE]: undefined;
+    [Routes.FOOD_DESCRIPTION_PAGE]: { dish: Meal, price: string };
     [Routes.RESTAURANT]: { restaurantID: string };
     [Routes.LOGIN]: undefined;
     [Routes.REGISTER]: undefined;

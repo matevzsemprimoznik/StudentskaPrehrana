@@ -4,7 +4,7 @@ export const translations = {
         'home-header-search': 'Poišči restavracijo',
         'home-main-title': 'Restavracije',
         'food-description-header': 'Opis jedi',
-        'food-allergens-header': 'Alergeni',
+        'courses-header': 'Dodatki',
         'food-picture-header': 'Slike jedi',
         'restaurant-main-title': 'Jedi',
         'restaurant-main-comments': 'Komentarji',
@@ -19,7 +19,7 @@ export const translations = {
         'opening-hours-saturday': 'Sobota',
         'opening-hours-sunday': 'Nedelja',
         'opening-hours-holiday': 'Prazniki',
-        'no-allergens': 'Alergeni niso podani',
+        'no-courses': 'Dodatki niso podani',
         'comments-header': 'Komentarji',
         'no-comments': 'Ni komentarjev',
         'password': 'geslo',
@@ -39,7 +39,7 @@ export const translations = {
         'saved-restaurants': 'Shranjene jedi',
         'user-location': 'Vaša lokacija',
         'rate-restaurant': 'Oceni restavracijo',
-        'rate-dish': 'Oceni Jed',
+        'rate-dish': 'Oceni jed',
         'upload-dish': 'Naloži sliko jedi',
         'categories-all': 'Vse',
         'name': 'Ime',
@@ -47,6 +47,7 @@ export const translations = {
         'location': 'Lokacija',
         'profile': 'Profil',
         'edit-profile': 'Uredi profil',
-        'edit-profile-success': 'Uspešno urejen profil'
+        'edit-profile-success': 'Uspešno urejen profil',
+        'send': 'Pošlji',
     }
 }
