@@ -17,7 +17,7 @@ const Card: FC<CardProps> = ({restaurant, ratingColor}) => {
         <TouchableOpacity className='rounded-xl w-1/2 h-48 px-2 mb-4' style={{alignSelf: "flex-start"}}
                           onPress={() => navigationRef.navigate(Routes.RESTAURANT as never, {restaurantID: restaurant._id} as never )}>
             {restaurant.image ?
-                <Image className='rounded-xl w-full h-full' source={{uri: `${REST_URI}/images/${restaurant.image}`}}/> :
+                <Image className='rounded-xl w-full h-full' source={{uri: `${REST_URI}/images/restaurants/${restaurant.image}`}}/> :
                 <View className='pt-10 rounded-xl bg-gray-300 w-full h-full' style={{alignItems: 'center'}}><PhotoIcon
                     size={30} color={'white'}/></View>}
             <View className='absolute bottom-5 left-5'>

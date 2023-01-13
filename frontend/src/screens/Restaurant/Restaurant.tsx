@@ -62,7 +62,7 @@ const Restaurant: FC<RestaurantProps> = () => {
     return (
         <>
             <CustomLayout>
-                <CustomLayout.Header backgroundImage={{uri: `${REST_URI}/images/${restaurant.image}`}}>
+                <CustomLayout.Header backgroundImage={{uri: `${REST_URI}/images/restaurants/${restaurant.image}`}}>
                     <View className='pb-12 pl-5 justify-end flex-1'>
                         <Text className='text-4xl text-custom-white w-5/6'>{restaurant.title}</Text>
                         <View className='flex-row items-center' onTouchEnd={() => setIsOpenRatingModal(!isOpenRatingModal)}>
@@ -114,7 +114,7 @@ const Restaurant: FC<RestaurantProps> = () => {
                 <Modal onPress={() => setIsOpeningHoursModalOpened(!isOpeningHoursModalOpened)} naziv={translate('restaurant-main-opening-hours')}>
                     <View className='flex-1'>
                         {Object.entries(restaurant.openingHours).map((hours, index) => (
-                            <Text className='px-3.5 py-2.5'>{translate('opening-hours-' + hours[0] as keyof typeof selectedTranslations) + ": " + hours[1]}</Text>
+                            <Text key={index} className='px-3.5 py-2.5'>{translate('opening-hours-' + hours[0] as keyof typeof selectedTranslations) + ": " + hours[1]}</Text>
                         ))}
                     </View>
                 </Modal>
