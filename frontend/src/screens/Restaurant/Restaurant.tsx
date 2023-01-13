@@ -12,7 +12,7 @@ import {RouteProp, useRoute} from "@react-navigation/native";
 import {RootStackParamList} from "../../components/Navigation/Router";
 import {Routes} from "../../../routes";
 import {useQuery} from "react-query";
-import {HomeRestaurant, Restaurant as IRestaurant} from "../../store/models/Restaurant";
+import {Restaurant as IRestaurant} from "../../store/models/Restaurant";
 import HttpError from "../../store/models/HttpError";
 import fetch from "../../utils/fetch";
 import {REST_URI} from "@env";
@@ -79,7 +79,7 @@ const Restaurant: FC<RestaurantProps> = () => {
                         <View
                             className='absolute -top-10 right-8 rounded-full bg-custom-yellow flex items-center justify-center' style={{width: 70, height: 70}}>
                             <Text
-                                className='text-lg text-custom-white font-medium shadow'>{`${restaurant.price} €`}</Text>
+                                className='text-lg text-custom-white font-medium shadow'>{`${parseFloat(restaurant.price).toFixed(2)} €`}</Text>
                         </View>
                         <View className='mb-1 mt-10 mx-2.5 flex-row justify-between'>
                             <TouchableOpacity onPress={() => setIsOpeningHoursModalOpened(true)} className='flex items-center'>
@@ -103,7 +103,7 @@ const Restaurant: FC<RestaurantProps> = () => {
                         </View>
                         {restaurant.menu.length !== 0 ? <ScrollView className='flex-1'>
                             <View className='flex-row justify-between flex-wrap pb-3 px-1'>
-                                {restaurant.menu.map((dish, index) => <Card key={index} dish={dish}/>)}
+                                {restaurant.menu.map((dish, index) => <Card key={index} dish={dish} price={restaurant.price}/>)}
                             </View>
                         </ScrollView> : <View className='pt-10' style={{alignItems: 'center'}}><Text className='opacity-50 w-72 text-center'>{translate('restaurant-main-no-menu')}</Text></View>}
 

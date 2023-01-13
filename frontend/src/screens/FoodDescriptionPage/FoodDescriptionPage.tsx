@@ -10,9 +10,13 @@ import ImageList from "./ImageList";
 import Comment from "../../components/Comment";
 import Heart from "../../components/Heart";
 import ImageUpload from "../../components/ImageUpload";
-import SendButton from "../../components/SendButton";
 import {StarIcon} from "react-native-heroicons/solid";
 import Modal from "../../components/Modal";
+import {RouteProp, useRoute} from "@react-navigation/native";
+import {RootStackParamList} from "../../components/Navigation/Router";
+import {Routes} from "../../../routes";
+import {processText} from "../../utils/processText";
+import Button from "../../components/Button";
 
 interface FoodDescriptionProps {
 
@@ -39,6 +43,7 @@ const menu = {
     ]
 }
 const FoodDescriptionPage:FC<FoodDescriptionProps> = () => {
+    const {params: {dish, price}} = useRoute<RouteProp<RootStackParamList, Routes.FOOD_DESCRIPTION_PAGE>>();
 
     const [isOpenModal, setIsOpenModal] = useState(false);
 
@@ -54,6 +59,8 @@ const FoodDescriptionPage:FC<FoodDescriptionProps> = () => {
         //send "rating"
     }
 
+    console.log(dish);
+
     return (
         <>
             <CustomLayout>
@@ -66,28 +73,24 @@ const FoodDescriptionPage:FC<FoodDescriptionProps> = () => {
                     <View className='flex-1 -mt-24'>
                         <FoodImageCircle foodImage={menu.image}/>
                         <View className='mx-2 flex-1 mt-6'>
-                            <Text className='text-lg font-medium text-center mb-5 mx-2.5'>{menu.name}</Text>
+                            <Text className='text-lg font-medium text-center mb-5 mx-2.5'>{processText(dish.name)}</Text>
                             <View className='items-center'>
                                 <View className='flex-row'>
                                     <Rating rating={4.8} numberOfReviews={230} color={'text-custom-black'}/>
-                                    <Price classname={'ml-14'} price={3.60}/>
+                                    <Price classname={'ml-14'} price={price}/>
                                 </View>
                             </View>
                             <ScrollView className='mt-6'>
-                                <Text className='text-base font-medium mb-5 ml-2.5'>{translate('food-description-header')}</Text>
-                                <View className='mx-2'>
-                                    <Text className='opacity-50'>{"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation  "}</Text>
-                                </View>
-                                <Text className='text-base font-medium mb-5 mt-6 ml-2.5'>{translate('food-allergens-header')}</Text>
+                                <Text className='text-base font-medium mb-5 ml-2.5'>{translate('courses-header')}</Text>
                                 <View className='mx-4'>
-                                    {menu.allergens.length ? menu.allergens.map((allergen, index) => {
+                                    {dish.courses.length ? dish.courses.map((course:string, index:number) => {
                                         return (
-                                            <ListItem key={index} text={allergen}/>
+                                            course === '' ? null : <ListItem key={index} text={course}/>
                                         )
-                                    }) : <Text className='opacity-50'>{translate('no-allergens')}</Text>}
+                                    }) : <Text className='opacity-50'>{translate('no-courses')}</Text>}
                                 </View>
                                 <Text className='text-base font-medium ml-2.5 mb-5 mt-6'>{translate('rate-dish')}</Text>
-                                <View className='flex-row items-center space-between mx-4'>
+                                <View className='flex-row items-center mx-4'>
                                     <Text className='opacity-50 py-2 mr-3'>{translate('rating')} {rating}</Text>
                                     {[...Array(5)].map((_, i) => {
                                         const ratingValue = i + 1;
@@ -95,12 +98,14 @@ const FoodDescriptionPage:FC<FoodDescriptionProps> = () => {
                                             <TouchableOpacity key={ratingValue} onPress={() => setRating(ratingValue)}>
                                                 <StarIcon
                                                     color={ratingValue <= rating ? '#FEC532' : '#ccc'}
-                                                    size={35}
+                                                    size={20}
                                                 />
                                             </TouchableOpacity>
                                         );
                                     })}
-                                    <SendButton onPress={sendRating} />
+                                    <View className={'left-36 shadow-md rounded-full bg-custom-yellow px-5 py-2 flex-row-reverse'}>
+                                        <Button text={translate('send')} onPress={sendRating} classname={'text-xs'}/>
+                                    </View>
                                 </View>
                                 <Text className='text-base font-medium mb-5 mt-6 ml-2.5'>{translate('food-picture-header')}</Text>
                                 <ImageList images={menu.images}/>
@@ -119,7 +124,9 @@ const FoodDescriptionPage:FC<FoodDescriptionProps> = () => {
                                         <TextInput className='bg-custom-white rounded-full w-3/4 p-[5px] pl-5 h-12' placeholder={translate('comment-placeholder')}
                                                    value={comment}
                                                    onChangeText={text => setComment(text)}/>
-                                        <SendButton onPress={sendComment} />
+                                        <View className={'ml-7 shadow-md rounded-full bg-custom-yellow px-5 py-2'}>
+                                            <Button text={translate('send')} onPress={sendComment} classname={'text-xs'}/>
+                                        </View>
                                     </View>
 
                                 </View>
@@ -128,7 +135,7 @@ const FoodDescriptionPage:FC<FoodDescriptionProps> = () => {
                     </View>
                 </CustomLayout.Main>
             </CustomLayout>
-        {isOpenModal && (
+            {isOpenModal && (
             <Modal onPress={() => setIsOpenModal(!isOpenModal)} naziv={translate('upload-dish')}>
                 <View className='w-full rounded-b-xl bg-custom-light-gray p-5'>
                 </View>
