@@ -47,6 +47,7 @@ export const translations = {
         'location': 'Lokacija',
         'profile': 'Profil',
         'edit-profile': 'Uredi profil',
-        'edit-profile-success': 'Uspešno urejen profil'
+        'edit-profile-success': 'Uspešno urejen profil',
+        'no-saved-dishes': 'Trenutno nimate shranjene nobene jedi'
     }
 }

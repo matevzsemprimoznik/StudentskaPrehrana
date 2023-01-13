@@ -4,6 +4,10 @@ import CustomLayout from "../../components/CustomLayout";
 import {translate} from "../../utils/translations/translate";
 import Card from "./Card";
 import {HeartIcon} from "react-native-heroicons/solid";
+import {useQuery} from "react-query";
+import {ISavedMealResponse} from "../../store/models/Restaurant";
+import HttpError from "../../store/models/HttpError";
+import fetch from "../../utils/fetch";
 
 
 interface SavedRestaurantProps {
@@ -12,30 +16,8 @@ interface SavedRestaurantProps {
 
 const SavedRestaurant: FC<SavedRestaurantProps> = ({navigation}) => {
 
-    const dishesList = [
-        {
-            name: 'Kmečka pica',
-            rating: 4.8,
-            numberOfReviews: 230,
-            restaurant: 'Ancora',
-            comment: 'Super je bilo. Zelo sočno in okusno.',
-            image: require('../../assets/pica5.png')
-        }, {
-            name: 'Kmečka pica',
-            rating: 4.8,
-            numberOfReviews: 230,
-            restaurant: 'Ancora',
-            comment: 'Super je bilo. Zelo sočno in okusno.',
-            image: require('../../assets/pica5.png')
-        }, {
-            name: 'Kmečka pica',
-            rating: 4.8,
-            numberOfReviews: 230,
-            restaurant: 'Ancora',
-            comment: 'Super je bilo. Zelo sočno in okusno.',
-            image: require('../../assets/pica5.png')
-        }
-    ]
+
+    const {data: savedMeals, isLoading} = useQuery<ISavedMealResponse, HttpError>('savedMeals', () => fetch(`/user/${'63c01c8b6edc79428b10b00b'}/savedDishes`))
 
     return (
             <CustomLayout>
@@ -51,7 +33,7 @@ const SavedRestaurant: FC<SavedRestaurantProps> = ({navigation}) => {
                         </View>
                         <ScrollView className='flex-1 mt-12'>
                             <View className='flex-row justify-between flex-wrap pb-3 px-1'>
-                                {dishesList.map((dish, index) => <Card key={index} dish={dish} navigation={navigation}/>)}
+                                {savedMeals && savedMeals.savedDishes.length !== 0 ? savedMeals.savedDishes.map((dish, index) => <Card key={index} dish={dish} navigation={navigation}/>) : <View className='pt-10' style={{alignItems: 'center'}}><Text className='opacity-50 w-72 text-center'>{translate('no-saved-dishes')}</Text></View>}
                             </View>
                         </ScrollView>
 

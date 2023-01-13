@@ -12,7 +12,7 @@ import {RouteProp, useRoute} from "@react-navigation/native";
 import {RootStackParamList} from "../../components/Navigation/Router";
 import {Routes} from "../../../routes";
 import {useQuery} from "react-query";
-import {HomeRestaurant, Restaurant as IRestaurant} from "../../store/models/Restaurant";
+import {ISavedMealResponse, Restaurant as IRestaurant} from "../../store/models/Restaurant";
 import HttpError from "../../store/models/HttpError";
 import fetch from "../../utils/fetch";
 import {REST_URI} from "@env";
@@ -23,6 +23,9 @@ interface RestaurantProps {}
 const Restaurant: FC<RestaurantProps> = () => {
     const {params: {restaurantID}} = useRoute<RouteProp<RootStackParamList, Routes.RESTAURANT>>();
     const {data: restaurant, isLoading} = useQuery<IRestaurant, HttpError>('restaurant', () => fetch('/restaurant/' + restaurantID))
+
+    const {data: savedMeals} = useQuery<ISavedMealResponse, HttpError>('savedMeals', () => fetch(`/user/${'63c01c8b6edc79428b10b00b'}/savedDishes`))
+
     const openingHours = useMemo(() => {
         if(!restaurant) return ''
         const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
@@ -48,6 +51,10 @@ const Restaurant: FC<RestaurantProps> = () => {
         //send "comment"
         setComment("")
 
+    }
+
+    const isDishSaved = (dishName: string) => {
+        return savedMeals ? savedMeals.savedDishes.some(savedDish => savedDish.name === dishName) : false;
     }
 
     if(isLoading || !restaurant) return <View><Text>Loading...</Text></View>
@@ -101,7 +108,7 @@ const Restaurant: FC<RestaurantProps> = () => {
                         </View>
                         {restaurant.menu.length !== 0 ? <ScrollView className='flex-1'>
                             <View className='flex-row justify-between flex-wrap pb-3 px-1'>
-                                {restaurant.menu.map((dish, index) => <Card key={index} dish={dish}/>)}
+                                {restaurant.menu.map((dish, index) => <Card key={index} dish={dish} isSaved={isDishSaved(dish.name)} restaurantName={restaurant.title}/>)}
                             </View>
                         </ScrollView> : <View className='pt-10' style={{alignItems: 'center'}}><Text className='opacity-50 w-72 text-center'>{translate('restaurant-main-no-menu')}</Text></View>}
 
@@ -112,7 +119,7 @@ const Restaurant: FC<RestaurantProps> = () => {
                 <Modal onPress={() => setIsOpeningHoursModalOpened(!isOpeningHoursModalOpened)} naziv={translate('restaurant-main-opening-hours')}>
                     <View className='flex-1'>
                         {Object.entries(restaurant.openingHours).map((hours, index) => (
-                            <Text className='px-3.5 py-2.5'>{translate('opening-hours-' + hours[0] as keyof typeof selectedTranslations) + ": " + hours[1]}</Text>
+                            <Text key={index} className='px-3.5 py-2.5'>{translate('opening-hours-' + hours[0] as keyof typeof selectedTranslations) + ": " + hours[1]}</Text>
                         ))}
                     </View>
                 </Modal>

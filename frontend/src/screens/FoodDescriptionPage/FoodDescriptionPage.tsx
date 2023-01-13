@@ -44,6 +44,11 @@ const FoodDescriptionPage:FC<FoodDescriptionProps> = () => {
 
     const [rating, setRating] = useState(3);
     const [comment, setComment] = useState("");
+    const [active, setActive] = useState<boolean>(false);
+
+    const handlePress = ():void => {
+        setActive(!active);
+    }
 
     const sendComment = () => {
         //send "comment"
@@ -59,7 +64,7 @@ const FoodDescriptionPage:FC<FoodDescriptionProps> = () => {
             <CustomLayout>
                 <CustomLayout.Header>
                     <View className='flex flex-row-reverse m-5'>
-                        <Heart color={'pink'} fill={'#fca5a5'} size={18} classname={'w-11 h-11 shadow'}/>
+                        <Heart onPress={handlePress} active={active} color={'pink'} fill={'#fca5a5'} size={18} classname={'w-11 h-11 shadow'}/>
                     </View>
                 </CustomLayout.Header>
                 <CustomLayout.Main>
