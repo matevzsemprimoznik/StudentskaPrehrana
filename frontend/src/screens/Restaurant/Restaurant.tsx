@@ -1,5 +1,5 @@
 import {View, Text, ScrollView, TextInput, TouchableOpacity, Linking, Platform} from "react-native";
-import {FC, useMemo, useState} from "react";
+import {FC, useEffect, useMemo, useState} from "react";
 import CustomLayout from "../../components/CustomLayout";
 import {selectedTranslations, translate} from "../../utils/translations/translate";
 import Card from "./Card";
@@ -11,16 +11,28 @@ import SendButton from "../../components/SendButton";
 import {RouteProp, useRoute} from "@react-navigation/native";
 import {RootStackParamList} from "../../components/Navigation/Router";
 import {Routes} from "../../../routes";
-import {useQuery} from "react-query";
-import {Restaurant as IRestaurant} from "../../store/models/Restaurant";
+import {useMutation, useQuery} from "react-query";
+import {CommentSend, RatingSend, Restaurant as IRestaurant} from "../../store/models/Restaurant";
 import HttpError from "../../store/models/HttpError";
 import fetch from "../../utils/fetch";
 import {REST_URI} from "@env";
+import post from "../../utils/post";
 
 
 interface RestaurantProps {}
 
 const Restaurant: FC<RestaurantProps> = () => {
+
+    const postComment = useMutation((comment: CommentSend) => {
+        console.log(comment)
+        return post('/restaurant/comments', comment)
+    })
+
+    const postRating = useMutation((rating: RatingSend) => {
+        console.log(rating)
+        return post('/restaurant/ratings', rating)
+    })
+
     const {params: {restaurantID}} = useRoute<RouteProp<RootStackParamList, Routes.RESTAURANT>>();
     const {data: restaurant, isLoading} = useQuery<IRestaurant, HttpError>('restaurant', () => fetch('/restaurant/' + restaurantID))
     const openingHours = useMemo(() => {
@@ -37,16 +49,34 @@ const Restaurant: FC<RestaurantProps> = () => {
     const [rating, setRating] = useState(3);
     const [comment, setComment] = useState("");
 
+    const [ratingRounded, setRatingRounded] = useState(5);
+
+
+    useEffect(() => {
+        console.log("se kliče")
+        if(restaurant && restaurant.ratings && restaurant.ratings.length){
+            const sum = restaurant.ratings.reduce((sum, rating) => sum + parseFloat(rating.rating), 0);
+            const avgRating = sum / restaurant.ratings.length;
+            setRatingRounded(Math.round(avgRating));
+        } else {
+            setRatingRounded(5);
+
+        }
+    }, [restaurant]);
+
+
 
     const sendRating = () => {
+        postRating.mutate({userId: "63c01c8b6edc79428b10b00b", restaurantId: restaurantID, rating: rating})
         setIsOpenRatingModal(false);
-        //send "rating"
+        //reload
     }
 
     const sendComment = () => {
+        postComment.mutate({userId: "63c01c8b6edc79428b10b00b", restaurantId: restaurantID, comment: comment})
         setIsOpenCommentsModal(false);
-        //send "comment"
         setComment("")
+        // reload
 
     }
 
@@ -66,11 +96,8 @@ const Restaurant: FC<RestaurantProps> = () => {
                     <View className='pb-12 pl-5 justify-end flex-1'>
                         <Text className='text-4xl text-custom-white w-5/6'>{restaurant.title}</Text>
                         <View className='flex-row items-center' onTouchEnd={() => setIsOpenRatingModal(!isOpenRatingModal)}>
-                            <StarIcon color="#FEC532" size={18}/>
-                            <StarIcon color="#FEC532" size={18}/>
-                            <StarIcon color="#FEC532" size={18}/>
-                            <StarIcon color="#FEC532" size={18}/>
-                            <Text className='text-custom-white text-xs ml-1'>({restaurant.numberOfReviews})</Text>
+                            {[...Array(ratingRounded)].map((e, i) => <StarIcon color="#FEC532" size={18} key={i}/>)}
+                            <Text className='text-custom-white text-xs ml-1'>({restaurant.ratings.length})</Text>
                         </View>
                     </View>
                 </CustomLayout.Header>
@@ -121,12 +148,13 @@ const Restaurant: FC<RestaurantProps> = () => {
             )}
             {isOpenCommentsModal && (
                 <Modal onPress={() => setIsOpenCommentsModal(!isOpenCommentsModal)} naziv={translate('restaurant-main-comments')}>
-                    <ScrollView className=' mb-5 h-64'><View onStartShouldSetResponder={() => true}>
+                    <ScrollView className=' mb-5 h-64'>
+                        <View onStartShouldSetResponder={() => true}>
                         {restaurant.comments ? restaurant.comments.map((comment, index) => <Comment key={index}
                                                                                           date={comment.date}
                                                                                           comment={comment.comment}/>) :
-                            <Text className='opacity-50'>{translate('no-comments')}</Text>}
-                    </View>
+                            <Text className='opacity-50 text-center mt-5'>{translate('no-comments')}</Text>}
+                        </View>
                     </ScrollView>
                     <View className='w-full rounded-b-xl bg-custom-light-gray p-5'>
                         <View className='flex-row items-center mt-3'>
