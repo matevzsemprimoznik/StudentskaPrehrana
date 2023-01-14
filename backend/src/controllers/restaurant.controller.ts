@@ -32,8 +32,34 @@ const updateById = async (req: Request, res: Response, next: NextFunction) => {
     }
 }
 
+export const saveComment = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        console.log(req.body);
+        const { userId, restaurantId, comment } = req.body
+        const savedComment = await restaurantService.saveComment(userId, restaurantId, comment);
+        return res.status(200).send(savedComment);
+    } catch (err) {
+        console.log(err);
+        next(new ErrorHandler(err));
+    }
+}
+
+export const saveRating = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        console.log(req.body);
+        const { userId, restaurantId, rating } = req.body
+        const savedRating = await restaurantService.saveRating(userId, restaurantId, rating);
+        return res.status(200).send(savedRating);
+    } catch (err) {
+        console.log(err);
+        next(new ErrorHandler(err));
+    }
+}
+
 export default {
     getAll,
     getById,
-    updateById
+    updateById,
+    saveComment,
+    saveRating
 }

@@ -12,6 +12,8 @@ export interface IRestaurant {
     openingHours: IOpeningHours;
     menu: IMenuItem[];
     image: string;
+    comments?: [];
+    ratings?: [];
 }
 
 const RestaurantSchema = new Schema<IRestaurant>({
@@ -24,6 +26,8 @@ const RestaurantSchema = new Schema<IRestaurant>({
     openingHours: OpeningHoursSchema,
     menu: [MenuItemSchema],
     image: {type: String, required: true},
+    comments: [],
+    ratings: []
 })
 
 export default model<IRestaurant>('Restaurant', RestaurantSchema, 'restaurants')
