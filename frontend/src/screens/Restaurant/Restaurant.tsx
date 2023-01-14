@@ -27,7 +27,7 @@ const Restaurant: FC<RestaurantProps> = () => {
     const postComment = useMutation((comment: CommentSend) => {
         console.log(comment)
         return post('/restaurant/comments', comment)
-    })
+    }, {onSuccess: () => refetchRestaurant()})
 
     const postRating = useMutation((rating: RatingSend) => {
         console.log(rating)
@@ -37,7 +37,8 @@ const Restaurant: FC<RestaurantProps> = () => {
     const {params: {restaurantID}} = useRoute<RouteProp<RootStackParamList, Routes.RESTAURANT>>();
     const {
         data: restaurant,
-        isLoading
+        isLoading,
+        refetch: refetchRestaurant
     } = useQuery<IRestaurant, HttpError>('restaurant', () => fetch('/restaurant/' + restaurantID))
     const openingHours = useMemo(() => {
         if (!restaurant) return ''
