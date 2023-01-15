@@ -15,6 +15,7 @@ const authMiddleware = async (req: Request, res: Response, next: NextFunction) =
         if(!user)
             return res.status(401).json({ error: 'Wrong credentials' });
 
+        // @ts-ignore
         req.user = user;
         next();
     }

@@ -1,5 +1,6 @@
 import express from "express";
 import restaurantController from "../controllers/restaurant.controller";
+import authMiddleware from "../middlewares/auth.middleware";
 
 const router = express.Router();
 
