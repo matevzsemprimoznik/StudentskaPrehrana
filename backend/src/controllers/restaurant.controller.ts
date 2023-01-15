@@ -56,10 +56,35 @@ export const saveRating = async (req: Request, res: Response, next: NextFunction
     }
 }
 
+export const saveDishRating = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        console.log(req.body);
+        const { userId, restaurantId, dishName, rating } = req.body
+        const savedRating = await restaurantService.saveDishRating(userId, restaurantId, dishName, rating);
+        return res.status(200).send(savedRating);
+    } catch (err) {
+        console.log(err);
+        next(new ErrorHandler(err));
+    }
+}
+
+export const saveDishComment = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        console.log(req.body);
+        const { userId, restaurantId, dishName, comment } = req.body
+        const savedComment = await restaurantService.saveDishComment(userId, restaurantId, dishName, comment);
+        return res.status(200).send(savedComment);
+    } catch (err) {
+        console.log(err);
+        next(new ErrorHandler(err));
+    }
+}
 export default {
     getAll,
     getById,
     updateById,
     saveComment,
-    saveRating
+    saveRating,
+    saveDishRating,
+    saveDishComment,
 }

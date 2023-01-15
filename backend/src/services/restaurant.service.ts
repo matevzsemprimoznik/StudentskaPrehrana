@@ -1,7 +1,6 @@
 import Restaurant from "../models/restaurant.model";
 import {objectToDotNotation} from "../utils/toDotNotation";
 import {getCurrentDate} from "../utils/date";
-import {HttpError} from "../utils/httpError";
 
 const getAll = async () => {
     return Restaurant.find();
@@ -32,10 +31,31 @@ const saveRating = async (userId: string, restaurantId: string, ratingNumber: st
     return Restaurant.updateOne({ _id: restaurantId }, { $push: { ratings: rating } })
 }
 
+const saveDishRating = async (userId: string, restaurantId: string, dishName: string, ratingNumber: string) => {
+    const rating = {
+        userId: userId,
+        rating: ratingNumber,
+    }
+
+    return Restaurant.updateOne({ _id: restaurantId, 'menu.name': dishName }, { $push: { 'menu.$.ratings': rating } });
+}
+
+const saveDishComment = async (userId: string, restaurantId: string, dishName: string, commentText: string) => {
+        const comment = {
+            userId: userId,
+            comment: commentText,
+            date: getCurrentDate()
+        }
+
+        return Restaurant.updateOne({ _id: restaurantId, 'menu.name': dishName }, { $push: { 'menu.$.comments': comment } });
+}
+
 export default {
     getAll,
     getById,
     updateById,
     saveComment,
-    saveRating
+    saveRating,
+    saveDishRating,
+    saveDishComment
 }
