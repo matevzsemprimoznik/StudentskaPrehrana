@@ -17,6 +17,7 @@ import Map from "../../screens/Map/Map";
 import Profile from "../../screens/Profille/Profile";
 import {Meal, Restaurant as IRestaurant} from "../../store/models/Restaurant";
 import SavedRestaurants from "../../screens/SavedRestaurants/SavedRestaurants";
+import ProtectedRoute from "../../utils/ProtectedRoute";
 
 export type RootStackParamList = {
     [Routes.HOME]: undefined;
@@ -29,7 +30,7 @@ export type RootStackParamList = {
     [Routes.SAVED_RESTAURANTS]: undefined;
 };
 
-const Stack = createNativeStackNavigator<RootStackParamList>();
+export const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const Router = () => {
     const {currentRoute, setCurrentRoute} = useNavigationStore()
@@ -75,7 +76,7 @@ const Router = () => {
                     <Stack.Screen name={Routes.LOGIN} component={Login}/>
                     <Stack.Screen name={Routes.REGISTER} component={Register}/>
                     <Stack.Screen name={Routes.MAP} component={Map}/>
-                    <Stack.Screen name={Routes.PROFILE} component={Profile}/>
+                    <Stack.Screen name={Routes.PROFILE} children={() => <ProtectedRoute><Profile/></ProtectedRoute>}/>
                     <Stack.Screen name={Routes.SAVED_RESTAURANTS} component={SavedRestaurants}/>
                 </Stack.Navigator>
             </NavigationContainer>
