@@ -1,9 +1,9 @@
 import {View, Text, ScrollView, TextInput, TouchableOpacity, Linking, Platform} from "react-native";
-import {FC, useEffect, useMemo, useState} from "react";
+import {FC, useMemo, useState} from "react";
 import CustomLayout from "../../components/CustomLayout";
 import {selectedTranslations, translate} from "../../utils/translations/translate";
 import Card from "./Card";
-import {PhoneIcon, MapPinIcon, ClockIcon, PhotoIcon} from "react-native-heroicons/solid";
+import {PhoneIcon, MapPinIcon, ClockIcon} from "react-native-heroicons/solid";
 import {StarIcon} from "react-native-heroicons/solid";
 import Comment from "../../components/Comment";
 import Modal from "../../components/Modal";
@@ -67,13 +67,13 @@ const Restaurant: FC<RestaurantProps> = () => {
 
 
     const sendRating = () => {
-        postRating.mutate({userId: "63c01c8b6edc79428b10b00b", restaurantId: restaurantID, rating: rating})
+        postRating.mutate({restaurantId: restaurantID, rating: rating})
         setIsOpenRatingModal(false);
         //send "rating"
     }
 
     const sendComment = () => {
-        postComment.mutate({userId: "63c01c8b6edc79428b10b00b", restaurantId: restaurantID, comment: comment})
+        postComment.mutate({restaurantId: restaurantID, comment: comment})
         setIsOpenCommentsModal(false);
         setComment("")
         // reload
@@ -93,7 +93,6 @@ const Restaurant: FC<RestaurantProps> = () => {
         }
     }
 
-    console.log('dlfkgjldfgj')
     if(restaurantIsLoading || !restaurant)
         return <Loading/>
 
@@ -115,9 +114,9 @@ const Restaurant: FC<RestaurantProps> = () => {
                     <View className='mx-2 flex-1'>
                         <View
                             className='absolute -top-10 right-8 rounded-full bg-custom-yellow flex items-center justify-center'
-                            style={{width: 70, height: 70}}>
+                            style={{width: 65, height: 65}}>
                             <Text
-                                className='text-lg text-custom-white font-medium shadow'>{`${parseFloat(restaurant.price).toFixed(2)} €`}</Text>
+                                className='text-custom-white font-medium'>{`${parseFloat(restaurant.price).toFixed(2)} €`}</Text>
                         </View>
                         <View className='mb-1 mt-10 mx-2.5 flex-row justify-between'>
                             <TouchableOpacity onPress={() => setIsOpeningHoursModalOpened(true)}

@@ -71,13 +71,11 @@ export interface Rating{
 }
 
 export interface CommentSend {
-    userId: string;
     restaurantId: string,
     comment: string,
 }
 
 export interface RatingSend {
-    userId: string;
     restaurantId: string,
     rating: number,
 }

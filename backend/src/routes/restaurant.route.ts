@@ -9,8 +9,8 @@ router.get("/:id", restaurantController.getById)
 router.patch("/:id", restaurantController.updateById)
 router.post("/comments", authMiddleware, restaurantController.saveComment)
 router.post("/ratings", authMiddleware, restaurantController.saveRating)
-router.post("/dish-ratings", restaurantController.saveDishRating)
-router.post("/dish-comments", restaurantController.saveDishComment)
+router.post("/dish-ratings", authMiddleware, restaurantController.saveDishRating)
+router.post("/dish-comments", authMiddleware, restaurantController.saveDishComment)
 
 
 export default router;
