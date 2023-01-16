@@ -17,7 +17,7 @@ import Map from "../../screens/Map/Map";
 import Profile from "../../screens/Profille/Profile";
 import SavedRestaurants from "../../screens/SavedRestaurants/SavedDishes";
 import ProtectedRoute from "../../utils/ProtectedRoute";
-import {Meal} from "../../store/models/Restaurant";
+import {Coordinates, Meal} from "../../store/models/Restaurant";
 
 export type RootStackParamList = {
     [Routes.HOME]: undefined;
@@ -25,7 +25,7 @@ export type RootStackParamList = {
     [Routes.RESTAURANT]: { restaurantID: string };
     [Routes.LOGIN]: undefined;
     [Routes.REGISTER]: undefined;
-    [Routes.MAP]: undefined;
+    [Routes.MAP]: Coordinates;
     [Routes.PROFILE]: undefined;
     [Routes.SAVED_DISHES]: undefined;
 };

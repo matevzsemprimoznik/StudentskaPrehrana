@@ -7,6 +7,11 @@ export interface Comment{
     comment: string
 }
 
+export interface Coordinates {
+    latitude: number,
+    longitude: number
+}
+
 interface OpeningHours {
     monday: string,
     tuesday: string,
@@ -49,6 +54,7 @@ export interface HomeRestaurant {
 }
 
 export interface Restaurant extends HomeRestaurant {
+    coordinates: Coordinates
     openingHours: OpeningHours
     address: string
     phone?: string

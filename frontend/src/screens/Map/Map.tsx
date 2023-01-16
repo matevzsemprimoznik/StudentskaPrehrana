@@ -2,10 +2,11 @@ import {FC, useEffect, useMemo, useRef, useState} from "react";
 import * as Location from "expo-location";
 import {CameraRef} from "@rnmapbox/maps/lib/typescript/components/Camera";
 import {View, Text} from "react-native";
+import {RouteProp, useRoute} from "@react-navigation/native";
+import {RootStackParamList} from "../../components/Navigation/Router";
+import {Routes} from "../../../routes";
 
-interface MapProps {
-    route: any;
-}
+interface MapProps {}
 
 const getMapbox = async () => {
     if (!__DEV__) {
@@ -18,7 +19,9 @@ const getMapbox = async () => {
     return null
 }
 
-const Map: FC<MapProps> = ({route}) => {
+const Map: FC<MapProps> = () => {
+    const {params} = useRoute<RouteProp<RootStackParamList, Routes.MAP>>();
+
     const camera = useRef<CameraRef>(null);
     const [currentUserLocation, setCurrentUserLocation] = useState<{ longitude: number, latitude: number } | null>();
     const GenericMapComponent = useMemo(() => <View className='w-full h-full flex-row justify-center'
@@ -52,12 +55,12 @@ const Map: FC<MapProps> = ({route}) => {
             <MapboxGL.Camera
                 ref={camera}
                 zoomLevel={12}
-                centerCoordinate={[route.params.longitude, route.params.latitude]}
+                centerCoordinate={[params.longitude, params.latitude]}
                 animationMode='none'
             />
             <MapboxGL.UserLocation visible/>
             <MapboxGL.PointAnnotation id='restaurant_location' key='restaurant_location'
-                                      coordinate={[route.params.longitude, route.params.latitude]}/>
+                                      coordinate={[params.longitude, params.latitude]}/>
         </MapboxGL.MapView> : null)
 
     }
@@ -69,7 +72,7 @@ const Map: FC<MapProps> = ({route}) => {
 
     useEffect(() => {
         if (camera.current && currentUserLocation) {
-            camera.current.fitBounds([currentUserLocation.longitude, route.params.latitude], [route.params.longitude, currentUserLocation.latitude], 50, 1000)
+            camera.current.fitBounds([currentUserLocation.longitude, params.latitude], [params.longitude, currentUserLocation.latitude], 50, 1000)
         }
     }, [currentUserLocation, NativeMapComponent])
 

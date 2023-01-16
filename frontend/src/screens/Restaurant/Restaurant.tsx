@@ -17,6 +17,7 @@ import HttpError from "../../store/models/HttpError";
 import fetch from "../../utils/fetch";
 import {REST_URI} from "@env";
 import post from "../../utils/post";
+import {navigationRef} from "../../components/Navigation/NavigationBar";
 
 
 interface RestaurantProps {}
@@ -56,20 +57,14 @@ const Restaurant: FC<RestaurantProps> = () => {
     const [rating, setRating] = useState(3);
     const [comment, setComment] = useState("");
 
-    const [ratingRounded, setRatingRounded] = useState(5);
-
-
-    useEffect(() => {
-        console.log("se kliče")
+    const ratingRounded = useMemo(() => {
         if (restaurant && restaurant.ratings && restaurant.ratings.length) {
             const sum = restaurant.ratings.reduce((sum, rating) => sum + parseFloat(rating.rating), 0);
             const avgRating = sum / restaurant.ratings.length;
-            setRatingRounded(Math.round(avgRating));
-        } else {
-            setRatingRounded(5);
-
+            return Math.round(avgRating);
         }
-    }, [restaurant]);
+        return 5;
+    }, [restaurant])
 
 
     const sendRating = () => {
@@ -98,6 +93,7 @@ const Restaurant: FC<RestaurantProps> = () => {
             await Linking.openURL(prefix + restaurant.phone);
         }
     }
+    console.log(restaurant.coordinates)
 
     return (
         <>
@@ -126,11 +122,11 @@ const Restaurant: FC<RestaurantProps> = () => {
                                 <ClockIcon color="#90A8D1" size={20}/>
                                 <Text className='text-xs font-medium mt-2'>{openingHours}</Text>
                             </TouchableOpacity>
-                            <View className='flex items-center'>
+                            <TouchableOpacity onPress={() => navigationRef.navigate(Routes.MAP as never, {...restaurant.coordinates} as never)} className='flex items-center'>
                                 <MapPinIcon color="#D69D9F" size={20}/>
                                 <Text
                                     className='text-xs font-medium mt-2 text-center'>{restaurant.address.replace(',', '\n')}</Text>
-                            </View>
+                            </TouchableOpacity>
                             <TouchableOpacity onPress={openPhoneApp} className='flex items-center'>
                                 <PhoneIcon color="#AC89D9" size={20}/>
                                 <Text
