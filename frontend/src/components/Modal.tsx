@@ -5,7 +5,7 @@ import {
     Text,
     View
 } from "react-native";
-import {FC, useEffect, useRef, useState} from "react";
+import {FC, useEffect, useRef} from "react";
 import {XMarkIcon} from "react-native-heroicons/solid";
 
 
@@ -37,7 +37,7 @@ const Modal:FC<ModalProps> = ({ naziv, children, onPress}) => {
         Animated.timing(fadeAnimationValue, {
             toValue: 0,
             duration: 200,
-            useNativeDriver: true,
+            useNativeDriver: false,
         }).start()
         Animated.timing(translateValue, {
             toValue: offset,

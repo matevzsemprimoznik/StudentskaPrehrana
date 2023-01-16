@@ -24,14 +24,19 @@ import Loading from "../../components/Loading";
 interface RestaurantProps {}
 
 const Restaurant: FC<RestaurantProps> = () => {
+    const [commentSuccess, setCommentSuccess] = useState('');
+    const [ratingSuccess, setRatingSuccess] = useState('');
 
     const postComment = useMutation((comment: CommentSend) => {
         return post('/restaurant/comments', comment)
-    }, {onSuccess: () => refetchRestaurant()})
+    }, {onSuccess: () => {
+        setCommentSuccess('Comment successfully sent');
+        refetchRestaurant();
+    }})
 
     const postRating = useMutation((rating: RatingSend) => {
         return post('/restaurant/ratings', rating)
-    })
+    }, {onSuccess: () => setRatingSuccess('Rating successfully sent')})
 
     const {params: {restaurantID}} = useRoute<RouteProp<RootStackParamList, Routes.RESTAURANT>>();
     const {
@@ -168,10 +173,9 @@ const Restaurant: FC<RestaurantProps> = () => {
                        naziv={translate('restaurant-main-comments')}>
                     <ScrollView className=' mb-5 h-64'>
                         <View onStartShouldSetResponder={() => true}>
-                            {restaurant.comments ? restaurant.comments.map((comment, index) => <Comment key={index}
-                                                                                                        date={comment.date}
-                                                                                                        comment={comment.comment}/>) :
-                                <Text className='opacity-50 text-center mt-5'>{translate('no-comments')}</Text>}
+                            {restaurant.comments.length !== 0 ? restaurant.comments.map((comment, index) =>
+                                    <Comment key={index} date={comment.date} comment={comment.comment}/>) :
+                                    <Text className='opacity-50 text-center mt-5'>{translate('no-comments')}</Text>}
                         </View>
                     </ScrollView>
                     <View className='w-full rounded-b-xl bg-custom-light-gray p-5'>
@@ -181,6 +185,7 @@ const Restaurant: FC<RestaurantProps> = () => {
                                        onChangeText={text => setComment(text)}/>
                             <SendButton onPress={sendComment}/>
                         </View>
+                        <Text className='text-green-500 text-xs ml-2 mt-1'>{commentSuccess}</Text>
                     </View>
                 </Modal>
             )}
@@ -202,6 +207,7 @@ const Restaurant: FC<RestaurantProps> = () => {
                             })}
                             <SendButton onPress={sendRating}/>
                         </View>
+                        <Text className='text-green-500 text-xs mt-1'>{ratingSuccess}</Text>
                     </View>
                 </Modal>
             )}

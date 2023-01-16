@@ -7,7 +7,7 @@ interface ButtonProps {
 }
 const SendButton:FC<ButtonProps> = ({ onPress }) => {
     return (
-        <View className='bg-custom-blue rounded-full h-12 w-16 ml-3 flex items-center justify-center' onTouchEnd={onPress}>
+        <View className='bg-custom-yellow rounded-full h-12 w-16 ml-3 flex items-center justify-center' onTouchEnd={onPress}>
             <PaperAirplaneIcon color="white" size={18}/>
         </View>
     );
