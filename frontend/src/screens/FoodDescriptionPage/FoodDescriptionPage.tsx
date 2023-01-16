@@ -105,20 +105,22 @@ const FoodDescriptionPage:FC<FoodDescriptionProps> = () => {
                                     }) : <Text className='opacity-50'>{translate('no-courses')}</Text>}
                                 </View>
                                 <Text className='text-base font-medium ml-2.5 mb-5 mt-6'>{translate('rate-dish')}</Text>
-                                <View className='flex-row items-center mx-4'>
-                                    <Text className='opacity-50 py-2 mr-3'>{translate('rating')} {rating}</Text>
-                                    {[...Array(5)].map((_, i) => {
-                                        const ratingValue = i + 1;
-                                        return (
-                                            <TouchableOpacity key={ratingValue} onPress={() => setRating(ratingValue)}>
-                                                <StarIcon
-                                                    color={ratingValue <= rating ? '#FEC532' : '#ccc'}
-                                                    size={20}
-                                                />
-                                            </TouchableOpacity>
-                                        );
-                                    })}
-                                    <View className={'left-36 shadow-md rounded-full bg-custom-yellow px-5 py-2 flex-row-reverse'}>
+                                <View className='flex-row ml-4 mr-2 items-center justify-between'>
+                                    <View className='flex-row items-center'>
+                                        <Text className='opacity-50 py-2 mr-3'>{translate('rating')} {rating}</Text>
+                                        {[...Array(5)].map((_, i) => {
+                                            const ratingValue = i + 1;
+                                            return (
+                                                <TouchableOpacity key={ratingValue} onPress={() => setRating(ratingValue)}>
+                                                    <StarIcon
+                                                        color={ratingValue <= rating ? '#FEC532' : '#ccc'}
+                                                        size={20}
+                                                    />
+                                                </TouchableOpacity>
+                                            );
+                                        })}
+                                    </View>
+                                    <View className={'shadow-md rounded-full bg-custom-yellow px-5 py-2 flex-row-reverse'}>
                                         <Button text={translate('send')} onPress={sendRating} classname={'text-xs'}/>
                                     </View>
                                 </View>
@@ -135,11 +137,11 @@ const FoodDescriptionPage:FC<FoodDescriptionProps> = () => {
                                         )
                                         }) : <Text className='opacity-50'>{translate('no-comments')}</Text>}
 
-                                    <View className='flex-row items-center mt-3'>
-                                        <TextInput className='bg-custom-white rounded-full w-3/4 p-[5px] pl-5 h-12' placeholder={translate('comment-placeholder')}
+                                    <View className='flex-row items-center mt-3 justify-between'>
+                                        <TextInput className='bg-custom-white rounded-full w-8/12 p-[5px] pl-5 h-12' placeholder={translate('comment-placeholder')}
                                                    value={comment}
                                                    onChangeText={text => setComment(text)}/>
-                                        <View className={'ml-7 shadow-md rounded-full bg-custom-yellow px-5 py-2'}>
+                                        <View className={'shadow-md rounded-full bg-custom-yellow px-5 py-2'}>
                                             <Button text={translate('send')} onPress={sendComment} classname={'text-xs'}/>
                                         </View>
                                     </View>
