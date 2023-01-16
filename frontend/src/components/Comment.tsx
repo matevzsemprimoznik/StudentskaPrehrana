@@ -14,7 +14,7 @@ const Comment:FC<CommentProps> = ({ date, comment }) => {
     }, []);
 
     return (
-        <View className='bg-custom-white flex-row px-2 py-2.5 my-0.5 rounded-xl'>
+        <View className='bg-custom-white flex-row px-2 py-2.5 my-0.5 rounded-xl flex-wrap'>
             <UserCircleIcon color={randomColor} size={50}/>
             <View className='mx-2'>
                 <Text className='text-custom-yellow text-xs'>{date}</Text>

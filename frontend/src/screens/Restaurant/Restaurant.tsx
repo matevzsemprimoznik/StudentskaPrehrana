@@ -1,5 +1,5 @@
 import {View, Text, ScrollView, TextInput, TouchableOpacity, Linking, Platform} from "react-native";
-import {FC, useEffect, useMemo, useState} from "react";
+import {FC, useMemo, useState} from "react";
 import CustomLayout from "../../components/CustomLayout";
 import {selectedTranslations, translate} from "../../utils/translations/translate";
 import Card from "./Card";
@@ -91,7 +91,6 @@ const Restaurant: FC<RestaurantProps> = () => {
             await Linking.openURL(prefix + restaurant.phone);
         }
     }
-    console.log(restaurant.coordinates)
 
     return (
         <>
@@ -110,9 +109,9 @@ const Restaurant: FC<RestaurantProps> = () => {
                     <View className='mx-2 flex-1'>
                         <View
                             className='absolute -top-10 right-8 rounded-full bg-custom-yellow flex items-center justify-center'
-                            style={{width: 70, height: 70}}>
+                            style={{width: 65, height: 65}}>
                             <Text
-                                className='text-lg text-custom-white font-medium shadow'>{`${parseFloat(restaurant.price).toFixed(2)} €`}</Text>
+                                className='text-custom-white font-medium'>{`${parseFloat(restaurant.price).toFixed(2)} €`}</Text>
                         </View>
                         <View className='mb-1 mt-10 mx-2.5 flex-row justify-between'>
                             <TouchableOpacity onPress={() => setIsOpeningHoursModalOpened(true)}
@@ -153,8 +152,8 @@ const Restaurant: FC<RestaurantProps> = () => {
                        naziv={translate('restaurant-main-opening-hours')}>
                     <View className='flex-1'>
                         {Object.entries(restaurant.openingHours).map((hours, index) => (
-                            <Text key={index}
-                                  className='px-3.5 py-2.5'>{translate('opening-hours-' + hours[0] as keyof typeof selectedTranslations) + ": " + hours[1]}</Text>
+                                translate('opening-hours-' + hours[0] as keyof typeof selectedTranslations) !== undefined &&
+                            <Text key={index} className='px-3.5 py-2.5'>{translate('opening-hours-' + hours[0] as keyof typeof selectedTranslations) + ": " + hours[1]}</Text>
                         ))}
                     </View>
                 </Modal>
