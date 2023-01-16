@@ -29,6 +29,8 @@ const Home: FC<HomeProps> = () => {
         return data.filter(restaurant => restaurant.title.toLowerCase().includes(query.toLowerCase()) && (categoryIndex === 0 || restaurant.extras.includes(categories[categoryIndex])))
     }, [data, query, categoryIndex])
 
+    console.log(data);
+
     return (
         <CustomLayout>
             <CustomLayout.Header>

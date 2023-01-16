@@ -47,13 +47,12 @@ export const updateById = async (req: Request, res: Response, next: NextFunction
 
 export const saveDish = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        console.log(req.body);
         const dish: ISavedDishes = {
             name: req.body.name,
             restaurant: req.body.restaurant,
             image: req.body.image
         }
-        const savedDish = await userService.saveDish(req.body.id, dish);
+        const savedDish = await userService.saveDish(req.user._id, dish);
         return res.status(200).send(savedDish);
     } catch (err) {
         console.log(err);
@@ -62,8 +61,9 @@ export const saveDish = async (req: Request, res: Response, next: NextFunction) 
 }
 
 export const getSavedDishes = async (req: Request, res: Response, next: NextFunction) => {
+    console.log(req.user)
     try {
-        const savedDishes = await userService.getSavedDishes(req.params.id);
+        const savedDishes = await userService.getSavedDishes(req.user._id);
         return res.json(savedDishes);
     } catch (err) {
         console.log(err)

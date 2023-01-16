@@ -15,7 +15,7 @@ interface SavedRestaurantProps {
 }
 
 const SavedDishes: FC<SavedRestaurantProps> = ({navigation}) => {
-    const {data: savedMeals, isLoading} = useQuery<ISavedMealResponse, HttpError>('savedMeals', () => fetch(`/user/${'63c01c8b6edc79428b10b00b'}/savedDishes`))
+    const {data: savedMeals, isLoading} = useQuery<ISavedMealResponse, HttpError>('savedMeals', () => fetch(`/user/savedDishes`))
 
     return (
             <CustomLayout>

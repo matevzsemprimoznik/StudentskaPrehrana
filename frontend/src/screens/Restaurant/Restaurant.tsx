@@ -39,7 +39,7 @@ const Restaurant: FC<RestaurantProps> = () => {
         refetch: refetchRestaurant
     } = useQuery<IRestaurant, HttpError>('restaurant', () => fetch('/restaurant/' + restaurantID))
 
-    const {data: savedMeals} = useQuery<ISavedMealResponse, HttpError>('savedMeals', () => fetch(`/user/${'63c01c8b6edc79428b10b00b'}/savedDishes`))
+    const {data: savedMeals} = useQuery<ISavedMealResponse, HttpError>('savedMeals', () => fetch(`/user/savedDishes`))
 
     const openingHours = useMemo(() => {
         if (!restaurant) return ''
@@ -66,13 +66,13 @@ const Restaurant: FC<RestaurantProps> = () => {
 
 
     const sendRating = () => {
-        postRating.mutate({userId: "63c01c8b6edc79428b10b00b", restaurantId: restaurantID, rating: rating})
+        postRating.mutate({restaurantId: restaurantID, rating: rating})
         setIsOpenRatingModal(false);
         //send "rating"
     }
 
     const sendComment = () => {
-        postComment.mutate({userId: "63c01c8b6edc79428b10b00b", restaurantId: restaurantID, comment: comment})
+        postComment.mutate({restaurantId: restaurantID, comment: comment})
         setIsOpenCommentsModal(false);
         setComment("")
         // reload

@@ -18,7 +18,7 @@ import {Routes} from "../../../routes";
 import {processText} from "../../utils/processText";
 import Button from "../../components/Button";
 import {useMutation} from "react-query";
-import {CommentDishSend, CommentSend, RatingDishSend, RatingSend} from "../../store/models/Restaurant";
+import {CommentDishSend, RatingDishSend} from "../../store/models/Restaurant";
 import post from "../../utils/post";
 
 interface FoodDescriptionProps {
@@ -47,6 +47,8 @@ const menu = {
 }
 const FoodDescriptionPage:FC<FoodDescriptionProps> = () => {
     const {params: {dish, price, restaurantID}} = useRoute<RouteProp<RootStackParamList, Routes.FOOD_DESCRIPTION_PAGE>>();
+    const [commentSuccess, setCommentSuccess] = useState('');
+    const [ratingSuccess, setRatingSuccess] = useState('');
 
     const [isOpenModal, setIsOpenModal] = useState(false);
 
@@ -56,23 +58,23 @@ const FoodDescriptionPage:FC<FoodDescriptionProps> = () => {
 
     const postComment = useMutation((comment: CommentDishSend) => {
         return post('/restaurant/dish-comments', comment)
-    })
+    }, {onSuccess: () => setCommentSuccess('Comment successfully sent')});
 
     const postRating = useMutation((rating: RatingDishSend) => {
         return post('/restaurant/dish-ratings', rating)
-    })
+    }, {onSuccess: () => setRatingSuccess('Rating successfully sent')})
 
     const handlePress = ():void => {
         setActive(!active);
     }
 
     const sendComment = () => {
-        postComment.mutate({userId: "kjfgjghfgh", comment, dishName: dish.name, restaurantId: restaurantID})
+        postComment.mutate({comment, dishName: dish.name, restaurantId: restaurantID})
         setComment("")
     }
 
     const sendRating = () => {
-        postRating.mutate({userId: "kjfgjghfgh", rating, dishName: dish.name, restaurantId: restaurantID})
+        postRating.mutate({rating, dishName: dish.name, restaurantId: restaurantID})
         setRating(3)
     }
 
@@ -105,23 +107,26 @@ const FoodDescriptionPage:FC<FoodDescriptionProps> = () => {
                                     }) : <Text className='opacity-50'>{translate('no-courses')}</Text>}
                                 </View>
                                 <Text className='text-base font-medium ml-2.5 mb-5 mt-6'>{translate('rate-dish')}</Text>
-                                <View className='flex-row items-center mx-4'>
-                                    <Text className='opacity-50 py-2 mr-3'>{translate('rating')} {rating}</Text>
-                                    {[...Array(5)].map((_, i) => {
-                                        const ratingValue = i + 1;
-                                        return (
-                                            <TouchableOpacity key={ratingValue} onPress={() => setRating(ratingValue)}>
-                                                <StarIcon
-                                                    color={ratingValue <= rating ? '#FEC532' : '#ccc'}
-                                                    size={20}
-                                                />
-                                            </TouchableOpacity>
-                                        );
-                                    })}
-                                    <View className={'left-36 shadow-md rounded-full bg-custom-yellow px-5 py-2 flex-row-reverse'}>
+                                <View className='flex-row ml-4 mr-2 items-center justify-between'>
+                                    <View className='flex-row items-center'>
+                                        <Text className='opacity-50 py-2 mr-3'>{translate('rating')} {rating}</Text>
+                                        {[...Array(5)].map((_, i) => {
+                                            const ratingValue = i + 1;
+                                            return (
+                                                <TouchableOpacity key={ratingValue} onPress={() => setRating(ratingValue)}>
+                                                    <StarIcon
+                                                        color={ratingValue <= rating ? '#FEC532' : '#ccc'}
+                                                        size={20}
+                                                    />
+                                                </TouchableOpacity>
+                                            );
+                                        })}
+                                    </View>
+                                    <View className={'shadow-md rounded-full bg-custom-yellow px-5 py-2 flex-row-reverse'}>
                                         <Button text={translate('send')} onPress={sendRating} classname={'text-xs'}/>
                                     </View>
                                 </View>
+                                <Text className='text-green-500 text-xs ml-3 mt-1'>{ratingSuccess}</Text>
                                 <Text className='text-base font-medium mb-5 mt-6 ml-2.5'>{translate('food-picture-header')}</Text>
                                 <ImageList images={menu.images}/>
                                 <View className='-mt-6 flex-row flex-row-reverse right-3'>
@@ -135,15 +140,15 @@ const FoodDescriptionPage:FC<FoodDescriptionProps> = () => {
                                         )
                                         }) : <Text className='opacity-50'>{translate('no-comments')}</Text>}
 
-                                    <View className='flex-row items-center mt-3'>
-                                        <TextInput className='bg-custom-white rounded-full w-3/4 p-[5px] pl-5 h-12' placeholder={translate('comment-placeholder')}
+                                    <View className='flex-row items-center mt-3 justify-between'>
+                                        <TextInput className='bg-custom-white rounded-full w-8/12 p-[5px] pl-5 h-12' placeholder={translate('comment-placeholder')}
                                                    value={comment}
                                                    onChangeText={text => setComment(text)}/>
-                                        <View className={'ml-7 shadow-md rounded-full bg-custom-yellow px-5 py-2'}>
+                                        <View className={'shadow-md rounded-full bg-custom-yellow px-5 py-2'}>
                                             <Button text={translate('send')} onPress={sendComment} classname={'text-xs'}/>
                                         </View>
                                     </View>
-
+                                    <Text className='text-green-500 text-xs ml-1 mt-1'>{commentSuccess}</Text>
                                 </View>
                             </ScrollView>
                         </View>
