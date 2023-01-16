@@ -48,7 +48,6 @@ const Modal:FC<ModalProps> = ({ naziv, children, onPress}) => {
 
     const onPressHandler = (e: GestureResponderEvent) => {
         e.stopPropagation()
-        endAnimation()
         onPress()
     }
 
