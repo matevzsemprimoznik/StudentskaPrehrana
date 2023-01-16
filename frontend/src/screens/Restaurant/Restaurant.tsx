@@ -169,10 +169,9 @@ const Restaurant: FC<RestaurantProps> = () => {
                        naziv={translate('restaurant-main-comments')}>
                     <ScrollView className=' mb-5 h-64'>
                         <View onStartShouldSetResponder={() => true}>
-                            {restaurant.comments ? restaurant.comments.map((comment, index) => <Comment key={index}
-                                                                                                        date={comment.date}
-                                                                                                        comment={comment.comment}/>) :
-                                <Text className='opacity-50 text-center mt-5'>{translate('no-comments')}</Text>}
+                            {restaurant.comments.length !== 0 ? restaurant.comments.map((comment, index) =>
+                                    <Comment key={index} date={comment.date} comment={comment.comment}/>) :
+                                    <Text className='opacity-50 text-center mt-5'>{translate('no-comments')}</Text>}
                         </View>
                     </ScrollView>
                     <View className='w-full rounded-b-xl bg-custom-light-gray p-5'>
