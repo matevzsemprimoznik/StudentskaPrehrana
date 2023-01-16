@@ -17,10 +17,11 @@ import Map from "../../screens/Map/Map";
 import Profile from "../../screens/Profille/Profile";
 import SavedRestaurants from "../../screens/SavedRestaurants/SavedDishes";
 import ProtectedRoute from "../../utils/ProtectedRoute";
+import {Meal} from "../../store/models/Restaurant";
 
 export type RootStackParamList = {
     [Routes.HOME]: undefined;
-    [Routes.FOOD_DESCRIPTION_PAGE]: undefined;
+    [Routes.FOOD_DESCRIPTION_PAGE]: { dish: Meal, price: string };
     [Routes.RESTAURANT]: { restaurantID: string };
     [Routes.LOGIN]: undefined;
     [Routes.REGISTER]: undefined;

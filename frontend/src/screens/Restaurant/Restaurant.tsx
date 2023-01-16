@@ -145,7 +145,8 @@ const Restaurant: FC<RestaurantProps> = () => {
                         </View>
                         {restaurant.menu.length !== 0 ? <ScrollView className='flex-1'>
                             <View className='flex-row justify-between flex-wrap pb-3 px-1'>
-                                {restaurant.menu.map((dish, index) => <Card key={index} dish={dish} isSaved={isDishSaved(dish.name)}
+                                {restaurant.menu.map((dish, index) => <Card price={restaurant.price} key={index} dish={dish} isSaved={isDishSaved(dish.name)}
+                                                                            restaurantName={restaurant.title}
                                 />)}</View>
                         </ScrollView> : <View className='pt-10' style={{alignItems: 'center'}}><Text
                             className='opacity-50 w-72 text-center'>{translate('restaurant-main-no-menu')}</Text></View>}

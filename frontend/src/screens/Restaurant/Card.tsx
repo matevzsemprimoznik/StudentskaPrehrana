@@ -15,9 +15,10 @@ interface CardProps{
     dish: Meal;
     restaurantName: string;
     isSaved: boolean;
+    price: string;
 }
 
-const Card:FC<CardProps> = ({dish, restaurantName, isSaved}) => {
+const Card:FC<CardProps> = ({dish, restaurantName, isSaved, price}) => {
 
     const saveDish = useMutation((dish: SavedMeal) => {
         console.log(dish)
