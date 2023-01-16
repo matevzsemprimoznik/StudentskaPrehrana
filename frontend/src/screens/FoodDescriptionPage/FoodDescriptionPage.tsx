@@ -17,6 +17,9 @@ import {RootStackParamList} from "../../components/Navigation/Router";
 import {Routes} from "../../../routes";
 import {processText} from "../../utils/processText";
 import Button from "../../components/Button";
+import {useMutation} from "react-query";
+import {CommentDishSend, CommentSend, RatingDishSend, RatingSend} from "../../store/models/Restaurant";
+import post from "../../utils/post";
 
 interface FoodDescriptionProps {
 
@@ -43,7 +46,7 @@ const menu = {
     ]
 }
 const FoodDescriptionPage:FC<FoodDescriptionProps> = () => {
-    const {params: {dish, price}} = useRoute<RouteProp<RootStackParamList, Routes.FOOD_DESCRIPTION_PAGE>>();
+    const {params: {dish, price, restaurantID}} = useRoute<RouteProp<RootStackParamList, Routes.FOOD_DESCRIPTION_PAGE>>();
 
     const [isOpenModal, setIsOpenModal] = useState(false);
 
@@ -51,20 +54,27 @@ const FoodDescriptionPage:FC<FoodDescriptionProps> = () => {
     const [comment, setComment] = useState("");
     const [active, setActive] = useState<boolean>(false);
 
+    const postComment = useMutation((comment: CommentDishSend) => {
+        return post('/restaurant/dish-comments', comment)
+    })
+
+    const postRating = useMutation((rating: RatingDishSend) => {
+        return post('/restaurant/dish-ratings', rating)
+    })
+
     const handlePress = ():void => {
         setActive(!active);
     }
 
     const sendComment = () => {
-        //send "comment"
+        postComment.mutate({userId: "kjfgjghfgh", comment, dishName: dish.name, restaurantId: restaurantID})
         setComment("")
     }
 
     const sendRating = () => {
-        //send "rating"
+        postRating.mutate({userId: "kjfgjghfgh", rating, dishName: dish.name, restaurantId: restaurantID})
+        setRating(3)
     }
-
-    console.log(dish);
 
     return (
         <>

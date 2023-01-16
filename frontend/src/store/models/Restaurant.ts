@@ -81,3 +81,11 @@ export interface RatingSend {
     restaurantId: string,
     rating: number,
 }
+
+export interface CommentDishSend extends CommentSend {
+    dishName: string
+}
+
+export interface RatingDishSend extends RatingSend {
+    dishName: string
+}

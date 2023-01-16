@@ -25,12 +25,10 @@ interface RestaurantProps {}
 const Restaurant: FC<RestaurantProps> = () => {
 
     const postComment = useMutation((comment: CommentSend) => {
-        console.log(comment)
         return post('/restaurant/comments', comment)
     }, {onSuccess: () => refetchRestaurant()})
 
     const postRating = useMutation((rating: RatingSend) => {
-        console.log(rating)
         return post('/restaurant/ratings', rating)
     })
 
@@ -141,7 +139,7 @@ const Restaurant: FC<RestaurantProps> = () => {
                         </View>
                         {restaurant.menu.length !== 0 ? <ScrollView className='flex-1'>
                             <View className='flex-row justify-between flex-wrap pb-3 px-1'>
-                                {restaurant.menu.map((dish, index) => <Card price={restaurant.price} key={index} dish={dish} isSaved={isDishSaved(dish.name)}
+                                {restaurant.menu.map((dish, index) => <Card restaurantID={restaurantID} price={restaurant.price} key={index} dish={dish} isSaved={isDishSaved(dish.name)}
                                                                             restaurantName={restaurant.title}
                                 />)}</View>
                         </ScrollView> : <View className='pt-10' style={{alignItems: 'center'}}><Text
