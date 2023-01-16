@@ -1,4 +1,4 @@
-import {View, Text, ScrollView} from "react-native";
+import {View, Text, ScrollView, FlatList} from "react-native";
 import {FC, useMemo, useState} from "react";
 import CustomLayout from "../../components/CustomLayout";
 import SearchBar from "../../components/SearchBar";
@@ -13,6 +13,7 @@ import Loading from "../../components/Loading";
 
 interface HomeProps {
 }
+
 const Home: FC<HomeProps> = () => {
     const {data, isLoading} = useQuery<HomeRestaurant[], HttpError>('restaurants', () => fetch('/restaurant/all'))
     const [query, setQuery] = useState('')
@@ -21,13 +22,14 @@ const Home: FC<HomeProps> = () => {
     const categories = useMemo(() => {
         const categories = data?.flatMap(restaurant => restaurant.extras)
         const allCategory = translate('categories-all')
-        return categories ? [...new Set([ allCategory, ...categories])] : [allCategory]
+        return categories ? [...new Set([allCategory, ...categories])] : [allCategory]
     }, [data])
 
     const restaurants = useMemo(() => {
-        if(!data) return []
+        if (!data) return []
         return data.filter(restaurant => restaurant.title.toLowerCase().includes(query.toLowerCase()) && (categoryIndex === 0 || restaurant.extras.includes(categories[categoryIndex])))
     }, [data, query, categoryIndex])
+
 
     return (
         <CustomLayout>
@@ -39,13 +41,16 @@ const Home: FC<HomeProps> = () => {
             </CustomLayout.Header>
             <CustomLayout.Main>
                 <View className='mx-2 flex-1'>
-                    <CategoryList values={categories} setSelectedIndex={setCategoryIndex} selectedIndex={categoryIndex}/>
+                    <CategoryList values={categories} setSelectedIndex={setCategoryIndex}
+                                  selectedIndex={categoryIndex}/>
                     <Text className='text-lg font-medium mb-5 mt-6 ml-2.5'>{translate('home-main-title')}</Text>
-                    {isLoading ? <Loading/> : <ScrollView className='flex-1'>
-                        <View className='flex-row justify-between flex-wrap pb-3'>
-                            {restaurants?.slice(0, 10).map((restaurant, index) => <Card key={index} restaurant={restaurant} ratingColor={'text-custom-white'}/>)}
-                        </View>
-                    </ScrollView>}
+                    {isLoading ? <Loading/> :
+                        <FlatList
+                            numColumns={2}
+                            data={restaurants}
+                            renderItem={({item, index}) => <Card key={index} restaurant={item}
+                                                                 ratingColor={'text-custom-white'}/>}
+                        />}
                 </View>
             </CustomLayout.Main>
         </CustomLayout>
