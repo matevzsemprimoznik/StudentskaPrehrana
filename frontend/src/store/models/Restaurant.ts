@@ -46,6 +46,7 @@ export interface ISavedMealResponse {
 }
 
 export interface HomeRestaurant {
+    extras: string[]
     _id: string;
     title: string,
     image?: ImageSourcePropType,
