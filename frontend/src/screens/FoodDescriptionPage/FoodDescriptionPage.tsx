@@ -1,4 +1,4 @@
-import {FC, useState} from 'react';
+import {FC, useMemo, useState} from 'react';
 import {ScrollView, Text, TextInput, TouchableOpacity, View} from "react-native";
 import {translate} from "../../utils/translations/translate";
 import CustomLayout from "../../components/CustomLayout";
@@ -23,27 +23,6 @@ import post from "../../utils/post";
 
 interface FoodDescriptionProps {
 
-}
-
-const menu = {
-    name: 'Kmečka pica',
-    image: require('../../assets/pica.png'),
-    allergens: ['gluten', 'milk'],
-    images: [require('../../assets/pica1.png'), require('../../assets/pica2.png'), require('../../assets/pica3.png')],
-    comments: [
-        {
-            date: '1.12.2022',
-            comment:'Pizza was great, but the delivery was late.'
-        },
-        {
-            date: '1.1.2022',
-            comment: 'Pizza was delicious and would order again.'
-        },
-        {
-            date: '13.12.2021',
-            comment: 'Fine, but not the best pizza I have ever had.'
-        }
-    ]
 }
 const FoodDescriptionPage:FC<FoodDescriptionProps> = () => {
     const {params: {dish, price, restaurantID}} = useRoute<RouteProp<RootStackParamList, Routes.FOOD_DESCRIPTION_PAGE>>();
@@ -78,6 +57,15 @@ const FoodDescriptionPage:FC<FoodDescriptionProps> = () => {
         setRating(3)
     }
 
+    const ratingRounded = useMemo(() => {
+        if (dish && dish.ratings && dish.ratings.length) {
+            const sum = dish.ratings.reduce((sum, rating) => sum + parseFloat(rating.rating), 0);
+            const avgRating = sum / dish.ratings.length;
+            return Math.round(avgRating);
+        }
+        return 5;
+    }, [dish])
+
     return (
         <>
             <CustomLayout>
@@ -88,12 +76,12 @@ const FoodDescriptionPage:FC<FoodDescriptionProps> = () => {
                 </CustomLayout.Header>
                 <CustomLayout.Main>
                     <View className='flex-1 -mt-24'>
-                        <FoodImageCircle foodImage={menu.image}/>
+                        <FoodImageCircle foodImages={dish?.images}/>
                         <View className='mx-2 flex-1 mt-6'>
                             <Text className='text-lg font-medium text-center mb-5 mx-2.5'>{processText(dish.name)}</Text>
                             <View className='items-center'>
                                 <View className='flex-row'>
-                                    <Rating rating={4.8} numberOfReviews={230} color={'text-custom-black'}/>
+                                    <Rating rating={ratingRounded} numberOfReviews={dish.ratings.length} color={'text-custom-black'}/>
                                     <Price classname={'ml-14'} price={price}/>
                                 </View>
                             </View>
@@ -126,18 +114,17 @@ const FoodDescriptionPage:FC<FoodDescriptionProps> = () => {
                                 </View>
                                 <Text className='text-green-500 text-xs ml-3 mt-1'>{ratingSuccess}</Text>
                                 <Text className='text-base font-medium mb-5 mt-6 ml-2.5'>{translate('food-picture-header')}</Text>
-                                <ImageList images={menu.images}/>
+                                <ImageList images={dish.images}/>
                                 <View className='-mt-6 flex-row flex-row-reverse right-3'>
                                     <ImageUpload onPress={() => setIsOpenModal(!isOpenModal)}/>
                                 </View>
                                 <Text className='text-base font-medium mb-5 ml-2.5 mt-3'>{translate('comments-header')}</Text>
                                 <View className='mx-4 mb-5'>
-                                    {menu.comments.length ? menu.comments.map((comment:any, index) => {
+                                    {(dish.comments && dish.comments.length) ? dish.comments.map((comment:any, index) => {
                                         return (
                                             <Comment key={index} date={comment.date} comment={comment.comment}/>
                                         )
                                         }) : <Text className='opacity-50'>{translate('no-comments')}</Text>}
-
                                     <View className='flex-row items-center mt-3'>
                                         <TextInput className='bg-custom-white rounded-full w-3/4 p-[5px] pl-5 h-12' placeholder={translate('comment-placeholder')}
                                                    value={comment}
@@ -146,7 +133,7 @@ const FoodDescriptionPage:FC<FoodDescriptionProps> = () => {
                                             <Button text={translate('send')} onPress={sendComment} classname={'text-xs'}/>
                                         </View>
                                     </View>
-                                    <Text className='text-green-500 text-xs ml-1 mt-1'>{commentSuccess}</Text>
+                                    <Text className='text-green-500 text-xs ml-2 mt-1'>{commentSuccess}</Text>
                                 </View>
                             </ScrollView>
                         </View>

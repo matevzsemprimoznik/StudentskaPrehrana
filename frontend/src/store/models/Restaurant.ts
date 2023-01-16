@@ -29,8 +29,8 @@ export interface Meal {
     images?: string[]
     description?: string
     numberOfReviews?: number
-    rating?: number
-    comments?: Comment[]
+    ratings: Rating[]
+    comments: Comment[]
 }
 
 export interface SavedMeal {

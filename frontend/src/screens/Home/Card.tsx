@@ -1,5 +1,5 @@
 import {FC} from "react";
-import {Image, ImageSourcePropType, Text, TouchableOpacity, View} from "react-native";
+import {Image, Text, TouchableOpacity, View} from "react-native";
 import Rating from "../../components/Rating";
 import {Routes} from "../../../routes";
 import {navigationRef} from "../../components/Navigation/NavigationBar";
