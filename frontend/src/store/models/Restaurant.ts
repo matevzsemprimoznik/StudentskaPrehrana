@@ -50,8 +50,7 @@ export interface HomeRestaurant {
     _id: string;
     title: string,
     image?: ImageSourcePropType,
-    rating?: number,
-    numberOfReviews?: number,
+    ratings: Rating[]
 }
 
 export interface Restaurant extends HomeRestaurant {
@@ -62,7 +61,6 @@ export interface Restaurant extends HomeRestaurant {
     menu: Meal[]
     price: string;
     comments: Comment[]
-    ratings: Rating[]
 }
 
 export interface Rating{
