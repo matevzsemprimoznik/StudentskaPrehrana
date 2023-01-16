@@ -49,5 +49,6 @@ export const translations = {
         'edit-profile': 'Uredi profil',
         'edit-profile-success': 'Uspešno urejen profil',
         'send': 'Pošlji',
+        'no-saved-dishes': 'Trenutno nimate shranjene nobene jedi'
     }
 }

@@ -15,22 +15,21 @@ import {useMemo, useRef} from "react";
 import {View} from "react-native";
 import Map from "../../screens/Map/Map";
 import Profile from "../../screens/Profille/Profile";
-import {Meal, Restaurant as IRestaurant} from "../../store/models/Restaurant";
-import SavedRestaurants from "../../screens/SavedRestaurants/SavedRestaurants";
+import SavedRestaurants from "../../screens/SavedRestaurants/SavedDishes";
 import ProtectedRoute from "../../utils/ProtectedRoute";
 
 export type RootStackParamList = {
     [Routes.HOME]: undefined;
-    [Routes.FOOD_DESCRIPTION_PAGE]: { dish: Meal, price: string };
+    [Routes.FOOD_DESCRIPTION_PAGE]: undefined;
     [Routes.RESTAURANT]: { restaurantID: string };
     [Routes.LOGIN]: undefined;
     [Routes.REGISTER]: undefined;
     [Routes.MAP]: undefined;
     [Routes.PROFILE]: undefined;
-    [Routes.SAVED_RESTAURANTS]: undefined;
+    [Routes.SAVED_DISHES]: undefined;
 };
 
-export const Stack = createNativeStackNavigator<RootStackParamList>();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const Router = () => {
     const {currentRoute, setCurrentRoute} = useNavigationStore()
@@ -77,7 +76,7 @@ const Router = () => {
                     <Stack.Screen name={Routes.REGISTER} component={Register}/>
                     <Stack.Screen name={Routes.MAP} component={Map}/>
                     <Stack.Screen name={Routes.PROFILE} children={() => <ProtectedRoute><Profile/></ProtectedRoute>}/>
-                    <Stack.Screen name={Routes.SAVED_RESTAURANTS} component={SavedRestaurants}/>
+                    <Stack.Screen name={Routes.SAVED_DISHES} component={SavedRestaurants}/>
                 </Stack.Navigator>
             </NavigationContainer>
         </View>

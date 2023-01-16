@@ -14,6 +14,7 @@ interface HomeProps {
 }
 const Home: FC<HomeProps> = () => {
     const {data} = useQuery<HomeRestaurant[], HttpError>('restaurants', () => fetch('/restaurant/all'))
+    // console.log(data)
     const [query, setQuery] = useState('')
     const [categoryIndex, setCategoryIndex] = useState(0)
 

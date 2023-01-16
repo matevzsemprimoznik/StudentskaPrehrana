@@ -28,6 +28,18 @@ export interface Meal {
     comments?: Comment[]
 }
 
+export interface SavedMeal {
+    id?: string
+    name: string
+    restaurant: string
+    opinion?: string
+    image?: string
+}
+
+export interface ISavedMealResponse {
+    savedDishes: SavedMeal[]
+}
+
 export interface HomeRestaurant {
     _id: string;
     title: string,

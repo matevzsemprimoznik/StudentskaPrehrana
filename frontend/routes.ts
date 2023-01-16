@@ -6,7 +6,7 @@ export enum Routes {
     REGISTER = 'register',
     MAP = 'map',
     PROFILE = 'profile',
-    SAVED_RESTAURANTS = 'savedRestaurants',
+    SAVED_DISHES = 'savedDishes',
 }
 
 export const routesWithoutNavigation = [Routes.LOGIN, Routes.REGISTER];
