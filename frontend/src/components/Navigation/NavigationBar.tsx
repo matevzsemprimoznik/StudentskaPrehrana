@@ -26,8 +26,8 @@ const NavigationBar = () => {
         <TouchableOpacity onPress={() => redirectTo(Routes.HOME)} className='bg-transparent flex-1 justify-center align-middle' style={{ height: '100%', alignItems: 'center'}}>
             <HomeIcon fill={currentRoute === Routes.HOME ? '#FEC532' : '#d2d2d2'} size={30}/>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => redirectTo(Routes.SAVED_RESTAURANTS)} className='bg-transparent flex-1 justify-center align-middle' style={{ height: '100%', alignItems: 'center'}}>
-            <HeartIcon fill={currentRoute === Routes.SAVED_RESTAURANTS ? '#FEC532' : '#d2d2d2'}/>
+        <TouchableOpacity onPress={() => redirectTo(Routes.SAVED_DISHES)} className='bg-transparent flex-1 justify-center align-middle' style={{ height: '100%', alignItems: 'center'}}>
+            <HeartIcon fill={currentRoute === Routes.SAVED_DISHES ? '#FEC532' : '#d2d2d2'}/>
         </TouchableOpacity>
     </View>
 }

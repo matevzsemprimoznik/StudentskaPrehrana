@@ -15,8 +15,7 @@ import {useMemo, useRef} from "react";
 import {View} from "react-native";
 import Map from "../../screens/Map/Map";
 import Profile from "../../screens/Profille/Profile";
-import {Restaurant as IRestaurant} from "../../store/models/Restaurant";
-import SavedRestaurants from "../../screens/SavedRestaurants/SavedRestaurants";
+import SavedRestaurants from "../../screens/SavedRestaurants/SavedDishes";
 
 export type RootStackParamList = {
     [Routes.HOME]: undefined;
@@ -26,7 +25,7 @@ export type RootStackParamList = {
     [Routes.REGISTER]: undefined;
     [Routes.MAP]: undefined;
     [Routes.PROFILE]: undefined;
-    [Routes.SAVED_RESTAURANTS]: undefined;
+    [Routes.SAVED_DISHES]: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -76,7 +75,7 @@ const Router = () => {
                     <Stack.Screen name={Routes.REGISTER} component={Register}/>
                     <Stack.Screen name={Routes.MAP} component={Map}/>
                     <Stack.Screen name={Routes.PROFILE} component={Profile}/>
-                    <Stack.Screen name={Routes.SAVED_RESTAURANTS} component={SavedRestaurants}/>
+                    <Stack.Screen name={Routes.SAVED_DISHES} component={SavedRestaurants}/>
                 </Stack.Navigator>
             </NavigationContainer>
         </View>

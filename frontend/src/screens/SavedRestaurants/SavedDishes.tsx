@@ -14,9 +14,7 @@ interface SavedRestaurantProps {
     navigation: any;
 }
 
-const SavedRestaurant: FC<SavedRestaurantProps> = ({navigation}) => {
-
-
+const SavedDishes: FC<SavedRestaurantProps> = ({navigation}) => {
     const {data: savedMeals, isLoading} = useQuery<ISavedMealResponse, HttpError>('savedMeals', () => fetch(`/user/${'63c01c8b6edc79428b10b00b'}/savedDishes`))
 
     return (
@@ -28,8 +26,8 @@ const SavedRestaurant: FC<SavedRestaurantProps> = ({navigation}) => {
                 </CustomLayout.Header>
                 <CustomLayout.Main>
                     <View className='mx-2 flex-1'>
-                        <View className='absolute -top-14 right-8 rounded-full bg-custom-white h-20 w-20 flex items-center justify-center'>
-                            <HeartIcon color='#D69D9F' size={40}/>
+                        <View className='absolute -top-10 right-8 rounded-full bg-custom-white h-16 w-16 flex items-center justify-center'>
+                            <HeartIcon color='#D69D9F' size={35}/>
                         </View>
                         <ScrollView className='flex-1 mt-12'>
                             <View className='flex-row justify-between flex-wrap pb-3 px-1'>
@@ -42,4 +40,4 @@ const SavedRestaurant: FC<SavedRestaurantProps> = ({navigation}) => {
             </CustomLayout>
     );
 }
-export default SavedRestaurant;
+export default SavedDishes;
