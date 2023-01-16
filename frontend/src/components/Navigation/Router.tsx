@@ -12,7 +12,7 @@ import Login from "../../screens/Login/Login";
 import Register from "../../screens/Register/Register";
 import {useSafeAreaFrame, useSafeAreaInsets} from "react-native-safe-area-context";
 import {useMemo, useRef} from "react";
-import {View} from "react-native";
+import {StatusBar, View} from "react-native";
 import Map from "../../screens/Map/Map";
 import Profile from "../../screens/Profille/Profile";
 import SavedRestaurants from "../../screens/SavedRestaurants/SavedDishes";
@@ -64,6 +64,7 @@ const Router = () => {
 
     return <View className='flex-1'>
         <View className='absolute top-0 left-0 right-0 -z-50 bg-custom-yellow' style={{height: insets.top}}/>
+        <StatusBar barStyle='dark-content' backgroundColor='#FEC532FF'/>
         <View className='bg-custom-yellow' style={{
             height: initialFrame.current.height - insets.top - insets.bottom - (showNavigationBar ? 60 : 0),
             marginTop: insets.top

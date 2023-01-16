@@ -9,12 +9,12 @@ import {useQuery} from "react-query";
 import fetch from "../../utils/fetch";
 import {HomeRestaurant} from "../../store/models/Restaurant";
 import HttpError from "../../store/models/HttpError";
+import Loading from "../../components/Loading";
 
 interface HomeProps {
 }
 const Home: FC<HomeProps> = () => {
-    const {data} = useQuery<HomeRestaurant[], HttpError>('restaurants', () => fetch('/restaurant/all'))
-    // console.log(data)
+    const {data, isLoading} = useQuery<HomeRestaurant[], HttpError>('restaurants', () => fetch('/restaurant/all'))
     const [query, setQuery] = useState('')
     const [categoryIndex, setCategoryIndex] = useState(0)
 
@@ -29,6 +29,7 @@ const Home: FC<HomeProps> = () => {
         return data.filter(restaurant => restaurant.title.toLowerCase().includes(query.toLowerCase()) && (categoryIndex === 0 || restaurant.extras.includes(categories[categoryIndex])))
     }, [data, query, categoryIndex])
 
+
     return (
         <CustomLayout>
             <CustomLayout.Header>
@@ -41,11 +42,11 @@ const Home: FC<HomeProps> = () => {
                 <View className='mx-2 flex-1'>
                     <CategoryList values={categories} setSelectedIndex={setCategoryIndex} selectedIndex={categoryIndex}/>
                     <Text className='text-lg font-medium mb-5 mt-6 ml-2.5'>{translate('home-main-title')}</Text>
-                    <ScrollView className='flex-1'>
+                    {isLoading ? <Loading/> : <ScrollView className='flex-1'>
                         <View className='flex-row justify-between flex-wrap pb-3'>
                             {restaurants?.slice(0, 10).map((restaurant, index) => <Card key={index} restaurant={restaurant} ratingColor={'text-custom-white'}/>)}
                         </View>
-                    </ScrollView>
+                    </ScrollView>}
                 </View>
             </CustomLayout.Main>
         </CustomLayout>

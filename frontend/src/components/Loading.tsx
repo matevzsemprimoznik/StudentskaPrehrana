@@ -6,8 +6,8 @@ interface LoadingProps {
 }
 const Loading:FC<LoadingProps> = ({ className}) => {
     return (
-        <View className={className}>
-            <ActivityIndicator/>
+        <View className={'h-full flex-1 justify-center items-center' + className}>
+            <ActivityIndicator size={35} color={'#FEC532FF'}/>
         </View>
     );
 };

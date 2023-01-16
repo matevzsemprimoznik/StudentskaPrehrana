@@ -3,7 +3,7 @@ import {FC, useEffect, useMemo, useState} from "react";
 import CustomLayout from "../../components/CustomLayout";
 import {selectedTranslations, translate} from "../../utils/translations/translate";
 import Card from "./Card";
-import {PhoneIcon, MapPinIcon, ClockIcon} from "react-native-heroicons/solid";
+import {PhoneIcon, MapPinIcon, ClockIcon, PhotoIcon} from "react-native-heroicons/solid";
 import {StarIcon} from "react-native-heroicons/solid";
 import Comment from "../../components/Comment";
 import Modal from "../../components/Modal";
@@ -18,6 +18,7 @@ import fetch from "../../utils/fetch";
 import {REST_URI} from "@env";
 import post from "../../utils/post";
 import {navigationRef} from "../../components/Navigation/NavigationBar";
+import Loading from "../../components/Loading";
 
 
 interface RestaurantProps {}
@@ -35,9 +36,9 @@ const Restaurant: FC<RestaurantProps> = () => {
     const {params: {restaurantID}} = useRoute<RouteProp<RootStackParamList, Routes.RESTAURANT>>();
     const {
         data: restaurant,
-        isLoading,
+        isLoading: restaurantIsLoading,
         refetch: refetchRestaurant
-    } = useQuery<IRestaurant, HttpError>('restaurant', () => fetch('/restaurant/' + restaurantID))
+    } = useQuery<IRestaurant, HttpError>(['restaurant', restaurantID], () => fetch('/restaurant/' + restaurantID))
 
     const {data: savedMeals} = useQuery<ISavedMealResponse, HttpError>('savedMeals', () => fetch(`/user/savedDishes`))
 
@@ -83,15 +84,19 @@ const Restaurant: FC<RestaurantProps> = () => {
         return savedMeals ? savedMeals.savedDishes.some(savedDish => savedDish.name === dishName) : false;
     }
 
-    if(isLoading || !restaurant) return <View><Text>Loading...</Text></View>
+
 
     const openPhoneApp = async () => {
-        if (restaurant.phone) {
+        if (restaurant?.phone) {
             const prefix = Platform.OS === 'ios' ? 'telprompt:' : 'tel:';
             await Linking.openURL(prefix + restaurant.phone);
         }
     }
-    console.log(restaurant.coordinates)
+
+    console.log('dlfkgjldfgj')
+    if(restaurantIsLoading || !restaurant)
+        return <Loading/>
+
 
     return (
         <>

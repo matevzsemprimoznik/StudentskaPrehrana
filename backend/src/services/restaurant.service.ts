@@ -6,7 +6,7 @@ const getAll = async () => {
     return Restaurant.find();
 }
 const getById = async (id: string) => {
-    return Restaurant.findById(id);
+    return Restaurant.findById(id, {'openingHours._id': 0});
 }
 
 const updateById = async (id: string, update: Object) => {

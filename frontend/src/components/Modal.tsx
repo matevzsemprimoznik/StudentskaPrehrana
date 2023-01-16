@@ -24,7 +24,7 @@ const Modal:FC<ModalProps> = ({ naziv, children, onPress}) => {
         Animated.timing(fadeAnimationValue, {
             toValue: 1,
             duration: 200,
-            useNativeDriver: false,
+            useNativeDriver: true,
         }).start()
         Animated.timing(translateValue, {
             toValue: 0,
