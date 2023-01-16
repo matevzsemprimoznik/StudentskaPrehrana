@@ -1,5 +1,5 @@
 import {View, Text, ScrollView, TextInput, TouchableOpacity, Linking, Platform} from "react-native";
-import {FC, useEffect, useMemo, useState} from "react";
+import {FC, useMemo, useState} from "react";
 import CustomLayout from "../../components/CustomLayout";
 import {selectedTranslations, translate} from "../../utils/translations/translate";
 import Card from "./Card";
@@ -66,13 +66,13 @@ const Restaurant: FC<RestaurantProps> = () => {
 
 
     const sendRating = () => {
-        postRating.mutate({userId: "63c01c8b6edc79428b10b00b", restaurantId: restaurantID, rating: rating})
+        postRating.mutate({restaurantId: restaurantID, rating: rating})
         setIsOpenRatingModal(false);
         //send "rating"
     }
 
     const sendComment = () => {
-        postComment.mutate({userId: "63c01c8b6edc79428b10b00b", restaurantId: restaurantID, comment: comment})
+        postComment.mutate({restaurantId: restaurantID, comment: comment})
         setIsOpenCommentsModal(false);
         setComment("")
         // reload

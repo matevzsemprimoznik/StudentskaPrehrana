@@ -60,8 +60,8 @@ export const saveRating = async (req: Request, res: Response, next: NextFunction
 
 export const saveDishRating = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        console.log(req.body);
-        const { userId, restaurantId, dishName, rating } = req.body
+        const userId = req.user._id;
+        const { restaurantId, dishName, rating } = req.body
         const savedRating = await restaurantService.saveDishRating(userId, restaurantId, dishName, rating);
         return res.status(200).send(savedRating);
     } catch (err) {
@@ -72,8 +72,8 @@ export const saveDishRating = async (req: Request, res: Response, next: NextFunc
 
 export const saveDishComment = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        console.log(req.body);
-        const { userId, restaurantId, dishName, comment } = req.body
+        const userId = req.user._id;
+        const { restaurantId, dishName, comment } = req.body
         const savedComment = await restaurantService.saveDishComment(userId, restaurantId, dishName, comment);
         return res.status(200).send(savedComment);
     } catch (err) {

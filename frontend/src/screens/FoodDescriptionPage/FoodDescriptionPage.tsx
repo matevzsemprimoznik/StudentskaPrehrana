@@ -18,7 +18,7 @@ import {Routes} from "../../../routes";
 import {processText} from "../../utils/processText";
 import Button from "../../components/Button";
 import {useMutation} from "react-query";
-import {CommentDishSend, CommentSend, RatingDishSend, RatingSend} from "../../store/models/Restaurant";
+import {CommentDishSend, RatingDishSend} from "../../store/models/Restaurant";
 import post from "../../utils/post";
 
 interface FoodDescriptionProps {
@@ -47,6 +47,8 @@ const menu = {
 }
 const FoodDescriptionPage:FC<FoodDescriptionProps> = () => {
     const {params: {dish, price, restaurantID}} = useRoute<RouteProp<RootStackParamList, Routes.FOOD_DESCRIPTION_PAGE>>();
+    const [commentSuccess, setCommentSuccess] = useState('');
+    const [ratingSuccess, setRatingSuccess] = useState('');
 
     const [isOpenModal, setIsOpenModal] = useState(false);
 
@@ -56,23 +58,23 @@ const FoodDescriptionPage:FC<FoodDescriptionProps> = () => {
 
     const postComment = useMutation((comment: CommentDishSend) => {
         return post('/restaurant/dish-comments', comment)
-    })
+    }, {onSuccess: () => setCommentSuccess('Comment successfully sent')});
 
     const postRating = useMutation((rating: RatingDishSend) => {
         return post('/restaurant/dish-ratings', rating)
-    })
+    }, {onSuccess: () => setRatingSuccess('Rating successfully sent')})
 
     const handlePress = ():void => {
         setActive(!active);
     }
 
     const sendComment = () => {
-        postComment.mutate({userId: "kjfgjghfgh", comment, dishName: dish.name, restaurantId: restaurantID})
+        postComment.mutate({comment, dishName: dish.name, restaurantId: restaurantID})
         setComment("")
     }
 
     const sendRating = () => {
-        postRating.mutate({userId: "kjfgjghfgh", rating, dishName: dish.name, restaurantId: restaurantID})
+        postRating.mutate({rating, dishName: dish.name, restaurantId: restaurantID})
         setRating(3)
     }
 
@@ -122,6 +124,7 @@ const FoodDescriptionPage:FC<FoodDescriptionProps> = () => {
                                         <Button text={translate('send')} onPress={sendRating} classname={'text-xs'}/>
                                     </View>
                                 </View>
+                                <Text className='text-green-500 text-xs ml-3 mt-1'>{ratingSuccess}</Text>
                                 <Text className='text-base font-medium mb-5 mt-6 ml-2.5'>{translate('food-picture-header')}</Text>
                                 <ImageList images={menu.images}/>
                                 <View className='-mt-6 flex-row flex-row-reverse right-3'>
@@ -143,7 +146,7 @@ const FoodDescriptionPage:FC<FoodDescriptionProps> = () => {
                                             <Button text={translate('send')} onPress={sendComment} classname={'text-xs'}/>
                                         </View>
                                     </View>
-
+                                    <Text className='text-green-500 text-xs ml-1 mt-1'>{commentSuccess}</Text>
                                 </View>
                             </ScrollView>
                         </View>
