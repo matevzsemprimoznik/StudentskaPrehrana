@@ -4,6 +4,7 @@ import { REACT_APP_FIREBASE_API_KEY, REACT_APP_FIREBASE_AUTH_DOMAIN, REACT_APP_F
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {getReactNativePersistence, initializeAuth} from 'firebase/auth/react-native';
 import axios from "axios/index";
+import instance from "../utils/axios";
 
 const firebaseConfig = {
     apiKey: REACT_APP_FIREBASE_API_KEY,
@@ -33,7 +34,7 @@ auth.onAuthStateChanged(async (user) => {
     if(user != null) {
         const token = await user.getIdToken(true)
         console.log(user)
-        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        instance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     }
 })
 
