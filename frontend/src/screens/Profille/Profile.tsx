@@ -11,6 +11,7 @@ import {Formik} from "formik";
 import {useMutation} from "react-query";
 import patch from "../../utils/patch";
 import {Errors} from "../../constants/errorConstants";
+import SendButton from "../../components/SendButton";
 
 interface Values {
     name: string;
@@ -90,8 +91,8 @@ const Profile:FC = () => {
                                             {errors.name && <Text className='text-red-500 text-xs'>{errors.name}</Text>}
                                             {errors.surname && <Text className='text-red-500 text-xs'>{errors.surname}</Text>}
                                             <Text className='text-green-600 text-xs'>{succesMessage}</Text>
-                                            <View className='shadow-md rounded-full bg-custom-yellow p-3 mx-20 mt-6'>
-                                                <Button text={'Save'} onPress={handleSubmit} classname={'bold text-custom-white text-center'}/>
+                                            <View className='flex-row justify-center mt-2'>
+                                                <SendButton textClassname='text-white' buttonClassname='w-24 h-12 bg-custom-yellow rounded-full ml-3 items-center justify-center' onPress={handleSubmit} text={translate('save')}/>
                                             </View>
                                         </View>
                                     )}

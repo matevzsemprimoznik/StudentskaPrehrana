@@ -13,6 +13,7 @@ import {Errors, FirebaseErrors} from "../../constants/errorConstants";
 import {useMutation} from "react-query";
 import {User} from "../../store/models/User";
 import post from "../../utils/post";
+import SendButton from "../../components/SendButton";
 
 interface Values {
     name: string;
@@ -133,11 +134,8 @@ const Register: FC = () => {
                                 {errors.confirm_password &&
                                     <Text className='text-red-500 text-xs'>{errors.confirm_password}</Text>}
                             </View>
-                            <View className='flex-row justify-end'>
-                                <View className='mt-3 shadow-md rounded-full bg-custom-yellow px-6 py-3'>
-                                    <Button onPress={handleSubmit} classname={'bold text-custom-white'}
-                                            text={translate('register')}/>
-                                </View>
+                            <View className='flex-row justify-end mt-2'>
+                                <SendButton textClassname='text-white bold' buttonClassname='w-32 h-12 bg-custom-yellow rounded-full ml-3 items-center justify-center' onPress={handleSubmit} text={translate('register')}/>
                             </View>
                         </View>
                     )}

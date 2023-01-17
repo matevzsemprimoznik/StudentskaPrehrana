@@ -70,7 +70,9 @@ const FoodDescriptionPage:FC<FoodDescriptionProps> = () => {
             return;
         }
         const base64img = await toBase64(imageUri);
-        uploadPictureMutation.mutate({dishName: dish.name, image: base64img, restaurantID})
+        uploadPictureMutation.mutate({dishName: dish.name, image: base64img, restaurantID}, {onSuccess: () => {
+            setIsOpenModal(false);
+        }})
     };
 
     const postComment = useMutation((comment: CommentDishSend) => {
@@ -155,9 +157,7 @@ const FoodDescriptionPage:FC<FoodDescriptionProps> = () => {
                                             );
                                         })}
                                     </View>
-                                    <View className={'shadow-md rounded-full bg-custom-yellow px-5 py-2 flex-row-reverse'}>
-                                        <Button text={translate('send')} onPress={sendRating} classname={'text-xs'}/>
-                                    </View>
+                                    <SendButton textClassname='text-xs' buttonClassname='w-16 h-8 bg-custom-yellow rounded-full ml-3 items-center justify-center' loading={postRating.isLoading} onPress={sendRating} text={translate('send')}/>
                                 </View>
                                 <Text className='text-green-500 text-xs ml-3 mt-1'>{ratingSuccess}</Text>
                                 <Text className='text-base font-medium mb-5 mt-6 ml-2.5'>{translate('food-picture-header')}</Text>
@@ -172,13 +172,11 @@ const FoodDescriptionPage:FC<FoodDescriptionProps> = () => {
                                             <Comment key={index} date={comment.date} comment={comment.comment}/>
                                         )
                                         }) : <Text className='opacity-50'>{translate('no-comments')}</Text>}
-                                    <View className='flex-row items-center mt-3'>
-                                        <TextInput className='bg-custom-white rounded-full w-3/4 p-[5px] pl-5 h-12' placeholder={translate('comment-placeholder')}
+                                    <View className='flex-row items-center justify-between mt-3'>
+                                        <TextInput className='bg-custom-white rounded-full w-3/4 pl-5 h-12' placeholder={translate('comment-placeholder')}
                                                    value={comment}
                                                    onChangeText={text => setComment(text)}/>
-                                        <View className={'shadow-md rounded-full bg-custom-yellow px-5 py-2'}>
-                                            <Button text={translate('send')} onPress={sendComment} classname={'text-xs'}/>
-                                        </View>
+                                        <SendButton textClassname='text-xs' buttonClassname='w-16 h-8 bg-custom-yellow rounded-full ml-3 items-center justify-center'  loading={postComment.isLoading} onPress={sendComment} text={translate('send')}/>
                                     </View>
                                     <Text className='text-green-500 text-xs ml-2 mt-1'>{commentSuccess}</Text>
                                 </View>
@@ -199,7 +197,7 @@ const FoodDescriptionPage:FC<FoodDescriptionProps> = () => {
                             <TouchableOpacity className='border-black border-solid border-2 rounded-full h-12 px-3 flex items-center justify-center' onPress={takePicture}>
                                 <Text className='text-black font-medium text-sm'>{translate('food-description-upload-new-image')}</Text>
                             </TouchableOpacity>
-                            <SendButton onPress={uploadPicture} />
+                            <SendButton onPress={uploadPicture} loading={uploadPictureMutation.isLoading}/>
                         </View>}
 
                     </View>

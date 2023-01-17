@@ -11,6 +11,7 @@ import {Routes} from "../../../routes";
 import {Errors, FirebaseErrors} from "../../constants/errorConstants";
 import fetch from "../../utils/fetch";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import SendButton from "../../components/SendButton";
 
 interface Values {
     email: string;
@@ -91,11 +92,8 @@ const Login: FC = () => {
                                 {errors.email && <Text className='text-red-500 text-xs'>{errors.email}</Text>}
                                 {errors.password && <Text className='text-red-500 text-xs'>{errors.password}</Text>}
                             </View>
-                            <View className='flex-row justify-end'>
-                                <View className='mt-1 shadow-md rounded-full bg-custom-yellow px-9 py-3'>
-                                    <Button onPress={handleSubmit} classname={'bold text-custom-white'}
-                                            text={translate('sign-in')}/>
-                                </View>
+                            <View className='flex-row justify-end mt-2'>
+                                <SendButton textClassname='text-white bold' buttonClassname='w-24 h-12 bg-custom-yellow rounded-full ml-3 items-center justify-center' onPress={handleSubmit} text={translate('sign-in')}/>
                             </View>
                         </View>
                     )}

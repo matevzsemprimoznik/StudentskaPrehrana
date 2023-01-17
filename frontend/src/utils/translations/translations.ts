@@ -53,5 +53,6 @@ export const translations = {
         'unauthorized': 'Potrebno se je prijaviti',
         'error': 'Nimate internetne povezave',
         'food-description-upload-new-image': 'Nova slika',
+        'save': 'Shrani',
     }
 }

@@ -21,7 +21,8 @@ import {navigationRef} from "../../components/Navigation/NavigationBar";
 import Loading from "../../components/Loading";
 
 
-interface RestaurantProps {}
+interface RestaurantProps {
+}
 
 const Restaurant: FC<RestaurantProps> = () => {
     const [commentSuccess, setCommentSuccess] = useState('');
@@ -29,10 +30,12 @@ const Restaurant: FC<RestaurantProps> = () => {
 
     const postComment = useMutation((comment: CommentSend) => {
         return post('/restaurant/comments', comment)
-    }, {onSuccess: () => {
-        setCommentSuccess('Comment successfully sent');
-        refetchRestaurant();
-    }})
+    }, {
+        onSuccess: () => {
+            setCommentSuccess('Comment successfully sent');
+            refetchRestaurant();
+        }
+    })
 
     const postRating = useMutation((rating: RatingSend) => {
         return post('/restaurant/ratings', rating)
@@ -72,21 +75,28 @@ const Restaurant: FC<RestaurantProps> = () => {
 
     const menu = useMemo(() => {
         if (!restaurant) return []
-        return restaurant.menu.map(meal => ({...meal, saved: savedMeals?.savedDishes.some(savedDish => savedDish.name === meal.name) || false}))
+        return restaurant.menu.map(meal => ({
+            ...meal,
+            saved: savedMeals?.savedDishes.some(savedDish => savedDish.name === meal.name) || false
+        }))
     }, [restaurant, savedMeals])
 
     const sendRating = () => {
-        postRating.mutate({restaurantId: restaurantID, rating: rating})
-        setIsOpenRatingModal(false);
-        //send "rating"
+        postRating.mutate({restaurantId: restaurantID, rating: rating}, {
+            onSuccess: () => {
+                refetchRestaurant()
+                setIsOpenRatingModal(false)
+            }
+        });
     }
 
     const sendComment = () => {
-        postComment.mutate({restaurantId: restaurantID, comment: comment})
-        setIsOpenCommentsModal(false);
-        setComment("")
-        // reload
-
+        postComment.mutate({restaurantId: restaurantID, comment: comment}, {
+            onSuccess: () => {
+                setComment('');
+                refetchRestaurant();
+            }
+        })
     }
 
 
@@ -97,9 +107,9 @@ const Restaurant: FC<RestaurantProps> = () => {
         }
     }
 
-    if(restaurantIsLoading || !restaurant)
+    console.log(postComment.isLoading)
+    if (restaurantIsLoading || !restaurant)
         return <Loading/>
-
 
     return (
         <>
@@ -128,7 +138,9 @@ const Restaurant: FC<RestaurantProps> = () => {
                                 <ClockIcon color="#90A8D1" size={20}/>
                                 <Text className='text-xs font-medium mt-2'>{openingHours}</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={() => navigationRef.navigate(Routes.MAP as never, {...restaurant.coordinates} as never)} className='flex items-center'>
+                            <TouchableOpacity
+                                onPress={() => navigationRef.navigate(Routes.MAP as never, {...restaurant.coordinates} as never)}
+                                className='flex items-center'>
                                 <MapPinIcon color="#D69D9F" size={20}/>
                                 <Text
                                     className='text-xs font-medium mt-2 text-center'>{restaurant.address.replace(',', '\n')}</Text>
@@ -142,13 +154,15 @@ const Restaurant: FC<RestaurantProps> = () => {
                         </View>
                         <View className='mb-5 mt-6 mx-2.5 flex-row justify-between items-center'>
                             <Text className='text-lg font-medium '>{translate('restaurant-main-title')}</Text>
-                            <TouchableOpacity onPress={() => setIsOpenCommentsModal(!isOpenCommentsModal)} className='p-1'><Text>{translate('restaurant-main-comments')}</Text>
+                            <TouchableOpacity onPress={() => setIsOpenCommentsModal(!isOpenCommentsModal)}
+                                              className='p-1'><Text>{translate('restaurant-main-comments')}</Text>
                             </TouchableOpacity>
                         </View>
                         {menu.length !== 0 ? <ScrollView className='flex-1'>
                             <View className='flex-row justify-between flex-wrap pb-3 px-1'>
-                                {menu.map((dish, index) => <Card restaurantID={restaurantID} price={restaurant.price} key={index} dish={dish}
-                                                                            restaurantName={restaurant.title}
+                                {menu.map((dish, index) => <Card restaurantID={restaurantID} price={restaurant.price}
+                                                                 key={index} dish={dish}
+                                                                 restaurantName={restaurant.title}
                                 />)}</View>
                         </ScrollView> : <View className='pt-10' style={{alignItems: 'center'}}><Text
                             className='opacity-50 w-72 text-center'>{translate('restaurant-main-no-menu')}</Text></View>}
@@ -174,15 +188,16 @@ const Restaurant: FC<RestaurantProps> = () => {
                         <View onStartShouldSetResponder={() => true}>
                             {restaurant.comments.length !== 0 ? restaurant.comments.map((comment, index) =>
                                     <Comment key={index} date={comment.date} comment={comment.comment}/>) :
-                                    <Text className='opacity-50 text-center mt-5'>{translate('no-comments')}</Text>}
+                                <Text className='opacity-50 text-center mt-5'>{translate('no-comments')}</Text>}
                         </View>
                     </ScrollView>
                     <View className='w-full rounded-b-xl bg-custom-light-gray p-5'>
                         <View className='flex-row items-center mt-3'>
                             <TextInput className='bg-custom-white rounded-full w-3/4 p-[5px] pl-5 h-12'
+                                       value={comment}
                                        placeholder={translate('comment-placeholder')}
                                        onChangeText={text => setComment(text)}/>
-                            <SendButton onPress={sendComment}/>
+                            <SendButton onPress={sendComment} loading={postComment.isLoading}/>
                         </View>
                         <Text className='text-green-500 text-xs ml-2 mt-1'>{commentSuccess}</Text>
                     </View>
@@ -191,20 +206,21 @@ const Restaurant: FC<RestaurantProps> = () => {
             {isOpenRatingModal && (
                 <Modal onPress={() => setIsOpenRatingModal(!isOpenRatingModal)} naziv={translate('rate-restaurant')}>
                     <View className='w-full rounded-b-xl bg-custom-light-gray p-5'>
-                        <View className='flex-row items-center space-between'>
+                        <View>
                             <Text className='opacity-50 py-2 mr-3 text-lg'>{translate('rating')} {rating}</Text>
-                            {[...Array(5)].map((_, i) => {
-                                const ratingValue = i + 1;
-                                return (
-                                    <TouchableOpacity key={ratingValue} onPress={() => setRating(ratingValue)}>
-                                        <StarIcon
-                                            color={ratingValue <= rating ? '#FEC532' : '#ccc'}
-                                            size={35}
-                                        />
-                                    </TouchableOpacity>
-                                );
-                            })}
-                            <SendButton onPress={sendRating}/>
+                            <View className='flex-row justify-between items-center'>
+                                <View className='flex-row'>
+                                    {[...Array(5)].map((_, i) =>
+                                        <TouchableOpacity key={i + 1} onPress={() => setRating(i + 1)}>
+                                            <StarIcon
+                                                color={(i + 1) <= rating ? '#FEC532' : '#ccc'}
+                                                size={35}
+                                            />
+                                        </TouchableOpacity>
+                                    )}
+                                </View>
+                                <SendButton onPress={sendRating} loading={postRating.isLoading}/>
+                            </View>
                         </View>
                         <Text className='text-green-500 text-xs mt-1'>{ratingSuccess}</Text>
                     </View>

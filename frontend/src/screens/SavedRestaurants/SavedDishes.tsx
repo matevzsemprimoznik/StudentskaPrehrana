@@ -11,11 +11,9 @@ import fetch from "../../utils/fetch";
 import Loading from "../../components/Loading";
 
 
-interface SavedRestaurantProps {
-    navigation: any;
-}
+interface SavedRestaurantProps {}
 
-const SavedDishes: FC<SavedRestaurantProps> = ({navigation}) => {
+const SavedDishes: FC<SavedRestaurantProps> = () => {
     const {data: savedMeals, isLoading} = useQuery<ISavedMealResponse, HttpError>('savedMeals', () => fetch(`/user/savedDishes`))
 
     console.log(savedMeals)
@@ -33,7 +31,7 @@ const SavedDishes: FC<SavedRestaurantProps> = ({navigation}) => {
                         </View>
                         {isLoading ? <Loading/> : (savedMeals && savedMeals.savedDishes.length !== 0) ? <ScrollView className='flex-1 mt-12'>
                             <View className='flex-row justify-between flex-wrap pb-3 px-1'>
-                                {savedMeals.savedDishes.map((dish, index) => <Card key={index} dish={dish} navigation={navigation}/>)}
+                                {savedMeals.savedDishes.map((dish, index) => <Card key={index} dish={dish}/>)}
                             </View>
                         </ScrollView>: <View className='pt-20' style={{alignItems: 'center'}}><Text className='opacity-50 w-72 text-center'>{translate('no-saved-dishes')}</Text></View>}
 

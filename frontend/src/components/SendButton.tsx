@@ -1,15 +1,21 @@
 import React, {FC} from 'react';
-import {View} from "react-native";
+import {View, Text, TouchableOpacity} from "react-native";
 import {PaperAirplaneIcon} from "react-native-heroicons/solid";
+import Loading from "./Loading";
 
 interface ButtonProps {
     onPress: () => void;
+    loading?: boolean;
+    text?: string
+    buttonClassname?: string;
+    textClassname?: string;
 }
-const SendButton:FC<ButtonProps> = ({ onPress }) => {
+
+const SendButton:FC<ButtonProps> = ({ onPress, loading, text, buttonClassname= '', textClassname= ''}) => {
     return (
-        <View className='bg-custom-yellow rounded-full h-12 w-16 ml-3 flex items-center justify-center' onTouchEnd={onPress}>
-            <PaperAirplaneIcon color="white" size={18}/>
-        </View>
+        <TouchableOpacity className={buttonClassname} onPress={onPress}>
+            {loading ? <Loading color='white' size={20}/> : text ? <Text className={textClassname}>{text}</Text> : <PaperAirplaneIcon color="white" size={18}/>}
+        </TouchableOpacity>
     );
 };
 

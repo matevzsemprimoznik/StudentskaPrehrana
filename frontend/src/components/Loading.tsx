@@ -3,11 +3,13 @@ import {ActivityIndicator, View} from "react-native";
 
 interface LoadingProps {
     className?: string;
+    color?: string;
+    size?: number
 }
-const Loading:FC<LoadingProps> = ({ className}) => {
+const Loading:FC<LoadingProps> = ({ className, color, size}) => {
     return (
         <View className={'h-full flex-1 justify-center items-center' + className}>
-            <ActivityIndicator size={35} color={'#FEC532FF'}/>
+            <ActivityIndicator size={size ? size : 35} color={color ? color : '#FEC532FF'}/>
         </View>
     );
 };
