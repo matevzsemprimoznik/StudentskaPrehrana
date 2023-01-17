@@ -8,6 +8,7 @@ interface ButtonProps {
     classname?: string;
     disabled?: boolean;
 }
+
 const Button:FC<ButtonProps> = ({ children, text, onPress, classname }) => {
     return (
         <View>
