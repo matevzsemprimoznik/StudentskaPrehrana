@@ -31,6 +31,7 @@ export interface Meal {
     numberOfReviews?: number
     ratings: Rating[]
     comments: Comment[]
+    saved?: boolean
 }
 
 export interface SavedMeal {

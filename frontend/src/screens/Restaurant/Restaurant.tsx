@@ -70,6 +70,10 @@ const Restaurant: FC<RestaurantProps> = () => {
         return 5;
     }, [restaurant])
 
+    const menu = useMemo(() => {
+        if (!restaurant) return []
+        return restaurant.menu.map(meal => ({...meal, saved: savedMeals?.savedDishes.some(savedDish => savedDish.name === meal.name) || false}))
+    }, [restaurant, savedMeals])
 
     const sendRating = () => {
         postRating.mutate({restaurantId: restaurantID, rating: rating})
@@ -84,11 +88,6 @@ const Restaurant: FC<RestaurantProps> = () => {
         // reload
 
     }
-
-    const isDishSaved = (dishName: string) => {
-        return savedMeals ? savedMeals.savedDishes.some(savedDish => savedDish.name === dishName) : false;
-    }
-
 
 
     const openPhoneApp = async () => {
@@ -146,9 +145,9 @@ const Restaurant: FC<RestaurantProps> = () => {
                             <TouchableOpacity onPress={() => setIsOpenCommentsModal(!isOpenCommentsModal)} className='p-1'><Text>{translate('restaurant-main-comments')}</Text>
                             </TouchableOpacity>
                         </View>
-                        {restaurant.menu.length !== 0 ? <ScrollView className='flex-1'>
+                        {menu.length !== 0 ? <ScrollView className='flex-1'>
                             <View className='flex-row justify-between flex-wrap pb-3 px-1'>
-                                {restaurant.menu.map((dish, index) => <Card restaurantID={restaurantID} price={restaurant.price} key={index} dish={dish} isSaved={isDishSaved(dish.name)}
+                                {menu.map((dish, index) => <Card restaurantID={restaurantID} price={restaurant.price} key={index} dish={dish}
                                                                             restaurantName={restaurant.title}
                                 />)}</View>
                         </ScrollView> : <View className='pt-10' style={{alignItems: 'center'}}><Text

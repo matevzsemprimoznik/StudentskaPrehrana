@@ -15,12 +15,11 @@ import {processText} from "../../utils/processText";
 interface CardProps{
     dish: Meal;
     restaurantName: string;
-    isSaved: boolean;
     price: string;
     restaurantID: string;
 }
 
-const Card:FC<CardProps> = ({dish, restaurantName, isSaved, price, restaurantID}) => {
+const Card:FC<CardProps> = ({dish, restaurantName, price, restaurantID}) => {
 
     const saveDish = useMutation((dish: SavedMeal) => {
         console.log(dish)
@@ -31,7 +30,7 @@ const Card:FC<CardProps> = ({dish, restaurantName, isSaved, price, restaurantID}
         return deleteAxios(`/user/savedDishes/${encodeURIComponent(dish.name)}`)
     })
 
-    const [active, setActive] = useState<boolean>(isSaved);
+    const [active, setActive] = useState<boolean>(dish.saved || false);
 
     const ratingRounded = useMemo(() => {
         if (dish && dish.ratings && dish.ratings.length) {
@@ -45,17 +44,15 @@ const Card:FC<CardProps> = ({dish, restaurantName, isSaved, price, restaurantID}
     const handlePress = ():void => {
         if(!active) {
             dish.images = dish.images || []
-            //TODO tu more bit id od userja
-            saveDish.mutate({id: "63c01c8b6edc79428b10b00b", name: dish.name, restaurant: restaurantName, image: dish.images[0]})
+            saveDish.mutate({ name: dish.name, restaurant: restaurantName, image: dish.images[0]})
         } else {
-            //const {data, isLoading} = useQuery<IRestaurant, HttpError>('restaurant', () => deleteAxios(`/savedDishes/${"63befd925b00e6e138e5eee3"}/${dish.name}`))
             deleteDish.mutate()
         }
         setActive(!active);
     }
 
     return (
-        <TouchableOpacity activeOpacity={1} className='rounded-xl w-full mb-4 bg-custom-white flex flex-row' onPress={() => navigationRef.navigate(Routes.FOOD_DESCRIPTION_PAGE as never, { dish: dish, price: price, restaurantID} as never)}>
+        <TouchableOpacity activeOpacity={1} className='rounded-xl w-full mb-4 bg-custom-white flex flex-row' onPress={() => navigationRef.navigate(Routes.FOOD_DESCRIPTION_PAGE as never, { dish: dish, price: price, restaurantID, restaurantName} as never)}>
             {dish.images && dish.images[0] != null ? <Image source={{uri: `${REST_URI}/images/dishes/${dish.images[0]}`}} className='rounded-l-xl h-full basis-1/3 '/> : <View className='w-28 justify-center' style={{alignItems: 'center'}}><PhotoIcon size={30} color={'#d5d5d5'}/></View>}
             <View className='basis-2/3'>
                 <Text className='text-md font-medium mb-2 mt-6 ml-2.5'>{dish.name}</Text>

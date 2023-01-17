@@ -18,14 +18,22 @@ import {Routes} from "../../../routes";
 import {processText} from "../../utils/processText";
 import Button from "../../components/Button";
 import {useMutation} from "react-query";
-import {CommentDishSend, RatingDishSend} from "../../store/models/Restaurant";
+import {CommentDishSend, RatingDishSend, SavedMeal} from "../../store/models/Restaurant";
 import post from "../../utils/post";
+import deleteAxios from "../../utils/delete";
 
 interface FoodDescriptionProps {
 
 }
 const FoodDescriptionPage:FC<FoodDescriptionProps> = () => {
-    const {params: {dish, price, restaurantID}} = useRoute<RouteProp<RootStackParamList, Routes.FOOD_DESCRIPTION_PAGE>>();
+    const {params: {dish, price, restaurantID, restaurantName}} = useRoute<RouteProp<RootStackParamList, Routes.FOOD_DESCRIPTION_PAGE>>();
+    const saveDish = useMutation((dish: SavedMeal) => {
+        return post('/user/savedDishes', dish)
+    })
+
+    const deleteDish = useMutation(async () => {
+        return deleteAxios(`/user/savedDishes/${encodeURIComponent(dish.name)}`)
+    })
     const [commentSuccess, setCommentSuccess] = useState('');
     const [ratingSuccess, setRatingSuccess] = useState('');
 
@@ -33,7 +41,7 @@ const FoodDescriptionPage:FC<FoodDescriptionProps> = () => {
 
     const [rating, setRating] = useState(3);
     const [comment, setComment] = useState("");
-    const [active, setActive] = useState<boolean>(false);
+    const [active, setActive] = useState<boolean>(dish.saved || false);
 
     const postComment = useMutation((comment: CommentDishSend) => {
         return post('/restaurant/dish-comments', comment)
@@ -43,9 +51,6 @@ const FoodDescriptionPage:FC<FoodDescriptionProps> = () => {
         return post('/restaurant/dish-ratings', rating)
     }, {onSuccess: () => setRatingSuccess('Rating successfully sent')})
 
-    const handlePress = ():void => {
-        setActive(!active);
-    }
 
     const sendComment = () => {
         postComment.mutate({comment, dishName: dish.name, restaurantId: restaurantID})
@@ -65,6 +70,16 @@ const FoodDescriptionPage:FC<FoodDescriptionProps> = () => {
         }
         return 5;
     }, [dish])
+
+    const handlePress = ():void => {
+        if(!active) {
+            dish.images = dish.images || []
+            saveDish.mutate({ name: dish.name, restaurant: restaurantName, image: dish.images[0]})
+        } else {
+            deleteDish.mutate()
+        }
+        setActive(prevState => !prevState);
+    }
 
     return (
         <>

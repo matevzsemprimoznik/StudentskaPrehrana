@@ -21,7 +21,7 @@ import {auth} from "../../config/firebase";
 
 export type RootStackParamList = {
     [Routes.HOME]: undefined;
-    [Routes.FOOD_DESCRIPTION_PAGE]: { dish: Meal, price: string, restaurantID: string };
+    [Routes.FOOD_DESCRIPTION_PAGE]: { dish: Meal, price: string, restaurantID: string, restaurantName: string };
     [Routes.RESTAURANT]: { restaurantID: string };
     [Routes.LOGIN]: undefined;
     [Routes.REGISTER]: undefined;
