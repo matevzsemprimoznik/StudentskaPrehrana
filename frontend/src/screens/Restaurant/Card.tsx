@@ -28,7 +28,7 @@ const Card:FC<CardProps> = ({dish, restaurantName, isSaved, price, restaurantID}
     })
 
     const deleteDish = useMutation(async () => {
-        return deleteAxios(`/user/savedDishes/${"63c01c8b6edc79428b10b00b"}/${encodeURIComponent(dish.name)}`)
+        return deleteAxios(`/user/savedDishes/${encodeURIComponent(dish.name)}`)
     })
 
     const [active, setActive] = useState<boolean>(isSaved);

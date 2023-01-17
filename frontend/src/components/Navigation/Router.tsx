@@ -1,23 +1,23 @@
 import Home from "../../screens/Home/Home";
 import Restaurant from "../../screens/Restaurant/Restaurant";
 import FoodDescriptionPage from "../../screens/FoodDescriptionPage/FoodDescriptionPage";
-import {NavigationContainer, NavigationState, useNavigationState} from "@react-navigation/native";
+import {NavigationContainer, NavigationState} from "@react-navigation/native";
 import * as React from "react";
-import {createNativeStackNavigator, NativeStackScreenProps} from "@react-navigation/native-stack";
+import {useMemo, useRef} from "react";
+import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import {initialRoute, Routes, routesWithoutNavigation} from "../../../routes";
 import NavigationBar, {navigationRef} from "./NavigationBar";
 import {useNavigationStore} from "../../store/navigation";
-import {getEnumKeyByValue} from "../../utils/getEnumKeyByValue";
 import Login from "../../screens/Login/Login";
 import Register from "../../screens/Register/Register";
 import {useSafeAreaFrame, useSafeAreaInsets} from "react-native-safe-area-context";
-import {useMemo, useRef} from "react";
 import {StatusBar, View} from "react-native";
 import Map from "../../screens/Map/Map";
 import Profile from "../../screens/Profille/Profile";
 import SavedRestaurants from "../../screens/SavedRestaurants/SavedDishes";
 import ProtectedRoute from "../../utils/ProtectedRoute";
 import {Coordinates, Meal} from "../../store/models/Restaurant";
+import {auth} from "../../config/firebase";
 
 export type RootStackParamList = {
     [Routes.HOME]: undefined;
@@ -34,7 +34,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const Router = () => {
     const {currentRoute, setCurrentRoute} = useNavigationStore()
-    const showNavigationBar = useMemo(() => !routesWithoutNavigation.includes(currentRoute), [currentRoute])
+    const hideNavigationBar = useMemo(() => routesWithoutNavigation.includes(currentRoute) || (currentRoute === Routes.PROFILE && !auth.currentUser), [currentRoute])
 
     const frame = useSafeAreaFrame()
     const insets = useSafeAreaInsets();
@@ -61,12 +61,11 @@ const Router = () => {
         }
     }
 
-
     return <View className='flex-1'>
         <View className='absolute top-0 left-0 right-0 -z-50 bg-custom-yellow' style={{height: insets.top}}/>
         <StatusBar barStyle='dark-content' backgroundColor='#FEC532FF'/>
         <View className='bg-custom-yellow' style={{
-            height: initialFrame.current.height - insets.top - insets.bottom - (showNavigationBar ? 60 : 0),
+            height: initialFrame.current.height - insets.top - insets.bottom - (hideNavigationBar ? 0 : 60),
             marginTop: insets.top
         }}>
             <NavigationContainer ref={navigationRef} onStateChange={handleRouterStateChange}>
@@ -82,7 +81,7 @@ const Router = () => {
                 </Stack.Navigator>
             </NavigationContainer>
         </View>
-        {showNavigationBar && <NavigationBar/>}
+        {!hideNavigationBar && <NavigationBar/>}
     </View>
 }
 export default Router

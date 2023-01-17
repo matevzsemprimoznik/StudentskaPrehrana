@@ -61,9 +61,10 @@ export const saveDish = async (req: Request, res: Response, next: NextFunction) 
 }
 
 export const getSavedDishes = async (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.user)
+    console.log(req.user._id)
     try {
         const savedDishes = await userService.getSavedDishes(req.user._id);
+        console.log(savedDishes)
         return res.json(savedDishes);
     } catch (err) {
         console.log(err)
@@ -74,10 +75,10 @@ export const getSavedDishes = async (req: Request, res: Response, next: NextFunc
 export const removeSavedDish = async (req: Request, res: Response, next: NextFunction) => {
     console.log("alo");
     console.log(req.params.dishName);
-    const { id, dishName } = req.params
+    const { dishName } = req.params
     const decodedDishName = decodeURIComponent(dishName)
     try {
-        const deletedDish = await userService.removeSavedDish(id, decodedDishName)
+        const deletedDish = await userService.removeSavedDish(req.user._id, decodedDishName)
         return res.json(deletedDish);
     } catch (err) {
         console.log(err)

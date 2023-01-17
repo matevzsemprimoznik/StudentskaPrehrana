@@ -18,6 +18,7 @@ interface SavedRestaurantProps {
 const SavedDishes: FC<SavedRestaurantProps> = ({navigation}) => {
     const {data: savedMeals, isLoading} = useQuery<ISavedMealResponse, HttpError>('savedMeals', () => fetch(`/user/savedDishes`))
 
+    console.log(savedMeals)
     return (
             <CustomLayout>
                 <CustomLayout.Header>

@@ -15,8 +15,6 @@ const NavigationBar = () => {
         navigationRef.navigate(route as never)
     }
 
-    console.log(currentRoute)
-
     return <View className='w-full rounded-t-lg bg-custom-white' style={{height: 60, display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center'}}>
         <TouchableOpacity onPress={() => redirectTo(Routes.PROFILE)} className='flex-1 justify-center align-middle' style={{ height: '100%', alignItems: 'center'}}>
             <UserIcon fill={currentRoute === Routes.PROFILE ? '#FEC532' : '#d2d2d2'} />

@@ -45,7 +45,7 @@ const Restaurant: FC<RestaurantProps> = () => {
         refetch: refetchRestaurant
     } = useQuery<IRestaurant, HttpError>(['restaurant', restaurantID], () => fetch('/restaurant/' + restaurantID))
 
-    const {data: savedMeals} = useQuery<ISavedMealResponse, HttpError>('savedMeals', () => fetch(`/user/savedDishes`))
+    const {data: savedMeals} = useQuery<ISavedMealResponse, HttpError>(['savedMeals', restaurantID], () => fetch(`/user/savedDishes`))
 
     const openingHours = useMemo(() => {
         if (!restaurant) return ''
