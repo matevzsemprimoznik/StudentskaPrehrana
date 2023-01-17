@@ -9,7 +9,6 @@ const authMiddleware = async (req: Request, res: Response, next: NextFunction) =
 
     try {
         const decoded = await admin.auth().verifyIdToken(req.headers.authorization.split(' ')[1]);
-        console.log(decoded);
         const user = await userService.getByUid(decoded.uid)
 
         if(!user)

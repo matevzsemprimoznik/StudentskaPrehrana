@@ -52,5 +52,6 @@ export const translations = {
         'no-saved-dishes': 'Trenutno nimate shranjene nobene jedi',
         'unauthorized': 'Potrebno se je prijaviti',
         'error': 'Nimate internetne povezave',
+        'food-description-upload-new-image': 'Nova slika',
     }
 }

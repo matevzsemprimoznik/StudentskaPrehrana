@@ -81,6 +81,21 @@ export const saveDishComment = async (req: Request, res: Response, next: NextFun
         next(new ErrorHandler(err));
     }
 }
+
+const uploadDishImage = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const imgName = await restaurantService.saveDishImg(req.body.image)
+
+        console.log(req.body)
+        await restaurantService.postDishImg(req.body.restaurantID, req.body.dishName, imgName)
+
+        return res.send(imgName);
+
+    } catch (err) {
+        console.log(err)
+        return next(new ErrorHandler(err));
+    }
+}
 export default {
     getAll,
     getById,
@@ -89,4 +104,5 @@ export default {
     saveRating,
     saveDishRating,
     saveDishComment,
+    uploadDishImage
 }

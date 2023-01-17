@@ -17,7 +17,7 @@ const port = process.env.PORT;
 app.use(cors());
 
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '5mb'}));
 
 app.get('/test', authMiddleware, (req: Request, res: Response) => {
     console.log(req.headers)
