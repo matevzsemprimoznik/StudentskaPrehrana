@@ -7,13 +7,8 @@ const instance = axios.create();
 instance.interceptors.response.use(function (response) {
     return response;
 }, function (error) {
-    console.log(error);
-    if (error.response.status === 401) {
-        showToast(translate('unauthorized'))
-    }
-    else {
-        showToast(translate('error'))
-    }
+    if (error?.code === 'ERR_NETWORK')
+        showToast(translate('network-error'))
     return Promise.reject(error);
 });
 

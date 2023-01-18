@@ -3,7 +3,6 @@ import {ScrollView, Text, View} from "react-native";
 import CustomLayout from "../../components/CustomLayout";
 import {UserCircleIcon} from "react-native-heroicons/outline";
 import Input from "../../components/Input";
-import Button from "../../components/Button";
 import {translate} from "../../utils/translations/translate";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {User} from "../../store/models/User";
@@ -12,6 +11,7 @@ import {useMutation} from "react-query";
 import patch from "../../utils/patch";
 import {Errors} from "../../constants/errorConstants";
 import SendButton from "../../components/SendButton";
+import LogoutButton from "./LogoutButton";
 
 interface Values {
     name: string;
@@ -59,7 +59,9 @@ const Profile:FC = () => {
     return (
         <CustomLayout>
             <CustomLayout.Header>
-                <View/>
+                <View className='flex-1 items-end p-3'>
+                    <LogoutButton/>
+                </View>
             </CustomLayout.Header>
             <CustomLayout.Main>
                 <View className='flex-1 -mt-24'>

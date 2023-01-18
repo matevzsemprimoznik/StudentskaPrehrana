@@ -1,7 +1,6 @@
 import React, {FC, useState} from 'react';
 import {Pressable, Text, View} from "react-native";
 import Input from "../../components/Input";
-import Button from "../../components/Button";
 import {translate} from "../../utils/translations/translate";
 import {signInWithEmailAndPassword} from "firebase/auth";
 import {auth} from "../../config/firebase";
@@ -34,7 +33,7 @@ const Login: FC = () => {
                 const user = await fetch(`/user/${userCredential.user.uid}`);
                 console.log(user);
                 if (user) {
-                    AsyncStorage.setItem('user', JSON.stringify(user));
+                    await AsyncStorage.setItem('user', JSON.stringify(user));
                     navigationRef.navigate(Routes.HOME as never);
                 } else {
                     setError('Please try again later.');
