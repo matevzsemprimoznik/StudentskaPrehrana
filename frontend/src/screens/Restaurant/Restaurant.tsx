@@ -1,10 +1,9 @@
-import {View, Text, ScrollView, TextInput, TouchableOpacity, Linking, Platform} from "react-native";
+import {Linking, Platform, ScrollView, Text, TextInput, TouchableOpacity, View} from "react-native";
 import {FC, useMemo, useState} from "react";
 import CustomLayout from "../../components/CustomLayout";
 import {selectedTranslations, translate} from "../../utils/translations/translate";
 import Card from "./Card";
-import {PhoneIcon, MapPinIcon, ClockIcon} from "react-native-heroicons/solid";
-import {StarIcon} from "react-native-heroicons/solid";
+import {ClockIcon, MapPinIcon, PhoneIcon, StarIcon} from "react-native-heroicons/solid";
 import Comment from "../../components/Comment";
 import Modal from "../../components/Modal";
 import SendButton from "../../components/SendButton";
@@ -12,7 +11,7 @@ import {RouteProp, useRoute} from "@react-navigation/native";
 import {RootStackParamList} from "../../components/Navigation/Router";
 import {Routes} from "../../../routes";
 import {useMutation, useQuery} from "react-query";
-import {CommentSend, RatingSend, ISavedMealResponse, Restaurant as IRestaurant} from "../../store/models/Restaurant";
+import {CommentSend, ISavedMealResponse, RatingSend, Restaurant as IRestaurant} from "../../store/models/Restaurant";
 import HttpError from "../../store/models/HttpError";
 import fetch from "../../utils/fetch";
 import {REST_URI} from "@env";
@@ -114,7 +113,8 @@ const Restaurant: FC<RestaurantProps> = () => {
     return (
         <>
             <CustomLayout>
-                <CustomLayout.Header backgroundImage={{uri: `${REST_URI}/images/restaurants/${restaurant.image}`}}>
+                <CustomLayout.Header
+                    backgroundImage={{uri: encodeURI(`${REST_URI}/images/restaurants/${restaurant.image}`)}}>
                     <View className='pb-12 pl-5 justify-end flex-1'>
                         <Text className='text-4xl text-custom-white w-5/6'>{restaurant.title}</Text>
                         <View className='flex-row items-center'

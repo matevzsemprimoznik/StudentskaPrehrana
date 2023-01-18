@@ -1,6 +1,3 @@
-import {ImageSourcePropType} from "react-native";
-
-
 export interface Comment{
     userId: string,
     date: string
@@ -50,7 +47,7 @@ export interface HomeRestaurant {
     extras: string[]
     _id: string;
     title: string,
-    image?: ImageSourcePropType,
+    image?: string,
     ratings: Rating[]
 }
 
